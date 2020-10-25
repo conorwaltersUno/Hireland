@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://Hireland123:Hireland123@cluster0.22unl.mongodb.net/Cluster0?retryWrites=true&w=majority",
+    "jwtToken": "mysecrettoken"
+}
