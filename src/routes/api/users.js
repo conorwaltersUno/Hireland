@@ -35,6 +35,7 @@ router.post(
           errors: [{ msg: 'A User already exists that uses this email' }],
         });
       }
+
       const avatar = gravatar.url(email, {
         s: '200',
         r: 'pg',

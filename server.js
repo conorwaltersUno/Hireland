@@ -13,6 +13,7 @@ app.get('/', (req, res) => res.send('Api running'));
 app.use('/api/users', require('../hireland/src/routes/api/users'));
 app.use('/api/auth', require('../hireland/src/routes/api/auth'));
 app.use('/api/profile', require('../hireland/src/routes/api/profile'));
+app.use('/api/ticket', require('../hireland/src/routes/api/ticket'));
 
 const PORT = process.env.PORT || 5000;
 

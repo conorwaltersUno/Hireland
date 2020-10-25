@@ -9,23 +9,11 @@ const TicketSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.String,
     ref: 'jobType',
   },
-  quote: [
-    {
-      price: {
-        type: Number,
-        required: true,
-      },
-      date: {
-        type: Date,
-        required: true,
-        default: Date.now,
-      },
-      additionalText: {
-        type: String,
-      },
-    },
-  ],
   title: {
+    type: String,
+    required: true,
+  },
+  location: {
     type: String,
     required: true,
   },
@@ -37,7 +25,7 @@ const TicketSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  dateToBeCompleted: {
+  completionDate: {
     type: Date,
     required: true,
   },
