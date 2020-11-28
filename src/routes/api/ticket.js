@@ -5,12 +5,16 @@ const auth = require('../../../middleware/auth');
 
 const Ticket = require('../../../models/Ticket');
 
+// @route   POST api/ticket
+// @desc    Create a ticket
+// @access  Private
 router.post(
   '/',
   [
     auth,
     [
       check('title', 'Title is required').not().isEmpty(),
+      check('jobType', 'JobType is required').not().isEmpty(),
       check('description', 'description is required').isLength({ min: 20 }),
       check('location', 'Location is required').not().isEmpty(),
       check(
@@ -26,11 +30,11 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { title, JobType, description, location, completionDate } = req.body;
+    const { title, jobType, description, location, completionDate } = req.body;
     const ticketField = {};
     ticketField.user = req.user.id;
     if (title) ticketField.title = title;
-    if (JobType) ticketField.JobType = JobType;
+    if (jobType) ticketField.jobType = jobType;
     if (description) ticketField.description = description;
     if (location) ticketField.location = location;
     if (completionDate) ticketField.completionDate = completionDate;
@@ -58,5 +62,61 @@ router.post(
     }
   }
 );
+
+// @route   GET api/ticket
+// @desc    GET all tickets
+// @access  Private
+router.get('/', auth, async (req, res) => {
+  try {
+    const ticket = await Ticket.find().sort({ date: -1 });
+    res.json(ticket);
+  } catch (err) {
+    console.error(err.nessage);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/ticket/:id
+// @desc    GET ticket by id
+// @access  Private
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) {
+      return res.status(404).json({ msg: 'ticket not found' });
+    }
+    res.json(ticket);
+  } catch (err) {
+    console.error(err.nessage);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'ticket not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   Delete api/ticket/:id
+// @desc    Delete a ticket by id
+// @access  Private
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+    //check that user owns the ticket
+    if (ticket.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+    await ticket.remove();
+    res.json({ msg: 'Post removed' });
+  } catch (err) {
+    console.error(err.nessage);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

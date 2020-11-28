@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   },
   isTrader: {
     type: Boolean,
+    required: true,
   },
   email: {
     type: String,

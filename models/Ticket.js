@@ -6,8 +6,8 @@ const TicketSchema = new mongoose.Schema({
     ref: 'users',
   },
   jobType: {
-    type: mongoose.Schema.Types.String,
-    ref: 'jobType',
+    type: String,
+    required: true,
   },
   title: {
     type: String,

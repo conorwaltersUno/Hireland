@@ -5,59 +5,51 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
-  isTrader: {
-    type: mongoose.Schema.Types.Boolean,
-    ref: 'user',
+  bio: {
+    type: String,
   },
-  completedTickets: [
-    {
-      ticket: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ticket',
-      },
-      text: {
-        type: String,
-        required: true,
-      },
-      date: {
-        type: Date,
-        //@To-do chenge so that the date can be updated when the job is completed
-        default: Date.now,
-      },
-    },
-  ],
-  Reviews: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-      },
-      text: {
-        type: String,
-        required: true,
-      },
-      score: {
-        type: Number,
-        required: true,
-      },
-      date: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
   company: {
     type: String,
   },
   website: {
     type: String,
   },
+  review: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+      },
+      score: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+  social: {
+    youtube: {
+      type: String,
+    },
+    twitter: {
+      type: String,
+    },
+    facebook: {
+      type: String,
+    },
+    linkedin: {
+      type: String,
+    },
+    instagram: {
+      type: String,
+    },
+  },
   location: {
     type: String,
     required: true,
-  },
-  facebook: {
-    type: String,
   },
   date: {
     type: Date,
