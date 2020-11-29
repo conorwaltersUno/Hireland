@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setAlert } from '../../actions/alert';
+import PropTypes from 'prop-types';
 
-export const Register = () => {
+export const Register = ({ setAlert }) => {
   const [formData, setFormData] = useState({
     name: '',
     isTrader: false,
@@ -18,7 +21,7 @@ export const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
-      console.log('Passwords are not equal');
+      setAlert('Passwords are not equal', 'danger');
     } else {
       console.log(formData);
     }
@@ -96,4 +99,8 @@ export const Register = () => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setAlert })(Register);
