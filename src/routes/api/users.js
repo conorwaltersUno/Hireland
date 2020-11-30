@@ -16,7 +16,6 @@ router.post(
   [
     check('name', 'name is requires').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
-    check('isTrader', 'Please check the us').isBoolean(),
     check(
       'password',
       'Please enter a password with 6 or more chartacters'
@@ -27,15 +26,14 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { name, email, isTrader, password } = req.body;
+    const { name, isTrader, email, password } = req.body;
     try {
       let user = await User.findOne({ email });
       if (user) {
-        return res.status(400).json({
-          errors: [{ msg: 'A User already exists that uses this email' }],
-        });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists' }] });
       }
-
       const avatar = gravatar.url(email, {
         s: '200',
         r: 'pg',
@@ -44,10 +42,10 @@ router.post(
 
       user = new User({
         name,
+        isTrader,
         email,
         avatar,
         password,
-        isTrader,
       });
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
