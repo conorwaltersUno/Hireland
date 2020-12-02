@@ -2,13 +2,19 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
+import { clearTickets } from '../../actions/ticket';
+
 import PropTypes from 'prop-types';
 
-export const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
+export const Navbar = ({
+  logout,
+  clearTickets,
+  auth: { isAuthenticated, loading },
+}) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to='/ticket'>
+        <Link to='/tickets'>
           <i className='fa fa-ticket'></i>
           <span className='hide-sm'> Ticket</span>
         </Link>
@@ -20,7 +26,13 @@ export const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
         </Link>
       </li>
       <li>
-        <a onClick={logout} href='#!'>
+        <a
+          onClick={() => {
+            clearTickets();
+            logout();
+          }}
+          href='#!'
+        >
           <i className='fas fa-sign-out-alt'></i>
           <span className='hide-sm'> Logout</span>
         </a>
@@ -41,11 +53,9 @@ export const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
 
   return (
     <nav className='navbar bg-dark'>
-      <Link to='/'>
-        <h1>
-          <i className='fas fa-tools'></i> Hireland
-        </h1>
-      </Link>
+      <h1>
+        <i className='fas fa-tools'></i> Hireland
+      </h1>
       {!loading && (
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
@@ -55,6 +65,7 @@ export const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
 
 Navbar.propType = {
   logout: PropTypes.func.isRequired,
+  clearTickets: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
@@ -62,4 +73,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, { logout, clearTickets })(Navbar);

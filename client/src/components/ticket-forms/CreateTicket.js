@@ -82,7 +82,7 @@ const CreateTicket = ({ createTicket, history }) => {
           <small className='form-text'>* Completion Date</small>
         </div>
         <input type='submit' class='btn btn-primary my-1' />
-        <Link className='btn btn-light my-1' to='/ticket'>
+        <Link className='btn btn-light my-1' to='/tickets'>
           Go Back
         </Link>
       </form>

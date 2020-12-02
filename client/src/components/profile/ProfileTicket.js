@@ -3,18 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import ProfileTop from './ProfileTop';
-import ProfileAbout from './ProfileAbout';
+import ProfileReview from './ProfileReview';
+import { clearProfile } from '../../actions/profile';
 
-import { getCurrentProfile } from '../../actions/profile';
+import { getProfileById } from '../../actions/profile';
 import { Link } from 'react-router-dom';
+
 const Profile = ({
-  getCurrentProfile,
+  getProfileById,
+  match,
   profile: { profile, loading },
   auth,
+  clearProfile,
 }) => {
   useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
+    getProfileById(match.params.id);
+  }, [getProfileById, match.params.id]);
 
   return (
     <Fragment>
@@ -22,7 +26,7 @@ const Profile = ({
         <h1>There is no profile for this user</h1>
       ) : (
         <Fragment>
-          <Link to='/tickets' className='btn btn-white'>
+          <Link to='/tickets' className='btn btn-white' onClick={clearProfile}>
             Back to tickets
           </Link>
           {auth.isAuthenticated &&
@@ -34,7 +38,20 @@ const Profile = ({
             )}
           <div class='profile-grid my-1'>
             <ProfileTop profile={profile}></ProfileTop>
-            <ProfileAbout profile={profile}></ProfileAbout>
+            {auth.user.isTrader && (
+              <div className='profile-exp bg-white pp-2'>
+                <h2 className='text-primary'>Reviews</h2>
+                {profile.review.length > 0 ? (
+                  <Fragment>
+                    {profile.review.map((review) => (
+                      <ProfileReview key={review._id} review={review} />
+                    ))}
+                  </Fragment>
+                ) : (
+                  <h4>No review credentials</h4>
+                )}
+              </div>
+            )}
           </div>
         </Fragment>
       )}
@@ -43,9 +60,10 @@ const Profile = ({
 };
 
 Profile.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
+  getProfileById: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  clearProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -53,4 +71,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile);
+export default connect(mapStateToProps, { getProfileById, clearProfile })(
+  Profile
+);

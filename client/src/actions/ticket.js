@@ -6,6 +6,7 @@ import {
   GET_TICKET,
   TICKET_ERROR,
   GET_TICKETS,
+  CLEAR_TICKETS,
 } from './types';
 
 export const getMyTickets = () => async (dispatch) => {
@@ -91,6 +92,19 @@ export const addTicket = (formData) => async (dispatch) => {
     });
 
     dispatch(setAlert('Ticket Created', 'success'));
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const clearTickets = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: CLEAR_TICKETS,
+    });
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,

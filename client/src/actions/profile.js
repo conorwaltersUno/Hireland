@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_PROFILE, PROFILE_ERROR } from './types';
+import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from './types';
 
 export const getCurrentProfile = () => async (dispatch) => {
   try {
@@ -16,4 +16,27 @@ export const getCurrentProfile = () => async (dispatch) => {
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
+};
+
+//Get profile by id
+export const getProfileById = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/profile/user/${userId}`);
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response, status: err.response.status },
+    });
+  }
+};
+
+//clearProfile
+export const clearProfile = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_PROFILE,
+  });
 };

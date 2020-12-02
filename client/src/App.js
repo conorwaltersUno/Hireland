@@ -8,6 +8,7 @@ import Alert from './components/layout/Alert';
 import Register from './components/auth/Register';
 import Ticket from './components/tickets/Tickets';
 import Profile from './components/profile/Profile';
+import ProfileTicket from './components/profile/ProfileTicket.js';
 import CreateTicket from './components/ticket-forms/CreateTicket';
 import EditTicket from './components/ticket-forms/EditTicket';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -40,8 +41,14 @@ const App = () => {
             <Switch>
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
-              <PrivateRoute exact path='/profile' component={Profile} />
-              <PrivateRoute exact path='/ticket' component={Ticket} />
+              <PrivateRoute exact path='/profile/' component={Profile} />
+              <PrivateRoute exact path='/tickets' component={Ticket} />
+              <PrivateRoute
+                exact
+                path='/profile/:id'
+                component={ProfileTicket}
+              />
+
               <PrivateRoute
                 exact
                 path='/ticket/create'
