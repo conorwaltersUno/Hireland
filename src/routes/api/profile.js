@@ -156,7 +156,7 @@ router.put(
     auth,
     [
       check('score', 'score is required').not().isEmpty(),
-      check('description', 'description is required').not().isEmpty(),
+      check('description', 'Description is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {

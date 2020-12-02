@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const TicketSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'user',
   },
   jobType: {
     type: String,
@@ -28,6 +28,9 @@ const TicketSchema = new mongoose.Schema({
   completionDate: {
     type: Date,
     required: true,
+  },
+  avatar: {
+    type: String,
   },
 });
 

@@ -5,6 +5,26 @@ const auth = require('../../../middleware/auth');
 
 const Ticket = require('../../../models/Ticket');
 
+// @route   GET api/ticket/me
+// @desc    Get current user ticket/tickets based on userID in token
+// @access  Private
+router.get('/me', auth, async (req, res) => {
+  try {
+    const ticket = await Ticket.findOne({
+      user: req.user.id,
+    }).populate('user', ['name', 'isTrader']);
+
+    if (!ticket) {
+      return res.status(400).json({ msg: 'There is no ticket for this user' });
+    }
+
+    res.json(ticket);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST api/ticket
 // @desc    Create a ticket
 // @access  Private
@@ -15,7 +35,7 @@ router.post(
     [
       check('title', 'Title is required').not().isEmpty(),
       check('jobType', 'JobType is required').not().isEmpty(),
-      check('description', 'description is required').isLength({ min: 20 }),
+      check('description', 'Description is required').isLength({ min: 20 }),
       check('location', 'Location is required').not().isEmpty(),
       check(
         'completionDate',
@@ -39,6 +59,7 @@ router.post(
     if (location) ticketField.location = location;
     if (completionDate) ticketField.completionDate = completionDate;
 
+    //only allow one ticket per user, need to fix
     try {
       //let user = await User.findById({ user: req.user.id });
       let ticket = await Ticket.findOne({ user: req.user.id });
@@ -68,8 +89,8 @@ router.post(
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const ticket = await Ticket.find().sort({ date: -1 });
-    res.json(ticket);
+    const tickets = await Ticket.find().sort({ date: -1 });
+    res.json(tickets);
   } catch (err) {
     console.error(err.nessage);
     res.status(500).send('Server Error');
