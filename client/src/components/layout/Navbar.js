@@ -16,7 +16,7 @@ export const Navbar = ({
       <li>
         <Link to='/tickets'>
           <i className='fa fa-ticket'></i>
-          <span className='hide-sm'> Tickets</span>
+          <span className='hide-sm'> Ticket</span>
         </Link>
       </li>
       <li>

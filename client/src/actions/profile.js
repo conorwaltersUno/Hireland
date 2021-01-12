@@ -34,37 +34,6 @@ export const getProfileById = (userId) => async (dispatch) => {
   }
 };
 
-//Create or update ticket
-export const createProfile = (formData, history, edit = false) => async (
-  dispatch
-) => {
-  try {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const res = await axios.post('/api/profile', formData, config);
-
-    dispatch({
-      type: GET_PROFILE,
-      payload: res.data,
-    });
-
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created'));
-
-    if (!edit) {
-      history.push('/profile');
-    }
-  } catch (err) {
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response, status: err.response.status },
-    });
-  }
-};
-
 //clearProfile
 export const clearProfile = () => (dispatch) => {
   dispatch({

@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Spinner from '../layout/Spinner';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
+
 import { getCurrentProfile } from '../../actions/profile';
 import { Link } from 'react-router-dom';
-
 const Profile = ({
   getCurrentProfile,
   profile: { profile, loading },
@@ -18,12 +19,7 @@ const Profile = ({
   return (
     <Fragment>
       {profile === null || loading ? (
-        <Fragment>
-          <h1>There is no profile for this user</h1>
-          <Link to='/create-profile' className='btn btn-primary'>
-            Create a Profile
-          </Link>
-        </Fragment>
+        <h1>There is no profile for this user</h1>
       ) : (
         <Fragment>
           <Link to='/tickets' className='btn btn-white'>
@@ -38,7 +34,7 @@ const Profile = ({
             )}
           <div class='profile-grid my-1'>
             <ProfileTop profile={profile}></ProfileTop>
-            <ProfileAbout profile={profile} auth={auth}></ProfileAbout>
+            <ProfileAbout profile={profile}></ProfileAbout>
           </div>
         </Fragment>
       )}
