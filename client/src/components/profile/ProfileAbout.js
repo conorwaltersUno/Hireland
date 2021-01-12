@@ -12,6 +12,7 @@ const ProfileAbout = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
+    // eslint-disable-next-line
   }, []);
 
   return (

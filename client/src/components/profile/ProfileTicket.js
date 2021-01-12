@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Spinner from '../layout/Spinner';
 import ProfileTop from './ProfileTop';
 import ProfileReview from './ProfileReview';
 import { clearProfile } from '../../actions/profile';
@@ -26,9 +25,6 @@ const Profile = ({
       {profile === null || loading ? (
         <Fragment>
           <h1>There is no profile for this user</h1>
-          <Link to='/create-profile' className='btn btn-primary'>
-            Create a Profile
-          </Link>
         </Fragment>
       ) : (
         <Fragment>

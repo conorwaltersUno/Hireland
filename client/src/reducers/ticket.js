@@ -1,4 +1,3 @@
-import { Clear } from '@material-ui/icons';
 import {
   GET_TICKET,
   TICKET_ERROR,

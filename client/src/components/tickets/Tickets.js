@@ -15,8 +15,6 @@ const Ticket = ({
     getMyTickets();
   }, [getMyTickets]);
 
-  const temp = tickets;
-
   return loading ? (
     <Spinner />
   ) : (

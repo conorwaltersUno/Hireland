@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
-import { getCurrentProfile } from '../../actions/profile';
+import { getCurrentProfile, clearProfile } from '../../actions/profile';
+
 import { Link } from 'react-router-dom';
 
 const Profile = ({
   getCurrentProfile,
+  clearProfile,
   profile: { profile, loading },
   auth,
 }) => {
@@ -26,7 +28,7 @@ const Profile = ({
         </Fragment>
       ) : (
         <Fragment>
-          <Link to='/tickets' className='btn btn-white'>
+          <Link to='/tickets' className='btn btn-white' onClick={clearProfile}>
             Back to tickets
           </Link>
           {auth.isAuthenticated &&
@@ -50,6 +52,7 @@ Profile.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  clearProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -57,4 +60,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile);
+export default connect(mapStateToProps, { getCurrentProfile, clearProfile })(
+  Profile
+);

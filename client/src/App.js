@@ -49,12 +49,16 @@ const App = () => {
                 path='/profile/:id'
                 component={ProfileTicket}
               />
-
               <PrivateRoute
                 exact
                 path='/ticket/create'
                 component={CreateTicket}
               />
+              {/* <PrivateRoute
+                exact
+                path='/ticket/:id'
+                component={Ticket}
+              /> */}
               <PrivateRoute
                 exact
                 path='/create-profile'
