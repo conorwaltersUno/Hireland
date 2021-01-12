@@ -1,13 +1,19 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCurrentProfile } from '../../actions/profile';
 
 const ProfileAbout = ({
-  profile: {
-    bio,
-    review,
+  getCurrentProfile,
+  profile: { bio, review },
+  auth: {
     user: { name },
   },
 }) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, []);
+
   return (
     <div className='profile-about bg-light p-2'>
       {bio && (
@@ -32,6 +38,7 @@ const ProfileAbout = ({
 
 ProfileAbout.propTypes = {
   profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
 };
 
-export default ProfileAbout;
+export default connect(null, { getCurrentProfile })(ProfileAbout);

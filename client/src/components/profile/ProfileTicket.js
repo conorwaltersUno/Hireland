@@ -9,6 +9,7 @@ import { clearProfile } from '../../actions/profile';
 import { getProfileById } from '../../actions/profile';
 import { Link } from 'react-router-dom';
 
+/*This class is used when a user clicks onto a profile from a ticket*/
 const Profile = ({
   getProfileById,
   match,
@@ -23,7 +24,12 @@ const Profile = ({
   return (
     <Fragment>
       {profile === null || loading ? (
-        <h1>There is no profile for this user</h1>
+        <Fragment>
+          <h1>There is no profile for this user</h1>
+          <Link to='/create-profile' className='btn btn-primary'>
+            Create a Profile
+          </Link>
+        </Fragment>
       ) : (
         <Fragment>
           <Link to='/tickets' className='btn btn-white' onClick={clearProfile}>
