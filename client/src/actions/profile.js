@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from './types';
+import {
+  GET_PROFILE,
+  PROFILE_ERROR,
+  CLEAR_PROFILE,
+  ADD_PROFILE,
+} from './types';
 
 export const getCurrentProfile = () => async (dispatch) => {
   try {
@@ -48,7 +53,7 @@ export const createProfile = (formData, history, edit = false) => async (
     const res = await axios.post('/api/profile', formData, config);
 
     dispatch({
-      type: GET_PROFILE,
+      type: ADD_PROFILE,
       payload: res.data,
     });
 

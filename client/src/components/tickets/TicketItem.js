@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
@@ -37,9 +37,6 @@ const TicketItem = ({
       <p class='post-date'>
         Complete by <Moment format='DD/MM/YYYY'>{completionDate}</Moment>{' '}
       </p>
-      <button type='button' class='btn btn-light'>
-        <i class='fas fa-edit'></i>
-      </button>
       {!auth.loading && user === auth.user._id && (
         <button
           onClick={(e) => deleteTicket(_id)}
@@ -47,15 +44,6 @@ const TicketItem = ({
           class='btn btn-danger'
         >
           <i class='fas fa-times'></i>
-        </button>
-      )}
-      {!auth.loading && user === auth.user._id && (
-        <button
-          onClick={(e) => deleteTicket(_id)}
-          type='button'
-          class='btn btn-primary'
-        >
-          <i class='fas fa-edit'></i>
         </button>
       )}
     </div>

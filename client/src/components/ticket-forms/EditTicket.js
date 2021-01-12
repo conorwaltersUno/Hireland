@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
 import { createTicket, getMyTickets } from '../../actions/ticket';
 
@@ -31,6 +30,7 @@ const EditTicket = ({
       completionDate:
         loading || !ticket.completionDate ? '' : ticket.completionDate,
     });
+    // eslint-disable-next-line
   }, [loading]);
 
   const { jobType, title, location, description, completionDate } = formData;

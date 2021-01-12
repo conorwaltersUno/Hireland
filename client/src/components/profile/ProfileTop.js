@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { a } from 'react-router-dom';
 
 const ProfileTop = ({
   profile: {
