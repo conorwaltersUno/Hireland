@@ -32,6 +32,27 @@ const TicketSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
+  quotes: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      quote: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+      },
+      avatar: {
+        type: String,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 module.exports = Ticket = mongoose.model('ticket', TicketSchema);

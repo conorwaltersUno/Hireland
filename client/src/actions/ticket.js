@@ -8,6 +8,9 @@ import {
   GET_TICKETS,
   CLEAR_TICKETS,
   CLEAR_TICKET,
+  QUOTE_TICKET,
+  REMOVE_QUOTE,
+  QUOTE_ERROR,
 } from './types';
 
 export const getMyTickets = () => async (dispatch) => {
@@ -111,7 +114,7 @@ export const getTicketById = (ticketId) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
-      payload: { msg: err.response, status: err.response.status },
+      //payload: { msg: err.response, status: err.response.status },
     });
   }
 };
@@ -134,6 +137,53 @@ export const clearTicket = () => async (dispatch) => {
     dispatch({
       type: CLEAR_TICKET,
     });
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+//Quote Ticket
+export const quoteTicket = (ticketId, formData) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const res = await axios.post(
+      `/api/ticket/quote/${ticketId}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: QUOTE_TICKET,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Ticket Quoted', 'success'));
+  } catch (err) {
+    dispatch({
+      type: QUOTE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+//DELETE Quote
+export const deleteQuote = (ticketId, quoteId) => async (dispatch) => {
+  try {
+    await axios.delete(`/api/tickets/comment/${ticketId}/${quoteId}`);
+
+    dispatch({
+      type: REMOVE_QUOTE,
+      payload: quoteId,
+    });
+
+    dispatch(setAlert('Quote Removed', 'success'));
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,

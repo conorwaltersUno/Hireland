@@ -5,11 +5,12 @@ import { getTicketById } from '../../actions/ticket';
 import Spinner from '../layout/Spinner';
 import { clearTicket } from '../../actions/ticket';
 import TicketDisplay from './TicketDisplay';
+import QuoteForm from '../ticket-forms/QuoteForm';
 
 /* This class is used when a user clicks on a ticket from the main ticket page*/
 const TicketByID = ({
   getTicketById,
-  auth,
+  auth: { user },
   match,
   ticket: { ticket, loading },
 }) => {
@@ -26,6 +27,11 @@ const TicketByID = ({
         {ticket && (
           <div className='profile-top bg-primary p-2'>
             <TicketDisplay ticket={ticket}></TicketDisplay>
+          </div>
+        )}
+        {user.isTrader && (
+          <div>
+            <QuoteForm ticketId={match.params.id} />
           </div>
         )}
       </div>
