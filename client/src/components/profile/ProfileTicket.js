@@ -38,7 +38,7 @@ const Profile = ({
                 Edit Profile
               </Link>
             )}
-          <div class='profile-grid my-1'>
+          <div className='profile-grid my-1'>
             <ProfileTop profile={profile}></ProfileTop>
             {auth.user.isTrader && (
               <div className='profile-exp bg-white pp-2'>

@@ -7,6 +7,7 @@ import {
   TICKET_ERROR,
   GET_TICKETS,
   CLEAR_TICKETS,
+  CLEAR_TICKET,
 } from './types';
 
 export const getMyTickets = () => async (dispatch) => {
@@ -100,10 +101,38 @@ export const addTicket = (formData) => async (dispatch) => {
   }
 };
 
+export const getTicketById = (ticketId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/ticket/${ticketId}`);
+    dispatch({
+      type: GET_TICKET,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response, status: err.response.status },
+    });
+  }
+};
+
 export const clearTickets = () => async (dispatch) => {
   try {
     dispatch({
       type: CLEAR_TICKETS,
+    });
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const clearTicket = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: CLEAR_TICKET,
     });
   } catch (err) {
     dispatch({
