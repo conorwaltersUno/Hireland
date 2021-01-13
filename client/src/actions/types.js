@@ -17,3 +17,4 @@ export const DELETE_TICKET = 'DELETE_TICKET';
 export const ADD_TICKET = 'ADD_TICKET';
 export const GET_TICKETS = 'GET_TICKETS';
 export const CLEAR_TICKETS = 'CLEAR_TICKETS';
+export const CLEAR_TICKET = 'CLEAR_TICKET';

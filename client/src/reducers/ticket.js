@@ -5,6 +5,7 @@ import {
   ADD_TICKET,
   GET_TICKETS,
   CLEAR_TICKETS,
+  CLEAR_TICKET,
 } from '../actions/types';
 
 const initialState = {
@@ -44,6 +45,13 @@ export default function (state = initialState, action) {
         tickets: [],
         loading: true,
         error: {},
+      };
+
+    case CLEAR_TICKET:
+      return {
+        ...state,
+        ticket: null,
+        loading: false,
       };
 
     case DELETE_TICKET:

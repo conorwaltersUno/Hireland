@@ -101,7 +101,7 @@ const EditTicket = ({
           />
           <small className='form-text'>* Completion Date</small>
         </div>
-        <input type='submit' class='btn btn-primary my-1' />
+        <input type='submit' className='btn btn-primary my-1' />
       </form>
     </Fragment>
   );

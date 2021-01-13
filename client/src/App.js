@@ -13,6 +13,7 @@ import CreateTicket from './components/ticket-forms/CreateTicket';
 import ProfileForm from './components/profile-forms/ProfileForm';
 import EditTicket from './components/ticket-forms/EditTicket';
 import PrivateRoute from './components/routing/PrivateRoute';
+import TicketByID from './components/tickets/TicketByID';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 //action imports
 import { loadUser } from './actions/auth';
@@ -54,11 +55,7 @@ const App = () => {
                 path='/ticket/create'
                 component={CreateTicket}
               />
-              {/* <PrivateRoute
-                exact
-                path='/ticket/:id'
-                component={Ticket}
-              /> */}
+              <PrivateRoute exact path='/ticket/:id' component={TicketByID} />
               <PrivateRoute
                 exact
                 path='/create-profile'
