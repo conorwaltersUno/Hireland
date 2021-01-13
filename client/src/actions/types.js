@@ -18,3 +18,6 @@ export const ADD_TICKET = 'ADD_TICKET';
 export const GET_TICKETS = 'GET_TICKETS';
 export const CLEAR_TICKETS = 'CLEAR_TICKETS';
 export const CLEAR_TICKET = 'CLEAR_TICKET';
+export const QUOTE_TICKET = 'QUOTE_TICKET';
+export const REMOVE_QUOTE = 'REMOVE_QUOTE';
+export const QUOTE_ERROR = 'QUOTE_ERROR';

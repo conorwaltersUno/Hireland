@@ -4,6 +4,7 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../../../middleware/auth');
 
 const Ticket = require('../../../models/Ticket');
+const User = require('../../../models/User');
 
 // @route   GET api/ticket/me
 // @desc    Get current user ticket/tickets based on userID in token
@@ -35,7 +36,7 @@ router.post(
     [
       check('title', 'Title is required').not().isEmpty(),
       check('jobType', 'JobType is required').not().isEmpty(),
-      check('description', 'Description is required').isLength({ min: 20 }),
+      check('description', 'Description is required').not().isEmpty(),
       check('location', 'Location is required').not().isEmpty(),
       check(
         'completionDate',
@@ -139,5 +140,47 @@ router.delete('/:id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route   POST api/ticket/quote
+// @desc    Create a quote for ticket as trader
+// @access  Private
+router.post(
+  '/quote/:id',
+  auth,
+  check('quote', 'Quote is required').notEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // const { quote } = req.body;
+    // const quoteField = {};
+    // if (quote) quoteField.quote = quote;
+
+    try {
+      const user = await User.findById(req.user.id).select('-password');
+      //let user = await User.findById(req.user.id);
+      //let ticket = await ticket.findById(req.params.id);
+      const ticket = await Ticket.findById(req.params.id);
+
+      const newQuote = {
+        quote: req.body.quote,
+        name: user.name,
+        avatar: user.avatar,
+        user: req.user.id,
+      };
+
+      ticket.quotes.unshift(newQuote);
+
+      await ticket.save();
+
+      res.json(ticket.quotes);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;

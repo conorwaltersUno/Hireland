@@ -6,6 +6,9 @@ import {
   GET_TICKETS,
   CLEAR_TICKETS,
   CLEAR_TICKET,
+  QUOTE_TICKET,
+  REMOVE_QUOTE,
+  QUOTE_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -66,7 +69,27 @@ export default function (state = initialState, action) {
         error: payload,
         loading: false,
       };
-
+    case QUOTE_TICKET:
+      return {
+        ...state,
+        ticket: { ...state.ticket, quotes: payload },
+        loading: false,
+      };
+    case REMOVE_QUOTE:
+      return {
+        ...state,
+        post: {
+          ...state.quote,
+          quotes: state.ticket.quotes.filter((quote) => quote._id !== payload),
+        },
+        loading: false,
+      };
+    case QUOTE_ERROR:
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+      };
     default:
       return state;
   }
