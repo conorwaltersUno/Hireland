@@ -153,15 +153,8 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
-    // const { quote } = req.body;
-    // const quoteField = {};
-    // if (quote) quoteField.quote = quote;
-
     try {
       const user = await User.findById(req.user.id).select('-password');
-      //let user = await User.findById(req.user.id);
-      //let ticket = await ticket.findById(req.params.id);
       const ticket = await Ticket.findById(req.params.id);
 
       const newQuote = {

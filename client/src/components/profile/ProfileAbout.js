@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profile';
+import Map from '../map/map';
 
 const ProfileAbout = ({
   getCurrentProfile,
@@ -14,6 +15,13 @@ const ProfileAbout = ({
     getCurrentProfile();
     // eslint-disable-next-line
   }, []);
+
+  const location = {
+    address: '5 Balfour Avenue',
+    lat: 54.584571,
+    lng: -5.921098,
+    center: [54.584571, -5.921098],
+  };
 
   return (
     <div className='profile-about bg-light p-2'>
@@ -32,6 +40,11 @@ const ProfileAbout = ({
             <i className='fas fa-check'>{review}</i>
           </div>
         ))}
+      </div>
+      <div className='line'></div>
+      <h2 className='text-primary'>Map</h2>
+      <div className='map-container'>
+        <Map location={location} zoomLevel={18} />
       </div>
     </div>
   );

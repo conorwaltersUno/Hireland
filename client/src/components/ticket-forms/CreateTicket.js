@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useParams, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createTicket } from '../../actions/ticket';
@@ -12,6 +12,13 @@ const CreateTicket = ({ createTicket, history }) => {
     description: '',
     completionDate: '',
   });
+
+  //if these are not null ad them to the inputs :D
+  const { jt } = useParams();
+  const { l } = useParams();
+
+  console.log(jt);
+  console.log(l);
 
   const { jobType, title, location, description, completionDate } = formData;
 
@@ -38,7 +45,7 @@ const CreateTicket = ({ createTicket, history }) => {
             placeholder='eg. plumbing, roofing,
             gardening, landscaping'
             name='jobType'
-            value={jobType}
+            value={jt ? jt : jobType}
             onChange={(e) => onChange(e)}
           />
           <small className='form-text'>* Job Type</small>
@@ -58,7 +65,7 @@ const CreateTicket = ({ createTicket, history }) => {
             type='text'
             placeholder='eg. Antrim, Belfast '
             name='location'
-            value={location}
+            value={l ? l : location}
             onChange={(e) => onChange(e)}
           />
           <small className='form-text'>* Location</small>

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+//jobType required needs fixed
+
 const TicketSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -7,7 +9,7 @@ const TicketSchema = new mongoose.Schema({
   },
   jobType: {
     type: String,
-    required: true,
+    //required: true,
   },
   title: {
     type: String,

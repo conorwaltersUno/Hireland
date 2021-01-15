@@ -24,7 +24,7 @@ const TicketByID = ({
   ) : (
     <Fragment>
       <div>
-        {ticket && (
+        {!loading && ticket && (
           <div className='profile-top bg-primary p-2'>
             <TicketDisplay ticket={ticket}></TicketDisplay>
           </div>
