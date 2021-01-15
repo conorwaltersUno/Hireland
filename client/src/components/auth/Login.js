@@ -20,9 +20,9 @@ export const Login = ({ login, isAuthenticated }) => {
     login(email, password);
   };
 
-  //redirect if li=oggedin
+  //redirect if loggedin
   if (isAuthenticated) {
-    return <Redirect to='/tickets' />;
+    return <Redirect to='/homepage' />;
   }
 
   return (

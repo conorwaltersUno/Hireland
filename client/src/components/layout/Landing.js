@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 export const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
-    return <Redirect to='/profile' />;
+    return <Redirect to='/homepage' />;
   }
 
   return (
@@ -13,6 +13,7 @@ export const Landing = ({ isAuthenticated }) => {
       <div className='dark-overlay'>
         <div className='landing-inner'>
           <h1 className='x-large'>Hireland</h1>
+
           <p className='lead'>
             An online platform for developers and traders to come together
           </p>

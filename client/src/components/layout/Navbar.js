@@ -58,9 +58,11 @@ export const Navbar = ({
 
   return (
     <nav className='navbar bg-dark'>
-      <h1>
-        <i className='fas fa-tools'></i> Hireland
-      </h1>
+      <Link to='/homepage'>
+        <h1>
+          <i className='fas fa-tools'></i> Hireland
+        </h1>
+      </Link>
       {!loading && (
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}

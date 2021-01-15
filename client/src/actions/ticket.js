@@ -42,6 +42,8 @@ export const createTicket = (formData, history, edit = false) => async (
 
     const res = await axios.post('/api/ticket', formData, config);
 
+    console.log(formData.jobType);
+
     dispatch({
       type: GET_TICKET,
       payload: res.data,
@@ -176,7 +178,7 @@ export const quoteTicket = (ticketId, formData) => async (dispatch) => {
 //DELETE Quote
 export const deleteQuote = (ticketId, quoteId) => async (dispatch) => {
   try {
-    await axios.delete(`/api/tickets/comment/${ticketId}/${quoteId}`);
+    await axios.delete(`/api/tickets/quote/${ticketId}/${quoteId}`);
 
     dispatch({
       type: REMOVE_QUOTE,
