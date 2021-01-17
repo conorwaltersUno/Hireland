@@ -96,7 +96,7 @@ const ProfileForm = ({
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Location'
+            placeholder='Please enter your postcode'
             name='location'
             value={location}
             onChange={onChange}
@@ -124,13 +124,13 @@ const ProfileForm = ({
           >
             Add Social Network Links
           </button>
-          <span>Optional</span>
         </div>
 
         {displaySocialInputs && (
           <Fragment>
             <div className='form-group social-input'>
               <i className='fab fa-twitter fa-2x' />
+              <span>* optional</span>
               <input
                 type='text'
                 placeholder='Twitter URL'

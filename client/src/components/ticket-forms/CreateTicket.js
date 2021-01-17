@@ -13,14 +13,17 @@ const CreateTicket = ({ createTicket, history }) => {
     completionDate: '',
   });
 
-  //if these are not null ad them to the inputs :D
   const { jt } = useParams();
   const { l } = useParams();
 
-  console.log(jt);
-  console.log(l);
-
   const { jobType, title, location, description, completionDate } = formData;
+
+  if (jt) {
+    formData.jobType = jt;
+  }
+  if (l) {
+    formData.location = l;
+  }
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,7 +48,7 @@ const CreateTicket = ({ createTicket, history }) => {
             placeholder='eg. plumbing, roofing,
             gardening, landscaping'
             name='jobType'
-            value={jt ? jt : jobType}
+            value={jobType}
             onChange={(e) => onChange(e)}
           />
           <small className='form-text'>* Job Type</small>
@@ -63,9 +66,9 @@ const CreateTicket = ({ createTicket, history }) => {
         <div className='form-group'>
           <input
             type='text'
-            placeholder='eg. Antrim, Belfast '
+            placeholder='Please enter you postcode '
             name='location'
-            value={l ? l : location}
+            value={location}
             onChange={(e) => onChange(e)}
           />
           <small className='form-text'>* Location</small>

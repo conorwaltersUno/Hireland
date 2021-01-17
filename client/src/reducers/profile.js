@@ -3,6 +3,7 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
   ADD_PROFILE,
+  GET_MAP_LOCATION,
 } from '../actions/types';
 
 const initialState = {
@@ -11,6 +12,8 @@ const initialState = {
   repos: [],
   loading: true,
   error: {},
+  latitude: null,
+  longitude: null,
 };
 
 export default function (state = initialState, action) {
@@ -29,6 +32,14 @@ export default function (state = initialState, action) {
       return {
         ...state,
         error: payload,
+        loading: false,
+      };
+
+    case GET_MAP_LOCATION:
+      return {
+        ...state,
+        latitude: payload.result.latitude,
+        longitude: payload.result.longitude,
         loading: false,
       };
 

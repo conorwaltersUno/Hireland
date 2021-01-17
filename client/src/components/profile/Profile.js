@@ -39,8 +39,12 @@ const Profile = ({
               </Link>
             )}
           <div className='profile-grid my-1'>
-            <ProfileTop profile={profile}></ProfileTop>
-            <ProfileAbout profile={profile} auth={auth}></ProfileAbout>
+            {!loading && (
+              <Fragment>
+                <ProfileTop profile={profile}></ProfileTop>
+                <ProfileAbout profile={profile} auth={auth}></ProfileAbout>
+              </Fragment>
+            )}
           </div>
         </Fragment>
       )}
@@ -60,6 +64,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, clearProfile })(
-  Profile
-);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  clearProfile,
+})(Profile);

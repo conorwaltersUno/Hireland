@@ -5,7 +5,9 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
   ADD_PROFILE,
+  GET_MAP_LOCATION,
 } from './types';
+import axiosConfig from './axiosConfig';
 
 export const getCurrentProfile = () => async (dispatch) => {
   try {
@@ -19,6 +21,25 @@ export const getCurrentProfile = () => async (dispatch) => {
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const getProfileMapLocation = (location) => async (dispatch) => {
+  try {
+    const res = await axiosConfig.get(
+      `http://api.postcodes.io/postcodes/${location}`
+    );
+    console.log(res.data);
+
+    dispatch({
+      type: GET_MAP_LOCATION,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response, status: err.response },
     });
   }
 };

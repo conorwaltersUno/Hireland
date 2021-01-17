@@ -14,8 +14,6 @@ const LocationPin = ({ text }) => (
 const Map = ({ location, zoomLevel }) => {
   return (
     <div className='map'>
-      <h2 className='map-h2'>This persons location</h2>
-
       <div className='google-map'>
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyCCVzzW0uVIFLXaen-0RaHEgwWzUPG-6vA' }}

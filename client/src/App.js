@@ -54,7 +54,9 @@ const App = () => {
               />
               <PrivateRoute
                 exact
-                path='/ticket/create'
+                path='
+                
+                '
                 component={CreateTicket}
               />
               <PrivateRoute
