@@ -47,7 +47,7 @@ const HomePage = ({ auth: { loading, user } }) => {
             type='text'
             name='location'
             value={location}
-            placeholder='Please enter your location?'
+            placeholder='Please enter your postcode?'
             onChange={(e) => onChange(e)}
           ></input>
           <Link to={urllink}>Submit</Link>
