@@ -29,6 +29,21 @@ export const getMyTickets = () => async (dispatch) => {
   }
 };
 
+export const getMyTicket = () => async (dispatch) => {
+  try {
+    const res = await axios.get('api/ticket/me');
+
+    dispatch({
+      type: GET_TICKET,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+    });
+  }
+};
+
 //Create or update ticket
 export const createTicket = (formData, history, edit = false) => async (
   dispatch
