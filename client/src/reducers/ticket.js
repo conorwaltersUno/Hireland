@@ -78,7 +78,7 @@ export default function (state = initialState, action) {
     case REMOVE_QUOTE:
       return {
         ...state,
-        post: {
+        ticket: {
           ...state.quote,
           quotes: state.ticket.quotes.filter((quote) => quote._id !== payload),
         },

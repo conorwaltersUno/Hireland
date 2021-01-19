@@ -3,14 +3,10 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { getMyTickets } from '../../actions/ticket';
+import { getMyTickets, getMyTicket } from '../../actions/ticket';
 import TicketItem from './TicketItem';
 
-const Ticket = ({
-  getMyTickets,
-  auth: { user },
-  ticket: { tickets, loading },
-}) => {
+const Ticket = ({ getMyTickets, auth, ticket: { tickets, loading } }) => {
   useEffect(() => {
     getMyTickets();
   }, [getMyTickets]);
@@ -28,11 +24,21 @@ const Ticket = ({
         Create a Ticket
       </Link>
 
-      <div className='tickets'>
-        {tickets.map((ticket) => (
-          <TicketItem key={ticket._id} ticket={ticket} />
-        ))}
-      </div>
+      {auth.user.isTrader ? (
+        <div className='tickets'>
+          {tickets.map((ticket) => (
+            <TicketItem key={ticket._id} ticket={ticket} />
+          ))}
+        </div>
+      ) : (
+        <div>
+          {tickets.map((ticket) => {
+            if (ticket.user === auth.user._id) {
+              return <TicketItem key={ticket._id} ticket={ticket} />;
+            }
+          })}
+        </div>
+      )}
     </Fragment>
   );
 };

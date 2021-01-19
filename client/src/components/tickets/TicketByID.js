@@ -6,6 +6,7 @@ import Spinner from '../layout/Spinner';
 import { clearTicket } from '../../actions/ticket';
 import TicketDisplay from './TicketDisplay';
 import QuoteForm from '../ticket-forms/QuoteForm';
+import QuoteDisplay from './QuoteDisplay';
 
 /* This class is used when a user clicks on a ticket from the main ticket page*/
 const TicketByID = ({
@@ -19,6 +20,10 @@ const TicketByID = ({
     // eslint-disable-next-line
   }, [match.params.id]);
 
+  if (ticket) {
+    console.log(ticket.quotes);
+  }
+
   return loading ? (
     <Spinner />
   ) : (
@@ -26,13 +31,21 @@ const TicketByID = ({
       <div>
         {!loading && ticket && (
           <div className='profile-top bg-primary p-2'>
-            <TicketDisplay ticket={ticket}></TicketDisplay>
+            <TicketDisplay ticket={ticket} />
           </div>
         )}
-        {user.isTrader && (
+        {user.isTrader ? (
           <div>
             <QuoteForm ticketId={match.params.id} />
           </div>
+        ) : (
+          ticket && (
+            <div>
+              {ticket.quotes.map((quotes) => {
+                return <QuoteDisplay quotes={quotes} />;
+              })}
+            </div>
+          )
         )}
       </div>
     </Fragment>
