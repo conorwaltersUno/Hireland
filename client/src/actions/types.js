@@ -22,3 +22,5 @@ export const QUOTE_TICKET = 'QUOTE_TICKET';
 export const REMOVE_QUOTE = 'REMOVE_QUOTE';
 export const QUOTE_ERROR = 'QUOTE_ERROR';
 export const GET_MAP_LOCATION = 'GET_MAP_LOCATION';
+export const QUOTE_ACCEPTED = 'QUOTE_ACCEPTED';
+export const QUOTE_UPDATED = 'QUOTE_UPDATED';

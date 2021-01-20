@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const { mongoose } = require('mongoose');
 const auth = require('../../../middleware/auth');
 
 const Ticket = require('../../../models/Ticket');
@@ -153,6 +154,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
     try {
       const user = await User.findById(req.user.id).select('-password');
       const ticket = await Ticket.findById(req.params.id);
@@ -166,6 +168,46 @@ router.post(
 
       ticket.quotes.unshift(newQuote);
 
+      await ticket.save();
+
+      res.json(ticket.quotes);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   POST api/quote/accepted/:ticketid/:quoteid
+// @desc    Update a quote to be accepted or not
+// @access  Private
+router.post(
+  '/quote/accepted/:ticketid/:quoteid',
+  auth,
+  [check('isAccepted', 'isAccepted is required').not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { isAccepted } = req.body;
+    const quoteBody = {};
+    if (isAccepted) quoteBody.isAccepted = isAccepted;
+
+    try {
+      const user = await User.findById(req.user.id).select('-password');
+      const ticket = await Ticket.findById(req.params.ticketid);
+
+      Ticket.findOneAndUpdate(
+        { _id: req.params.ticketid, 'quotes._id': req.params.quoteid },
+        {
+          $set: {
+            'quotes.$.isAccepted': isAccepted,
+          },
+        },
+        function (err, doc) {}
+      );
       await ticket.save();
 
       res.json(ticket.quotes);
