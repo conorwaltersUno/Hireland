@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, useParams, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,17 +13,10 @@ const CreateTicket = ({ createTicket, history }) => {
     completionDate: '',
   });
 
-  const { jt } = useParams();
-  const { l } = useParams();
-
   const { jobType, title, location, description, completionDate } = formData;
 
-  if (jt) {
-    formData.jobType = jt;
-  }
-  if (l) {
-    formData.location = l;
-  }
+  const { jt } = useParams();
+  const { l } = useParams();
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,14 +36,27 @@ const CreateTicket = ({ createTicket, history }) => {
       <small>* = required field</small>
       <form className='form' onSubmit={(e) => onSubmit(e)}>
         <div className='form-group'>
-          <input
-            type='text'
-            placeholder='eg. plumbing, roofing,
+          {jt && (
+            <input
+              type='text'
+              placeholder='eg. plumbing, roofing,
+             gardening, landscaping'
+              name='jobType'
+              value={jt}
+              onChange={(e) => onChange(e)}
+            />
+          )}
+          {!jt && (
+            <input
+              type='text'
+              placeholder='eg. plumbing, roofing,
             gardening, landscaping'
-            name='jobType'
-            value={jobType}
-            onChange={(e) => onChange(e)}
-          />
+              name='jobType'
+              value={jobType}
+              onChange={(e) => onChange(e)}
+            />
+          )}
+
           <small className='form-text'>* Job Type</small>
         </div>
         <div className='form-group'>
@@ -64,13 +70,25 @@ const CreateTicket = ({ createTicket, history }) => {
           <small className='form-text'>* Title</small>
         </div>
         <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Please enter you postcode '
-            name='location'
-            value={location}
-            onChange={(e) => onChange(e)}
-          />
+          {l && (
+            <input
+              type='text'
+              placeholder='Please enter you postcode '
+              name='location'
+              value={l}
+              onChange={(e) => onChange(e)}
+            />
+          )}
+          {!l && (
+            <input
+              type='text'
+              placeholder='Please enter you postcode '
+              name='location'
+              value={location}
+              onChange={(e) => onChange(e)}
+            />
+          )}
+
           <small className='form-text'>* Location</small>
         </div>
         <div className='form-group'>

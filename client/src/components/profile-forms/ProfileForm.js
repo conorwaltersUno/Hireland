@@ -101,9 +101,7 @@ const ProfileForm = ({
             value={location}
             onChange={onChange}
           />
-          <small className='form-text'>
-            City & state suggested (eg. Boston, MA)
-          </small>
+          <small className='form-text'>Postcode</small>
         </div>
 
         <div className='form-group'>
@@ -128,12 +126,13 @@ const ProfileForm = ({
 
         {displaySocialInputs && (
           <Fragment>
+            <span>* optional</span>
             <div className='form-group social-input'>
               <i className='fab fa-twitter fa-2x' />
-              <span>* optional</span>
+
               <input
                 type='text'
-                placeholder='Twitter URL'
+                placeholder='Twitter URL*'
                 name='twitter'
                 value={twitter}
                 onChange={onChange}
@@ -144,7 +143,7 @@ const ProfileForm = ({
               <i className='fab fa-facebook fa-2x' />
               <input
                 type='text'
-                placeholder='Facebook URL'
+                placeholder='Facebook URL*'
                 name='facebook'
                 value={facebook}
                 onChange={onChange}
@@ -155,7 +154,7 @@ const ProfileForm = ({
               <i className='fab fa-youtube fa-2x' />
               <input
                 type='text'
-                placeholder='YouTube URL'
+                placeholder='YouTube URL*'
                 name='youtube'
                 value={youtube}
                 onChange={onChange}
@@ -166,7 +165,7 @@ const ProfileForm = ({
               <i className='fab fa-linkedin fa-2x' />
               <input
                 type='text'
-                placeholder='Linkedin URL'
+                placeholder='Linkedin URL*'
                 name='linkedin'
                 value={linkedin}
                 onChange={onChange}
@@ -177,7 +176,7 @@ const ProfileForm = ({
               <i className='fab fa-instagram fa-2x' />
               <input
                 type='text'
-                placeholder='Instagram URL'
+                placeholder='Instagram URL*'
                 name='instagram'
                 value={instagram}
                 onChange={onChange}

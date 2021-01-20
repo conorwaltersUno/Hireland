@@ -11,6 +11,8 @@ import {
   QUOTE_TICKET,
   REMOVE_QUOTE,
   QUOTE_ERROR,
+  QUOTE_ACCEPTED,
+  QUOTE_UPDATED,
 } from './types';
 
 export const getMyTickets = () => async (dispatch) => {
@@ -57,10 +59,8 @@ export const createTicket = (formData, history, edit = false) => async (
 
     const res = await axios.post('/api/ticket', formData, config);
 
-    console.log(formData.jobType);
-
     dispatch({
-      type: GET_TICKET,
+      type: ADD_TICKET,
       payload: res.data,
     });
 
@@ -104,6 +104,8 @@ export const addTicket = (formData) => async (dispatch) => {
     },
   };
 
+  console.log(formData);
+
   try {
     const res = await axios.post('api/ticket', formData, config);
 
@@ -117,6 +119,68 @@ export const addTicket = (formData) => async (dispatch) => {
     dispatch({
       type: TICKET_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const acceptQuote = (ticketid, quoteid) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const formData = { isAccepted: true };
+  console.log(ticketid);
+  console.log(quoteid);
+
+  try {
+    const res = await axios.post(
+      `/api/ticket/quote/accepted/${ticketid}/${quoteid}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: QUOTE_ACCEPTED,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Quote Accepted', 'success'));
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response, status: err.response },
+    });
+  }
+};
+
+export const revertAcceptQuote = (ticketid, quoteid) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const formData = { isAccepted: false };
+  console.log(ticketid);
+  console.log(quoteid);
+
+  try {
+    const res = await axios.post(
+      `/api/ticket/quote/accepted/${ticketid}/${quoteid}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: QUOTE_UPDATED,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Quote Reverted', 'success'));
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response, status: err.response },
     });
   }
 };

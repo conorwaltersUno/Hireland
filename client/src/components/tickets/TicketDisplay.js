@@ -1,9 +1,7 @@
 import React from 'react';
 import Moment from 'react-moment';
 
-const TicketDisplay = ({
-  ticket: { title, description, completionDate, location },
-}) => {
+const TicketDisplay = ({ ticket: { title, description, completionDate } }) => {
   return (
     <div>
       {title}

@@ -53,6 +53,10 @@ const TicketSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
       },
+      isAccepted: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
 });

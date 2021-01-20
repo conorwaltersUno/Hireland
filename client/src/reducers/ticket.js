@@ -9,6 +9,8 @@ import {
   QUOTE_TICKET,
   REMOVE_QUOTE,
   QUOTE_ERROR,
+  QUOTE_ACCEPTED,
+  QUOTE_UPDATED,
 } from '../actions/types';
 
 const initialState = {
@@ -70,6 +72,8 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case QUOTE_TICKET:
+    case QUOTE_ACCEPTED:
+    case QUOTE_UPDATED:
       return {
         ...state,
         ticket: { ...state.ticket, quotes: payload },

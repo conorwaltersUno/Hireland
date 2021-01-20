@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { getMyTickets, getMyTicket } from '../../actions/ticket';
+import { getMyTickets } from '../../actions/ticket';
 import TicketItem from './TicketItem';
 
 const Ticket = ({ getMyTickets, auth, ticket: { tickets, loading } }) => {
@@ -24,7 +24,7 @@ const Ticket = ({ getMyTickets, auth, ticket: { tickets, loading } }) => {
         Create a Ticket
       </Link>
 
-      {auth.user.isTrader ? (
+      {auth.loading && auth.user.isTrader ? (
         <div className='tickets'>
           {tickets.map((ticket) => (
             <TicketItem key={ticket._id} ticket={ticket} />
@@ -32,9 +32,9 @@ const Ticket = ({ getMyTickets, auth, ticket: { tickets, loading } }) => {
         </div>
       ) : (
         <div>
-          {tickets.map((ticket) => {
-            if (ticket.user === auth.user._id) {
-              return <TicketItem key={ticket._id} ticket={ticket} />;
+          {tickets.map((ticketi) => {
+            if (ticketi.user === auth.user._id) {
+              return <TicketItem key={ticketi._id} ticket={ticketi} />;
             }
           })}
         </div>

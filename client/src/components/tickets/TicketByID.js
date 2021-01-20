@@ -11,7 +11,7 @@ import QuoteDisplay from './QuoteDisplay';
 /* This class is used when a user clicks on a ticket from the main ticket page*/
 const TicketByID = ({
   getTicketById,
-  auth: { user },
+  auth,
   match,
   ticket: { ticket, loading },
 }) => {
@@ -19,10 +19,6 @@ const TicketByID = ({
     getTicketById(match.params.id);
     // eslint-disable-next-line
   }, [match.params.id]);
-
-  if (ticket) {
-    console.log(ticket.quotes);
-  }
 
   return loading ? (
     <Spinner />
@@ -34,7 +30,7 @@ const TicketByID = ({
             <TicketDisplay ticket={ticket} />
           </div>
         )}
-        {user.isTrader ? (
+        {auth.user != null && auth.user.isTrader ? (
           <div>
             <QuoteForm ticketId={match.params.id} />
           </div>
@@ -42,7 +38,9 @@ const TicketByID = ({
           ticket && (
             <div>
               {ticket.quotes.map((quotes) => {
-                return <QuoteDisplay quotes={quotes} />;
+                return (
+                  <QuoteDisplay quotes={quotes} auth={auth} ticket={ticket} />
+                );
               })}
             </div>
           )
