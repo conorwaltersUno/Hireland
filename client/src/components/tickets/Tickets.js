@@ -24,7 +24,7 @@ const Ticket = ({ getMyTickets, auth, ticket: { tickets, loading } }) => {
         Create a Ticket
       </Link>
 
-      {auth.loading && auth.user.isTrader ? (
+      {!auth.loading && auth.user.isTrader ? (
         <div className='tickets'>
           {tickets.map((ticket) => (
             <TicketItem key={ticket._id} ticket={ticket} />

@@ -20,6 +20,8 @@ const TicketByID = ({
     // eslint-disable-next-line
   }, [match.params.id]);
 
+  let accepted = false;
+
   return loading ? (
     <Spinner />
   ) : (
@@ -38,9 +40,19 @@ const TicketByID = ({
           ticket && (
             <div>
               {ticket.quotes.map((quotes) => {
-                return (
-                  <QuoteDisplay quotes={quotes} auth={auth} ticket={ticket} />
-                );
+                if (quotes.isAccepted === true) {
+                  accepted = true;
+                  return (
+                    <QuoteDisplay quotes={quotes} auth={auth} ticket={ticket} />
+                  );
+                }
+              })}
+              {ticket.quotes.map((quotes) => {
+                if (accepted === false) {
+                  return (
+                    <QuoteDisplay quotes={quotes} auth={auth} ticket={ticket} />
+                  );
+                }
               })}
             </div>
           )
