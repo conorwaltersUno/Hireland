@@ -6,14 +6,13 @@ import {
   getProfileMapLocation,
 } from '../../actions/profile';
 import Map from '../map/map';
+import Spinner from '../layout/Spinner';
 
 const ProfileAbout = ({
   getCurrentProfile,
   getProfileMapLocation,
   profile: { bio, review, location, loading },
-  auth: {
-    user: { name },
-  },
+  auth: { user },
   longitude,
   latitude,
 }) => {
@@ -30,25 +29,42 @@ const ProfileAbout = ({
     center: [latitude, longitude],
   };
 
-  console.log(locationformap);
-
-  return (
+  return loading ? (
+    <Spinner></Spinner>
+  ) : (
     <div className='profile-about bg-light p-2'>
       {bio && (
         <Fragment>
-          <h2 className='text-primary'>{name.trim().split(' ')[0]}'s Bio</h2>
-          <p>{bio}</p>
-          <div className='line'></div>
+          {user && (
+            <div>
+              <h2 className='text-primary'>
+                {user.name.trim().split(' ')[0]}'s Bio
+              </h2>
+              <p>{bio}</p>
+              <div className='line'></div>
+            </div>
+          )}
         </Fragment>
       )}
-      <h2 className='text-primary'>Reviews</h2>
-      <div className='skills'>
-        {review.map((review, index) => (
-          <div key={index} className='p-1'>
-            <i className='fas fa-check'>{review}</i>
-          </div>
-        ))}
-      </div>
+      {review.length !== 0 && (
+        <Fragment>
+          <h2 className='text-primary'>Reviews</h2>
+          {review && (
+            <div>
+              // eslint-disable-next-line
+              {review.map((reviewi) => {
+                return (
+                  <div>
+                    {reviewi.description}
+                    <div>{reviewi.score}</div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </Fragment>
+      )}
+
       <div className='line'></div>
       <h2 className='text-primary'>Map</h2>
       <div className='map-container'>
@@ -71,6 +87,7 @@ ProfileAbout.propTypes = {
 const mapStateToProps = (state) => ({
   latitude: state.profile.latitude,
   longitude: state.profile.longitude,
+  review: state.profile.profile.review,
 });
 
 export default connect(mapStateToProps, {

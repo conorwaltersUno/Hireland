@@ -13,6 +13,11 @@ import {
   QUOTE_ERROR,
   QUOTE_ACCEPTED,
   QUOTE_UPDATED,
+  TICKET_COMPLETE_USER,
+  LEFT_REVIEW,
+  TICKET_REDO_COMPLETE_USER,
+  TICKET_REDO_COMPLETE_TRADER,
+  TICKET_COMPLETE_TRADER,
 } from './types';
 
 export const getMyTickets = () => async (dispatch) => {
@@ -67,7 +72,7 @@ export const createTicket = (formData, history, edit = false) => async (
     dispatch(setAlert(edit ? 'Ticket Updated' : 'Ticket Created'));
 
     if (!edit) {
-      history.push('/ticket');
+      history.push('/tickets');
     }
   } catch (err) {
     dispatch({
@@ -103,8 +108,6 @@ export const addTicket = (formData) => async (dispatch) => {
       'Content-Type': 'application/json',
     },
   };
-
-  console.log(formData);
 
   try {
     const res = await axios.post('api/ticket', formData, config);
@@ -161,8 +164,6 @@ export const revertAcceptQuote = (ticketid, quoteid) => async (dispatch) => {
     },
   };
   const formData = { isAccepted: false };
-  console.log(ticketid);
-  console.log(quoteid);
 
   try {
     const res = await axios.post(
@@ -177,6 +178,118 @@ export const revertAcceptQuote = (ticketid, quoteid) => async (dispatch) => {
     });
 
     dispatch(setAlert('Quote Reverted', 'success'));
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response, status: err.response },
+    });
+  }
+};
+
+export const CompleteTicketUser = (ticketid) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const formData = { isCompleteUser: true };
+  try {
+    const res = await axios.post(
+      `/api/ticket/completeuser/${ticketid}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: TICKET_COMPLETE_TRADER,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Ticket Completed!', 'success'));
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response, status: err.response },
+    });
+  }
+};
+
+export const RedoCompleteTicketUser = (ticketid) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const formData = { isCompleteUser: false };
+  try {
+    const res = await axios.post(
+      `/api/ticket/completeuser/${ticketid}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: TICKET_REDO_COMPLETE_USER,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Ticket Completed has been reverted', 'success'));
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response, status: err.response },
+    });
+  }
+};
+
+export const CompleteTicketTrader = (ticketid) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const formData = { isCompleteTrader: true };
+  try {
+    const res = await axios.post(
+      `/api/ticket/completetrader/${ticketid}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: TICKET_COMPLETE_USER,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Ticket Completed!', 'success'));
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response, status: err.response },
+    });
+  }
+};
+
+export const RedoCompleteTicketTrader = (ticketid) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const formData = { isCompleteTrader: false };
+  try {
+    const res = await axios.post(
+      `/api/ticket/completetrader/${ticketid}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: TICKET_REDO_COMPLETE_TRADER,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Ticket Completed has been reverted', 'success'));
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
@@ -268,6 +381,35 @@ export const deleteQuote = (ticketId, quoteId) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+//Review Trader
+export const reviewTrader = (user, formData) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const traderprofile = await axios.get(`/api/profile/user/${user}`, config);
+    const res = await axios.put(
+      `/api/profile/${traderprofile.data}/review`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: LEFT_REVIEW,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Trader Reviewed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: QUOTE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

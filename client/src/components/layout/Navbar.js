@@ -18,10 +18,7 @@ export const Navbar = ({
       <li>
         <Link to='/tickets'>
           <i className='fa fa-ticket'></i>
-          <span className='hide-sm' onClick={clearProfile}>
-            {' '}
-            Tickets
-          </span>
+          <span className='hide-sm'> Tickets</span>
         </Link>
       </li>
       <li>

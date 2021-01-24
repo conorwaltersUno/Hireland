@@ -31,6 +31,14 @@ const TicketSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  isCompleteUser: {
+    type: Boolean,
+    default: false,
+  },
+  isCompleteTrader: {
+    type: Boolean,
+    default: false,
+  },
   avatar: {
     type: String,
   },

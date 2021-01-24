@@ -151,7 +151,7 @@ router.delete('/', auth, async (req, res) => {
 // @desc    Add profile review
 // @access  Private
 router.put(
-  '/review',
+  '/:profileid/review',
   [
     auth,
     [
@@ -164,15 +164,15 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { score, description } = req.body;
+    const { description, score } = req.body;
     const newReview = {
       score,
       description,
     };
     try {
-      const profile = await Profile.findOne({ user: req.user.id });
-
-      profile.review.unshift(newReview);
+      const profile = await Profile.findById(req.params.profileid);
+      console.log(profile);
+      profile.review.push(newReview);
       await profile.save();
       res.json(profile);
     } catch (err) {

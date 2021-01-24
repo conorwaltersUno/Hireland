@@ -26,38 +26,50 @@ const TicketByID = ({
     <Spinner />
   ) : (
     <Fragment>
-      <div>
-        {!loading && ticket && (
-          <div className='profile-top bg-primary p-2'>
-            <TicketDisplay ticket={ticket} />
-          </div>
-        )}
-        {auth.user != null && auth.user.isTrader ? (
-          <div>
-            <QuoteForm ticketId={match.params.id} />
-          </div>
-        ) : (
-          ticket && (
-            <div>
-              {ticket.quotes.map((quotes) => {
-                if (quotes.isAccepted === true) {
-                  accepted = true;
-                  return (
-                    <QuoteDisplay quotes={quotes} auth={auth} ticket={ticket} />
-                  );
-                }
-              })}
-              {ticket.quotes.map((quotes) => {
-                if (accepted === false) {
-                  return (
-                    <QuoteDisplay quotes={quotes} auth={auth} ticket={ticket} />
-                  );
-                }
-              })}
+      {ticket != null && (
+        <div>
+          {!loading && ticket && (
+            <div className='profile-top bg-primary p-2'>
+              <TicketDisplay ticket={ticket} />
             </div>
-          )
-        )}
-      </div>
+          )}
+          {auth.user != null &&
+          auth.user.isTrader &&
+          !ticket.isCompleteTrader ? (
+            <div>
+              <QuoteForm ticketId={match.params.id} />
+            </div>
+          ) : (
+            ticket && (
+              <div>
+                {ticket.quotes.map((quotes) => {
+                  if (quotes.isAccepted === true) {
+                    accepted = true;
+                    return (
+                      <QuoteDisplay
+                        quotes={quotes}
+                        auth={auth}
+                        ticket={ticket}
+                      />
+                    );
+                  }
+                })}
+                {ticket.quotes.map((quotes) => {
+                  if (accepted === false) {
+                    return (
+                      <QuoteDisplay
+                        quotes={quotes}
+                        auth={auth}
+                        ticket={ticket}
+                      />
+                    );
+                  }
+                })}
+              </div>
+            )
+          )}
+        </div>
+      )}
     </Fragment>
   );
 };

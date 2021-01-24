@@ -17,37 +17,33 @@ const Profile = ({
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  return (
+  return profile == null ? (
     <Fragment>
-      {profile === null || loading ? (
-        <Fragment>
-          <h1>There is no profile for this user</h1>
-          <Link to='/create-profile' className='btn btn-primary'>
-            Create a Profile
+      <h1>There is no profile for this user</h1>
+      <Link to='/create-profile' className='btn btn-primary'>
+        Create a Profile
+      </Link>
+    </Fragment>
+  ) : (
+    <Fragment>
+      <Link to='/tickets' className='btn btn-white' onClick={clearProfile}>
+        Back to tickets
+      </Link>
+      {auth.isAuthenticated &&
+        auth.loading === false &&
+        auth.user._id === profile.user._id && (
+          <Link to='/edit-profile' className='btn btn-dark'>
+            Edit Profile
           </Link>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <Link to='/tickets' className='btn btn-white' onClick={clearProfile}>
-            Back to tickets
-          </Link>
-          {auth.isAuthenticated &&
-            auth.loading === false &&
-            auth.user._id === profile.user._id && (
-              <Link to='/edit-profile' className='btn btn-dark'>
-                Edit Profile
-              </Link>
-            )}
-          <div className='profile-grid my-1'>
-            {!loading && (
-              <Fragment>
-                <ProfileTop profile={profile}></ProfileTop>
-                <ProfileAbout profile={profile} auth={auth}></ProfileAbout>
-              </Fragment>
-            )}
-          </div>
-        </Fragment>
-      )}
+        )}
+      <div className='profile-grid my-1'>
+        {!loading && (
+          <Fragment>
+            <ProfileTop profile={profile}></ProfileTop>
+            <ProfileAbout profile={profile} auth={auth}></ProfileAbout>
+          </Fragment>
+        )}
+      </div>
     </Fragment>
   );
 };

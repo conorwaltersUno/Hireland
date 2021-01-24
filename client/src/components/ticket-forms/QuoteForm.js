@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { quoteTicket } from '../../actions/ticket';
 
-const QuoteForm = ({ quoteTicket, ticketId }) => {
+const QuoteForm = ({ quoteTicket, ticketId, ticket }) => {
   const [quote, setQuote] = useState('');
   const onSubmit = (e) => {
     e.preventDefault();
