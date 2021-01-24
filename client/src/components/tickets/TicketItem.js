@@ -21,6 +21,8 @@ const TicketItem = ({
     completionDate,
     creationDate,
     avatar,
+    isCompleteUser,
+    isCompleteTrader,
   },
 }) => (
   <div className='post bg-white p-1 my-1'>
@@ -39,6 +41,17 @@ const TicketItem = ({
       <p className='post-date'>
         Complete by <Moment format='DD/MM/YYYY'>{completionDate}</Moment>{' '}
       </p>
+      {isCompleteUser && (
+        <div>
+          {isCompleteTrader && (
+            <div>
+              This ticket has been marked as complete by both the customer and
+              trader
+            </div>
+          )}
+        </div>
+      )}
+
       {!auth.loading && user === auth.user._id && (
         <button
           onClick={(e) => deleteTicket(_id)}

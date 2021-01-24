@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
 import { Link } from 'react-router-dom';
-import { getMyTickets } from '../../actions/ticket';
+import { getMyTickets, CompleteTicketTrader } from '../../actions/ticket';
 import QuoteDisplay from '../tickets/QuoteDisplay';
 
-const HomePage = ({ getMyTickets, auth, ticket }) => {
+const HomePage = ({ getMyTickets, CompleteTicketTrader, auth, ticket }) => {
   useEffect(() => {
     getMyTickets();
   }, [getMyTickets]);
@@ -25,6 +25,10 @@ const HomePage = ({ getMyTickets, auth, ticket }) => {
     e.preventDefault();
   };
 
+  const onComplete = (ticketi) => {
+    CompleteTicketTrader(ticketi._id);
+  };
+
   const urllink =
     '/ticket/create/' + formData.jobType + '/' + formData.location;
 
@@ -34,7 +38,7 @@ const HomePage = ({ getMyTickets, auth, ticket }) => {
         <div className='form-group'>
           <div>Welcome to Hireland</div>
           <div>
-            The online platofrm that allows you to connect with traders in your
+            The online platform that allows you to connect with traders in your
             local area
           </div>
           <div>Please fill in the boxes below and click 'enter' to begin!</div>
@@ -54,7 +58,7 @@ const HomePage = ({ getMyTickets, auth, ticket }) => {
             placeholder='Please enter your postcode?'
             onChange={(e) => onChange(e)}
           ></input>
-          <Link to={urllink}>Submit</Link>
+          {formData.location !== '' && <Link to={urllink}>Submit</Link>}
         </div>
       </form>
     </Fragment>
@@ -68,20 +72,32 @@ const HomePage = ({ getMyTickets, auth, ticket }) => {
         <Fragment>
           {auth.user.isTrader ? (
             <div>
+              <h2>Active Tickets</h2>
               {ticket.tickets.map((ticketi) => {
                 return (
                   <div>
+                    {/* eslint-disable-next-line */}
                     {ticketi.quotes.map((quotei) => {
                       if (
                         quotei.isAccepted === true &&
-                        quotei.user === auth.user._id
+                        quotei.user === auth.user._id &&
+                        ticketi.isCompleteTrader === false
                       ) {
                         return (
-                          <QuoteDisplay
-                            quotes={quotei}
-                            ticket={ticketi}
-                            auth={auth}
-                          />
+                          <Fragment>
+                            <QuoteDisplay
+                              quotes={quotei}
+                              ticket={ticketi}
+                              auth={auth}
+                            />
+                            <button
+                              onClick={(e) => onComplete(ticketi)}
+                              type='button'
+                              className='btn btn-success'
+                            >
+                              Mark this job as completed!
+                            </button>
+                          </Fragment>
                         );
                       }
                     })}
@@ -101,6 +117,7 @@ const HomePage = ({ getMyTickets, auth, ticket }) => {
 HomePage.propTypes = {
   auth: PropTypes.object.isRequired,
   getMyTickets: PropTypes.func.isRequired,
+  CompleteTicketTrader: PropTypes.func.isRequired,
   ticket: PropTypes.object.isRequired,
 };
 
@@ -109,4 +126,6 @@ const mapStateToProps = (state) => ({
   ticket: state.ticket,
 });
 
-export default connect(mapStateToProps, { getMyTickets })(HomePage);
+export default connect(mapStateToProps, { getMyTickets, CompleteTicketTrader })(
+  HomePage
+);

@@ -11,6 +11,11 @@ import {
   QUOTE_ERROR,
   QUOTE_ACCEPTED,
   QUOTE_UPDATED,
+  TICKET_COMPLETE_USER,
+  LEFT_REVIEW,
+  TICKET_REDO_COMPLETE_USER,
+  TICKET_REDO_COMPLETE_TRADER,
+  TICKET_COMPLETE_TRADER,
 } from '../actions/types';
 
 const initialState = {
@@ -79,6 +84,16 @@ export default function (state = initialState, action) {
         ticket: { ...state.ticket, quotes: payload },
         loading: false,
       };
+    case TICKET_COMPLETE_USER:
+    case TICKET_REDO_COMPLETE_USER:
+    case TICKET_REDO_COMPLETE_TRADER:
+    case TICKET_COMPLETE_TRADER:
+      return {
+        ...state,
+        ticket: { ...state.ticket, ticket: payload },
+        loading: false,
+      };
+
     case REMOVE_QUOTE:
       return {
         ...state,
@@ -87,6 +102,10 @@ export default function (state = initialState, action) {
           quotes: state.ticket.quotes.filter((quote) => quote._id !== payload),
         },
         loading: false,
+      };
+    case LEFT_REVIEW:
+      return {
+        ...state,
       };
     case QUOTE_ERROR:
       return {

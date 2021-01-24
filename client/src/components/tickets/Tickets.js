@@ -31,13 +31,17 @@ const Ticket = ({ getMyTickets, auth, ticket: { tickets, loading } }) => {
           ))}
         </div>
       ) : (
-        <div>
-          {tickets.map((ticketi) => {
-            if (ticketi.user === auth.user._id) {
-              return <TicketItem key={ticketi._id} ticket={ticketi} />;
-            }
+        <div></div>
+      )}
+      {!auth.loading && auth.user ? (
+        <div className='tickets'>
+          {tickets.map((ticket) => {
+            if (ticket.user === auth.user._id)
+              return <TicketItem key={ticket._id} ticket={ticket} />;
           })}
         </div>
+      ) : (
+        <div></div>
       )}
     </Fragment>
   );

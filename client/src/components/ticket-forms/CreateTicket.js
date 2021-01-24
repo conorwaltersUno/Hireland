@@ -26,6 +26,12 @@ const CreateTicket = ({ createTicket, history }) => {
     createTicket(formData, history);
   };
 
+  useEffect(() => {
+    if (jt && l) {
+      setFormData({ ...formData, jobType: jt, location: l });
+    }
+  }, []);
+
   return (
     <Fragment>
       <h1 className='large text-primary'>Create Your Ticket</h1>
@@ -42,7 +48,7 @@ const CreateTicket = ({ createTicket, history }) => {
               placeholder='eg. plumbing, roofing,
              gardening, landscaping'
               name='jobType'
-              value={jt}
+              value={jobType}
               onChange={(e) => onChange(e)}
             />
           )}
@@ -75,7 +81,7 @@ const CreateTicket = ({ createTicket, history }) => {
               type='text'
               placeholder='Please enter you postcode '
               name='location'
-              value={l}
+              value={location}
               onChange={(e) => onChange(e)}
             />
           )}

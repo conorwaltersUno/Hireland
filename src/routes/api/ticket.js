@@ -218,4 +218,66 @@ router.post(
   }
 );
 
+// @route   POST api/quote/accepted/:ticketid/:quoteid
+// @desc    Update a quote to be accepted or not
+// @access  Private
+router.post(
+  '/completeuser/:ticketid',
+  auth,
+  [check('isCompleteUser', 'isCompleteUser is required').not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    let { isCompleteUser } = req.body;
+    let ticketBody = {};
+    if (isCompleteUser) ticketBody.isCompleteUser = isCompleteUser;
+
+    try {
+      const ticket = await Ticket.findById(req.params.ticketid);
+
+      ticket.isCompleteUser = isCompleteUser;
+      await ticket.save();
+
+      res.json(ticket);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   POST api/quote/accepted/:ticketid/:quoteid
+// @desc    Update a quote to be accepted or not
+// @access  Private
+router.post(
+  '/completetrader/:ticketid',
+  auth,
+  [check('isCompleteTrader', 'isCompleteTrader is required').not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    let { isCompleteTrader } = req.body;
+    let ticketBody = {};
+    if (isCompleteTrader) ticketBody.isCompleteTrader = isCompleteTrader;
+
+    try {
+      const ticket = await Ticket.findById(req.params.ticketid);
+
+      ticket.isCompleteTrader = isCompleteTrader;
+      await ticket.save();
+
+      res.json(ticket);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 module.exports = router;

@@ -2,11 +2,11 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProfileTop from './ProfileTop';
-import ProfileReview from './ProfileReview';
 import { clearProfile } from '../../actions/profile';
 
 import { getProfileById } from '../../actions/profile';
 import { Link } from 'react-router-dom';
+import ProfileAbout from './ProfileAbout';
 
 /*This class is used when a user clicks onto a profile from a ticket*/
 const Profile = ({
@@ -22,9 +22,9 @@ const Profile = ({
 
   return (
     <Fragment>
-      {profile === null || loading ? (
+      {profile === null ? (
         <Fragment>
-          <h1>There is no profile for this user</h1>
+          <h1>There is no profile for this user </h1>
         </Fragment>
       ) : (
         <Fragment>
@@ -40,20 +40,28 @@ const Profile = ({
             )}
           <div className='profile-grid my-1'>
             <ProfileTop profile={profile}></ProfileTop>
-            {auth.user.isTrader && (
+            <ProfileAbout profile={profile} auth={auth}></ProfileAbout>
+            {/* {auth.user.isTrader && (
               <div className='profile-exp bg-white pp-2'>
-                <h2 className='text-primary'>Reviews</h2>
-                {profile.review.length > 0 ? (
+                {profile.review.length != 0 && (
                   <Fragment>
-                    {profile.review.map((review) => (
-                      <ProfileReview key={review._id} review={review} />
-                    ))}
+                    <h2 className='text-primary'>Reviews</h2>
+                    {profile.review && (
+                      <div>
+                        {profile.review.map((reviewi) => {
+                          return (
+                            <div>
+                              {reviewi.description}
+                              <div>{reviewi.score}</div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </Fragment>
-                ) : (
-                  <h4>No review credentials</h4>
                 )}
               </div>
-            )}
+            )} */}
           </div>
         </Fragment>
       )}
