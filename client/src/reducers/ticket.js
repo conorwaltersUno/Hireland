@@ -16,6 +16,7 @@ import {
   TICKET_REDO_COMPLETE_USER,
   TICKET_REDO_COMPLETE_TRADER,
   TICKET_COMPLETE_TRADER,
+  EDIT_TICKET,
 } from '../actions/types';
 
 const initialState = {
@@ -30,6 +31,7 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_TICKET:
+    case EDIT_TICKET:
       return {
         ...state,
         ticket: payload,

@@ -64,8 +64,12 @@ router.post(
     //only allow one ticket per user, need to fix
     try {
       //let user = await User.findById({ user: req.user.id });
-      let ticket = await Ticket.findOne({ user: req.user.id });
-
+      let ticket = await Ticket.findOne({
+        title: req.body.title,
+        description: req.body.description,
+        completionDate: req.body.completionDate,
+      });
+      console.log(ticket);
       //If ticket id exist, update the ticket
       if (ticket) {
         ticket = await Ticket.findOneAndUpdate(
@@ -73,10 +77,74 @@ router.post(
           { $set: ticketField },
           { new: true }
         );
+        console.log(ticket);
         return res.json(ticket);
+      } else {
+        ticket = new Ticket(ticketField);
       }
 
-      ticket = new Ticket(ticketField);
+      await ticket.save();
+      res.json(ticket);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send('server error');
+    }
+  }
+);
+
+// @route   POST api/ticket
+// @desc    Update a ticket
+// @access  Private
+router.post(
+  '/:ticketid',
+  [
+    auth,
+    [
+      check('title', 'Title is required').not().isEmpty(),
+      check('jobType', 'JobType is required').not().isEmpty(),
+      check('description', 'Description is required').not().isEmpty(),
+      check('location', 'Location is required').not().isEmpty(),
+      check(
+        'completionDate',
+        'Please include desired date for the job to be completed'
+      )
+        .not()
+        .isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { title, jobType, description, location, completionDate } = req.body;
+    const ticketField = {};
+    ticketField.user = req.user.id;
+    if (title) ticketField.title = title;
+    if (jobType) ticketField.jobType = jobType;
+    if (description) ticketField.description = description;
+    if (location) ticketField.location = location;
+    if (completionDate) ticketField.completionDate = completionDate;
+
+    //only allow one ticket per user, need to fix
+    try {
+      //let user = await User.findById({ user: req.user.id });
+      let ticket = await Ticket.findById({
+        _id: req.params.ticketid,
+      });
+      //If ticket id exist, update the ticket
+      if (ticket) {
+        ticket = await Ticket.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: ticketField },
+          { new: true }
+        );
+        console.log(ticket);
+        return res.json(ticket);
+      } else {
+        ticket = new Ticket(ticketField);
+      }
+
       await ticket.save();
       res.json(ticket);
     } catch (err) {

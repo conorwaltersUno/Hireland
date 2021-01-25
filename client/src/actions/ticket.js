@@ -18,6 +18,7 @@ import {
   TICKET_REDO_COMPLETE_USER,
   TICKET_REDO_COMPLETE_TRADER,
   TICKET_COMPLETE_TRADER,
+  EDIT_TICKET,
 } from './types';
 
 export const getMyTickets = () => async (dispatch) => {
@@ -51,7 +52,7 @@ export const getMyTicket = () => async (dispatch) => {
   }
 };
 
-//Create or update ticket
+//Create a ticket
 export const createTicket = (formData, history, edit = false) => async (
   dispatch
 ) => {
@@ -61,7 +62,6 @@ export const createTicket = (formData, history, edit = false) => async (
         'Content-Type': 'application/json',
       },
     };
-
     const res = await axios.post('/api/ticket', formData, config);
 
     dispatch({
@@ -74,6 +74,31 @@ export const createTicket = (formData, history, edit = false) => async (
     if (!edit) {
       history.push('/tickets');
     }
+  } catch (err) {
+    dispatch({
+      type: TICKET_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+//update ticket
+export const editTicket = (formData, history, ticket) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const res = await axios.post(`/api/ticket/${ticket._id}`, formData, config);
+
+    dispatch({
+      type: EDIT_TICKET,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Ticket Updated'));
+    history.push('/tickets');
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
