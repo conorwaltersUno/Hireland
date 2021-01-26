@@ -7,6 +7,8 @@ import {
   CompleteTicketUser,
 } from '../../actions/ticket';
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+
 import ReviewTrader from './ReviewTrader';
 import Spinner from '../layout/Spinner';
 
@@ -44,8 +46,9 @@ const QuoteDisplay = ({
     <div className='profile-top bg-primary p-2'>
       <div>
         <h2>Trader's name:</h2>
-
-        <div>{name}</div>
+        <Link to={`/profile/${_id}`}>
+          <h4 className='link-text'>{name}</h4>
+        </Link>
         <h2>Quoted price</h2>
         <div>{quote}</div>
       </div>

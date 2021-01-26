@@ -6,8 +6,8 @@ import Spinner from '../layout/Spinner';
 import { clearTicket } from '../../actions/ticket';
 import TicketDisplay from './TicketDisplay';
 import QuoteForm from '../ticket-forms/QuoteForm';
-import QuoteDisplay from './QuoteDisplay';
 import { Link } from 'react-router-dom';
+import QuoteDisplay from './QuoteDisplay';
 
 /* This class is used when a user clicks on a ticket from the main ticket page*/
 const TicketByID = ({
@@ -55,11 +55,16 @@ const TicketByID = ({
                   if (quotes.isAccepted === true) {
                     accepted = true;
                     return (
-                      <QuoteDisplay
-                        quotes={quotes}
-                        auth={auth}
-                        ticket={ticket}
-                      />
+                      <div>
+                        <Link to={`/profile/${quotes.user}`}>
+                          <h4 className='link-text'>{quotes.name}</h4>
+                        </Link>
+                        <QuoteDisplay
+                          quotes={quotes}
+                          auth={auth}
+                          ticket={ticket}
+                        />
+                      </div>
                     );
                   }
                 })}
