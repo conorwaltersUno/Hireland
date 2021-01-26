@@ -603,3 +603,7 @@ button {
   justify-content: center;
   text-align: left;
 }
+
+.link-text {
+  color: white;
+}

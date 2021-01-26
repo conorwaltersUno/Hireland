@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createTicket, getMyTickets } from '../../actions/ticket';
+import { editTicket, getMyTickets } from '../../actions/ticket';
 
 const EditTicket = ({
   ticket: { ticket, loading },
-  createTicket,
+  editTicket,
   getMyTickets,
   history,
 }) => {
@@ -22,16 +22,23 @@ const EditTicket = ({
   useEffect(() => {
     getMyTickets();
 
-    setFormData({
-      jobType: loading || !ticket.jobType ? '' : ticket.jobType,
-      title: loading || !ticket.title ? '' : ticket.title,
-      location: loading || !ticket.location ? '' : ticket.location,
-      description: loading || !ticket.description ? '' : ticket.description,
-      completionDate:
-        loading || !ticket.completionDate ? '' : ticket.completionDate,
-    });
+    if (!loading) {
+      setFormData({
+        jobType: loading || !ticket.jobType ? '' : ticket.jobType,
+        title: loading || !ticket.title ? '' : ticket.title,
+        location: loading || !ticket.location ? '' : ticket.location,
+        description: loading || !ticket.description ? '' : ticket.description,
+        completionDate:
+          loading || !ticket.completionDate ? '' : ticket.completionDate,
+      });
+    }
     // eslint-disable-next-line
   }, [loading]);
+
+  //if the user refreshes from the edit tickets page, we have no way of getting the ticket from state so the webpage cant be refreshed.
+  if (ticket === null) {
+    return <Redirect to='/homepage'></Redirect>;
+  }
 
   const { jobType, title, location, description, completionDate } = formData;
 
@@ -40,15 +47,14 @@ const EditTicket = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createTicket(formData, history);
+    editTicket(formData, history, ticket);
   };
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Create Your Ticket</h1>
+      <h1 className='large text-primary'>Edit Your Ticket</h1>
       <p className='lead'>
-        <i className='fas fa-user'></i> Let's get some information to build a
-        ticket
+        <i className='fas fa-user'></i> Change any information you wish!
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={(e) => onSubmit(e)}>
@@ -108,7 +114,7 @@ const EditTicket = ({
 };
 
 EditTicket.propTypes = {
-  createTicket: PropTypes.func.isRequired,
+  editTicket: PropTypes.func.isRequired,
   getMyTickets: PropTypes.func.isRequired,
   ticket: PropTypes.object.isRequired,
 };
@@ -117,6 +123,6 @@ const mapStateToProps = (state) => ({
   ticket: state.ticket,
 });
 
-export default connect(mapStateToProps, { createTicket, getMyTickets })(
+export default connect(mapStateToProps, { editTicket, getMyTickets })(
   withRouter(EditTicket)
 );

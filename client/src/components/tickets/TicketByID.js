@@ -6,6 +6,7 @@ import Spinner from '../layout/Spinner';
 import { clearTicket } from '../../actions/ticket';
 import TicketDisplay from './TicketDisplay';
 import QuoteForm from '../ticket-forms/QuoteForm';
+import { Link } from 'react-router-dom';
 import QuoteDisplay from './QuoteDisplay';
 
 /* This class is used when a user clicks on a ticket from the main ticket page*/
@@ -33,6 +34,14 @@ const TicketByID = ({
               <TicketDisplay ticket={ticket} />
             </div>
           )}
+          {!auth.loading && auth.user._id === ticket.user && (
+            <div>
+              {' '}
+              <Link to='/edit-ticket' className='btn btn-white'>
+                Edit ticket
+              </Link>
+            </div>
+          )}
           {auth.user != null &&
           auth.user.isTrader &&
           !ticket.isCompleteTrader ? (
@@ -46,11 +55,16 @@ const TicketByID = ({
                   if (quotes.isAccepted === true) {
                     accepted = true;
                     return (
-                      <QuoteDisplay
-                        quotes={quotes}
-                        auth={auth}
-                        ticket={ticket}
-                      />
+                      <div>
+                        <Link to={`/profile/${quotes.user}`}>
+                          <h4 className='link-text'>{quotes.name}</h4>
+                        </Link>
+                        <QuoteDisplay
+                          quotes={quotes}
+                          auth={auth}
+                          ticket={ticket}
+                        />
+                      </div>
                     );
                   }
                 })}
