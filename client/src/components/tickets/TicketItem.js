@@ -23,6 +23,7 @@ const TicketItem = ({
     avatar,
     isCompleteUser,
     isCompleteTrader,
+    quotes,
   },
 }) => (
   <div className='post bg-white p-1 my-1'>
@@ -38,6 +39,7 @@ const TicketItem = ({
       </Link>
 
       <p className='my-1'>{description}</p>
+      <p className='my-1'>Quote count: {quotes.length}</p>
       <p className='post-date'>
         Complete by <Moment format='DD/MM/YYYY'>{completionDate}</Moment>{' '}
       </p>

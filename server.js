@@ -10,10 +10,10 @@ app.use(express.json({ extended: false }));
 app.get('/', (req, res) => res.send('Api running'));
 
 //Define routes
-app.use('/api/users', require('../hireland/src/routes/api/users'));
-app.use('/api/auth', require('../hireland/src/routes/api/auth'));
-app.use('/api/profile', require('../hireland/src/routes/api/profile'));
-app.use('/api/ticket', require('../hireland/src/routes/api/ticket'));
+app.use('/api/users', require('../Hireland/src/routes/api/users'));
+app.use('/api/auth', require('../Hireland/src/routes/api/auth'));
+app.use('/api/profile', require('../Hireland/src/routes/api/profile'));
+app.use('/api/ticket', require('../Hireland/src/routes/api/ticket'));
 
 const PORT = process.env.PORT || 5000;
 

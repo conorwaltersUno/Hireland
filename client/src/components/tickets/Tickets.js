@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -11,6 +11,12 @@ const Ticket = ({ getMyTickets, auth, ticket: { tickets, loading } }) => {
     getMyTickets();
   }, [getMyTickets]);
 
+  const [filteredTicket, setFilter] = useState('');
+
+  const onChange = (e) => {
+    setFilter(e.target.value);
+  };
+
   return loading ? (
     <Spinner />
   ) : (
@@ -19,29 +25,51 @@ const Ticket = ({ getMyTickets, auth, ticket: { tickets, loading } }) => {
       <p className='lead'>
         <i className='fas fa-ticket'></i> Welcome to Hireland
       </p>
-
-      <Link to='/ticket/create' className='btn btn-primary'>
-        Create a Ticket
-      </Link>
+      {!auth.loading && !auth.user.isTrader && (
+        <Link to='/ticket/create' className='btn btn-primary'>
+          Create a Ticket
+        </Link>
+      )}
+      <input onChange={(e) => onChange(e)} placeholder='search by title' />
 
       {!auth.loading && auth.user.isTrader ? (
-        <div className='tickets'>
-          {tickets.map((ticket) => (
-            <TicketItem key={ticket._id} ticket={ticket} />
-          ))}
-        </div>
+        !filteredTicket ? (
+          <div className='tickets'>
+            {tickets.map((ticket) => (
+              <TicketItem key={ticket._id} ticket={ticket} />
+            ))}
+          </div>
+        ) : (
+          <div>
+            {tickets.map((ticket) => {
+              if (ticket.title.toLowerCase().includes(filteredTicket)) {
+                return (
+                  <div>
+                    <TicketItem key={ticket._id} ticket={ticket} />
+                  </div>
+                );
+              }
+            })}
+          </div>
+        )
+      ) : !auth.loading && !filteredTicket ? (
+        tickets.map((ticket) => {
+          if (ticket.user === auth.user._id)
+            return <TicketItem key={ticket._id} ticket={ticket} />;
+        })
       ) : (
-        <div></div>
-      )}
-      {!auth.loading && auth.user ? (
-        <div className='tickets'>
-          {tickets.map((ticket) => {
-            if (ticket.user === auth.user._id)
-              return <TicketItem key={ticket._id} ticket={ticket} />;
-          })}
-        </div>
-      ) : (
-        <div></div>
+        tickets.map((ticket) => {
+          if (
+            ticket.user === auth.user._id &&
+            ticket.title.toLowerCase().includes(filteredTicket)
+          ) {
+            return (
+              <div>
+                <TicketItem key={ticket._id} ticket={ticket} />
+              </div>
+            );
+          }
+        })
       )}
     </Fragment>
   );

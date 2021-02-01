@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTicketById } from '../../actions/ticket';
@@ -23,6 +23,17 @@ const TicketByID = ({
 
   let accepted = false;
 
+  let sortByQuote = [];
+
+  function initialSorted() {
+    return 'date';
+  }
+
+  //toggle sortedBy drop down
+  const [toggle, setToggle] = useState(false);
+  //select what to sorted
+  const [sortBy, setSortBy] = useState(initialSorted());
+
   return loading ? (
     <Spinner />
   ) : (
@@ -42,6 +53,16 @@ const TicketByID = ({
               </Link>
             </div>
           )}
+
+          <button onClick={() => setToggle(!toggle)}>Sorted By</button>
+          {toggle && (
+            <div>
+              <button onClick={() => setSortBy('date')}>Date</button>
+              <button onClick={() => setSortBy('quotes')}>Quote price</button>
+              <button onClick={() => setSortBy('review')}>Review</button>
+            </div>
+          )}
+
           {auth.user != null &&
           auth.user.isTrader &&
           !ticket.isCompleteTrader ? (
@@ -69,14 +90,34 @@ const TicketByID = ({
                   }
                 })}
                 {ticket.quotes.map((quotes) => {
+                  sortByQuote.push(quotes);
+                  sortByQuote.sort(function (a, b) {
+                    return a.quote - b.quote;
+                  });
                   if (accepted === false) {
-                    return (
-                      <QuoteDisplay
-                        quotes={quotes}
-                        auth={auth}
-                        ticket={ticket}
-                      />
-                    );
+                    if (sortBy === 'date') {
+                      return (
+                        <QuoteDisplay
+                          quotes={quotes}
+                          auth={auth}
+                          ticket={ticket}
+                        />
+                      );
+                    }
+                    if (
+                      sortBy === 'quotes' &&
+                      sortByQuote.length === ticket.quotes.length
+                    ) {
+                      return sortByQuote.map((quotee) => {
+                        return (
+                          <QuoteDisplay
+                            quotes={quotee}
+                            auth={auth}
+                            ticket={ticket}
+                          />
+                        );
+                      });
+                    }
                   }
                 })}
               </div>

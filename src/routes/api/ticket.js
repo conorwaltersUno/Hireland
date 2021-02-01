@@ -52,7 +52,14 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { title, jobType, description, location, completionDate } = req.body;
+    const {
+      title,
+      jobType,
+      description,
+      location,
+      completionDate,
+      quotes,
+    } = req.body;
     const ticketField = {};
     ticketField.user = req.user.id;
     if (title) ticketField.title = title;
@@ -60,6 +67,7 @@ router.post(
     if (description) ticketField.description = description;
     if (location) ticketField.location = location;
     if (completionDate) ticketField.completionDate = completionDate;
+    if (quotes) ticketField.quotes = quotes;
 
     //only allow one ticket per user, need to fix
     try {
