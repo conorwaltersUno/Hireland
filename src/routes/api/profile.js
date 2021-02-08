@@ -171,7 +171,6 @@ router.put(
     };
     try {
       const profile = await Profile.findById(req.params.profileid);
-      console.log(profile);
       profile.review.push(newReview);
       await profile.save();
       res.json(profile);

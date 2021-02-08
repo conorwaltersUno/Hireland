@@ -77,7 +77,7 @@ router.post(
         description: req.body.description,
         completionDate: req.body.completionDate,
       });
-      console.log(ticket);
+
       //If ticket id exist, update the ticket
       if (ticket) {
         ticket = await Ticket.findOneAndUpdate(
@@ -85,7 +85,7 @@ router.post(
           { $set: ticketField },
           { new: true }
         );
-        console.log(ticket);
+
         return res.json(ticket);
       } else {
         ticket = new Ticket(ticketField);
@@ -147,7 +147,6 @@ router.post(
           { $set: ticketField },
           { new: true }
         );
-        console.log(ticket);
         return res.json(ticket);
       } else {
         ticket = new Ticket(ticketField);

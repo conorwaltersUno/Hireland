@@ -41,7 +41,7 @@ const CreateTicket = ({ createTicket, history }) => {
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={(e) => onSubmit(e)}>
-        <div className='form-group'>
+        <div className='form-text'>
           {jt && (
             <input
               type='text'
@@ -65,7 +65,7 @@ const CreateTicket = ({ createTicket, history }) => {
 
           <small className='form-text'>* Job Type</small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='text'
             placeholder='eg. Boiler Repair, Toilet is clogged'
@@ -75,7 +75,7 @@ const CreateTicket = ({ createTicket, history }) => {
           />
           <small className='form-text'>* Title</small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           {l && (
             <input
               type='text'
@@ -97,7 +97,7 @@ const CreateTicket = ({ createTicket, history }) => {
 
           <small className='form-text'>* Location</small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <textarea
             placeholder='eg. Boiler pressure is too low, A tree need to be chopped down'
             name='description'
@@ -106,7 +106,7 @@ const CreateTicket = ({ createTicket, history }) => {
           ></textarea>
           <small className='form-text'>* Description</small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='date'
             name='completionDate'

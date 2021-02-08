@@ -58,7 +58,7 @@ const EditTicket = ({
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={(e) => onSubmit(e)}>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='text'
             placeholder='eg. plumbing, roofing,
@@ -69,7 +69,7 @@ const EditTicket = ({
           />
           <small className='form-text'>* Job Type</small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='text'
             placeholder='eg. Boiler Repair, Toilet is clogged'
@@ -79,7 +79,7 @@ const EditTicket = ({
           />
           <small className='form-text'>* Title</small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='text'
             placeholder='eg. Antrim, Belfast '
@@ -89,7 +89,7 @@ const EditTicket = ({
           />
           <small className='form-text'>* Location</small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <textarea
             placeholder='eg. Boiler pressure is too low, A tree need to be chopped down'
             name='description'
@@ -98,7 +98,7 @@ const EditTicket = ({
           ></textarea>
           <small className='form-text'>* Description</small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='date'
             name='completionDate'

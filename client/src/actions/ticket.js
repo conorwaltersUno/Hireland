@@ -158,9 +158,6 @@ export const acceptQuote = (ticketid, quoteid) => async (dispatch) => {
     },
   };
   const formData = { isAccepted: true };
-  console.log(ticketid);
-  console.log(quoteid);
-
   try {
     const res = await axios.post(
       `/api/ticket/quote/accepted/${ticketid}/${quoteid}`,
@@ -421,7 +418,7 @@ export const reviewTrader = (user, formData) => async (dispatch) => {
     };
     const traderprofile = await axios.get(`/api/profile/user/${user}`, config);
     const res = await axios.put(
-      `/api/profile/${traderprofile.data}/review`,
+      `/api/profile/${traderprofile.data._id}/review`,
       formData,
       config
     );

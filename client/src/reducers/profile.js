@@ -4,6 +4,7 @@ import {
   CLEAR_PROFILE,
   ADD_PROFILE,
   GET_MAP_LOCATION,
+  GET_ALL_PROFILE,
 } from '../actions/types';
 
 const initialState = {
@@ -48,6 +49,13 @@ export default function (state = initialState, action) {
         ...state,
         profile: null,
         review: [],
+        loading: false,
+      };
+
+    case GET_ALL_PROFILE:
+      return {
+        ...state,
+        profiles: payload,
         loading: false,
       };
 
