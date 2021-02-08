@@ -23,7 +23,7 @@ const ProfileAbout = ({
   }, []);
 
   const locationformap = {
-    address: '5 Balfour Avenue',
+    address: '',
     lat: latitude,
     lng: longitude,
     center: [latitude, longitude],
@@ -51,7 +51,6 @@ const ProfileAbout = ({
           <h2 className='text-primary'>Reviews</h2>
           {review && (
             <div>
-              // eslint-disable-next-line
               {review.map((reviewi) => {
                 return (
                   <div>
@@ -62,10 +61,10 @@ const ProfileAbout = ({
               })}
             </div>
           )}
+          <div className='line'></div>
         </Fragment>
       )}
 
-      <div className='line'></div>
       <h2 className='text-primary'>Map</h2>
       <div className='map-container'>
         {!loading && longitude && latitude && (

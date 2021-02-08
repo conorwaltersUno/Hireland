@@ -69,7 +69,7 @@ const ProfileForm = ({
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={onSubmit}>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='text'
             placeholder='Company'
@@ -81,7 +81,7 @@ const ProfileForm = ({
             Could be your own company or one you work for
           </small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='text'
             placeholder='Website'
@@ -93,7 +93,7 @@ const ProfileForm = ({
             Could be your own or a company website
           </small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='text'
             placeholder='Please enter your postcode'
@@ -104,7 +104,7 @@ const ProfileForm = ({
           <small className='form-text'>Postcode</small>
         </div>
 
-        <div className='form-group'>
+        <div className='form-text'>
           <textarea
             placeholder='A short bio of yourself'
             name='bio'
@@ -127,7 +127,7 @@ const ProfileForm = ({
         {displaySocialInputs && (
           <Fragment>
             <span>* optional</span>
-            <div className='form-group social-input'>
+            <div className='form-text social-input'>
               <i className='fab fa-twitter fa-2x' />
 
               <input
@@ -139,7 +139,7 @@ const ProfileForm = ({
               />
             </div>
 
-            <div className='form-group social-input'>
+            <div className='form-text social-input'>
               <i className='fab fa-facebook fa-2x' />
               <input
                 type='text'
@@ -150,7 +150,7 @@ const ProfileForm = ({
               />
             </div>
 
-            <div className='form-group social-input'>
+            <div className='form-text social-input'>
               <i className='fab fa-youtube fa-2x' />
               <input
                 type='text'
@@ -161,7 +161,7 @@ const ProfileForm = ({
               />
             </div>
 
-            <div className='form-group social-input'>
+            <div className='form-text social-input'>
               <i className='fab fa-linkedin fa-2x' />
               <input
                 type='text'
@@ -172,7 +172,7 @@ const ProfileForm = ({
               />
             </div>
 
-            <div className='form-group social-input'>
+            <div className='form-text social-input'>
               <i className='fab fa-instagram fa-2x' />
               <input
                 type='text'

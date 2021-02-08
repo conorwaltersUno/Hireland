@@ -1,7 +1,9 @@
 /* Global Styles */
 :root {
-  --primary-color: #17a2b8;
-  --dark-color: #343a40;
+  --primary-color: #3aafa9;
+  --dark-color: #17252a;
+  --background: #2b7a7a;
+  --background-light: #feffff;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
@@ -17,7 +19,7 @@ body {
   font-family: 'Raleway', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: var(--background-light);
   color: #333;
 }
 
@@ -180,6 +182,11 @@ img {
   color: #fff;
 }
 
+.bg-background {
+  background: var(--background);
+  color: #fff;
+}
+
 .btn-danger,
 .bg-danger,
 .badge-danger,
@@ -236,7 +243,11 @@ img {
 
 /* Forms */
 .form .form-group {
-  margin: 1.2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 3.2rem 0;
+  margin-left: 9rem;
 }
 
 .form .form-text {
@@ -580,18 +591,48 @@ button {
 .customerhomecontainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  max-width: 50%;
+  align-items: center;
 }
 
-.customer-date {
-  margin: 25px 0px 25px;
-  max-width: 50%;
+.trader-carousel-name {
+  color: #ffffff;
+}
+
+.trader-carousel-name:hover {
+  color: #add8e6;
+}
+
+.best-reviewed-trader-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20%;
+}
+
+.customer-location {
+  max-width: 30%;
+  margin-right: 3%;
+}
+
+.customer-lighter-text-title {
+  color: #9da0b6;
 }
 
 .customer-input {
-  margin: 25px 0px 25px;
-  max-width: 50%;
+  margin-right: 3%;
+}
+
+.customer-input-container {
+  width: 80%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  margin-top: 2%;
+}
+
+.submit-button-customer {
+  margin-top: 1%;
 }
 
 /*Quote Display*/

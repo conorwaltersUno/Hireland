@@ -19,7 +19,11 @@ const Profile = ({
 
   return profile == null ? (
     <Fragment>
-      <h1>There is no profile for this user</h1>
+      {auth.loading === false && auth.user.isTrader ? (
+        <h1>As a trader, it is necessary to have a profile</h1>
+      ) : (
+        <h1>There is no profile for this user</h1>
+      )}
       <Link to='/create-profile' className='btn btn-primary'>
         Create a Profile
       </Link>

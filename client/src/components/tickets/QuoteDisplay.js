@@ -46,7 +46,7 @@ const QuoteDisplay = ({
     <div className='profile-top bg-primary p-2'>
       <div>
         <h2>Trader's name:</h2>
-        <Link to={`/profile/${_id}`}>
+        <Link to={`/profile/${user}`}>
           <h4 className='link-text'>{name}</h4>
         </Link>
         <h2>Quoted price</h2>
@@ -90,17 +90,9 @@ const QuoteDisplay = ({
           {ticket.isCompleteUser === true && (
             <Fragment>
               <ReviewTrader user={user}></ReviewTrader>
-              {/* <button
-                onClick={(e) => onRedoComplete(e)}
-                type='button'
-                className='btn btn-success'
-              >
-                This job has been marked as complete by both user and trader!
-                Click to redo the user accept (This will be deleted in final
-                product)
-              </button> */}
+
               <diV>
-                You have marked this ticket as complete, pleas contact a member
+                You have marked this ticket as complete, please contact a member
                 of the team if you want to reduce it!
               </diV>
             </Fragment>

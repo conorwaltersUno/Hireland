@@ -54,7 +54,7 @@ export const Navbar = ({
   );
 
   return (
-    <nav className='navbar bg-dark'>
+    <nav className='navbar bg-background'>
       <Link to='/homepage'>
         <h1>
           <i className='fas fa-tools'></i> Hireland

@@ -45,7 +45,7 @@ export const Register = ({ setAlert, register, isAuthenticated }) => {
         <i className='fas fa-user'></i> Create Your Account
       </p>
       <form className='form' onSubmit={(e) => onSubmit(e)}>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='text'
             placeholder='Name'
@@ -54,7 +54,7 @@ export const Register = ({ setAlert, register, isAuthenticated }) => {
             onChange={(e) => onChange(e)}
           />
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='email'
             placeholder='Email Address'
@@ -67,7 +67,7 @@ export const Register = ({ setAlert, register, isAuthenticated }) => {
             Gravatar email
           </small>
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='password'
             placeholder='Password'
@@ -76,7 +76,7 @@ export const Register = ({ setAlert, register, isAuthenticated }) => {
             onChange={(e) => onChange(e)}
           />
         </div>
-        <div className='form-group'>
+        <div className='form-text'>
           <input
             type='password'
             placeholder='Confirm Password'
@@ -84,7 +84,7 @@ export const Register = ({ setAlert, register, isAuthenticated }) => {
             value={password2}
             onChange={(e) => onChange(e)}
           />
-          <div className='form-group'>
+          <div className='form-text'>
             <p>
               <input
                 type='checkbox'

@@ -6,6 +6,7 @@ import {
   CLEAR_PROFILE,
   ADD_PROFILE,
   GET_MAP_LOCATION,
+  GET_ALL_PROFILE,
 } from './types';
 import axiosConfig from './axiosConfig';
 
@@ -30,8 +31,6 @@ export const getProfileMapLocation = (location) => async (dispatch) => {
     const res = await axiosConfig.get(
       `http://api.postcodes.io/postcodes/${location}`
     );
-    console.log(res.data);
-
     dispatch({
       type: GET_MAP_LOCATION,
       payload: res.data,
@@ -97,3 +96,22 @@ export const clearProfile = () => (dispatch) => {
     type: CLEAR_PROFILE,
   });
 };
+
+//getallprofiles
+export const getallProfiles = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/api/profile/');
+
+    dispatch({
+      type: GET_ALL_PROFILE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response, status: err.response },
+    });
+  }
+};
+
+//clearallprofiles

@@ -52,6 +52,7 @@ const ReviewTrader = ({ user, reviewTrader }) => {
 };
 
 ReviewTrader.propTypes = {
+  user: PropTypes.object.isRequired,
   reviewTrader: PropTypes.func.isRequired,
 };
 

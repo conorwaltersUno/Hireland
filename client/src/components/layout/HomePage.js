@@ -2,13 +2,26 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { getallProfiles, getCurrentProfile } from '../../actions/profile';
 import { getMyTickets, CompleteTicketTrader } from '../../actions/ticket';
 import QuoteDisplay from '../tickets/QuoteDisplay';
+import { TraderReviewCarousel } from '../profile/TraderReviewCarousel';
 
-const HomePage = ({ getMyTickets, CompleteTicketTrader, auth, ticket }) => {
+const HomePage = ({
+  getMyTickets,
+  getallProfiles,
+  getCurrentProfile,
+  CompleteTicketTrader,
+  auth,
+  profiles,
+  profile,
+  ticket,
+}) => {
   useEffect(() => {
     getMyTickets();
+    getallProfiles();
+    getCurrentProfile();
   }, [getMyTickets]);
 
   const [formData, setFormData] = useState({
@@ -29,42 +42,66 @@ const HomePage = ({ getMyTickets, CompleteTicketTrader, auth, ticket }) => {
     CompleteTicketTrader(ticketi._id);
   };
 
+  if (auth.user) {
+    if (profile.profile === null && auth.user.isTrader) {
+      return <Redirect to='/profile'></Redirect>;
+    }
+  }
+
   const urllink =
     '/ticket/create/' + formData.jobType + '/' + formData.location;
 
   const customerHomePage = (
     <Fragment>
-      <form className='form' onSubmit={(e) => onSubmit(e)}>
-        <div className='form-group'>
-          <div>Welcome to Hireland</div>
-          <div>
-            The online platform that allows you to connect with traders in your
-            local area
+      <div>
+        <form className='form' onSubmit={(e) => onSubmit(e)}>
+          <div className='form-group'>
+            <h1>Welcome to Hireland</h1>
+            <h3 className='customer-lighter-text-title'>
+              A faster way to get your jobs complete
+            </h3>
+            <div className='customer-input-container'>
+              <input
+                className='customer-input'
+                type='text'
+                name='jobType'
+                value={jobType}
+                onChange={(e) => onChange(e)}
+                placeholder='What Job do you want to be completed?'
+              ></input>
+
+              <input
+                className='customer-location'
+                type='text'
+                name='location'
+                value={location}
+                placeholder='Postcode'
+                onChange={(e) => onChange(e)}
+              ></input>
+              <div className='submit-button-customer'>
+                {formData.location !== '' && <Link to={urllink}>Submit</Link>}
+              </div>
+            </div>
           </div>
-          <div>Please fill in the boxes below and click 'enter' to begin!</div>
-          <input
-            className='customer-input'
-            type='text'
-            name='jobType'
-            value={jobType}
-            onChange={(e) => onChange(e)}
-            placeholder='What Job do you want to be completed?'
-          ></input>
-          <input
-            className='customer-date'
-            type='text'
-            name='location'
-            value={location}
-            placeholder='Please enter your postcode?'
-            onChange={(e) => onChange(e)}
-          ></input>
-          {formData.location !== '' && <Link to={urllink}>Submit</Link>}
-        </div>
-      </form>
+          <div>
+            <h2 className='best-reviewed-trader-title'>
+              Meet our best reviewed traders!
+            </h2>
+          </div>
+          {profile.loading ? (
+            <Spinner />
+          ) : (
+            <TraderReviewCarousel
+              profiles={profiles}
+              loading={profile.loading}
+            ></TraderReviewCarousel>
+          )}
+        </form>
+      </div>
     </Fragment>
   );
 
-  return auth.loading ? (
+  return auth.loading && profile.loading ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -117,15 +154,24 @@ const HomePage = ({ getMyTickets, CompleteTicketTrader, auth, ticket }) => {
 HomePage.propTypes = {
   auth: PropTypes.object.isRequired,
   getMyTickets: PropTypes.func.isRequired,
+  getallProfiles: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   CompleteTicketTrader: PropTypes.func.isRequired,
   ticket: PropTypes.object.isRequired,
+  profiles: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   ticket: state.ticket,
+  profiles: state.profile.profiles,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getMyTickets, CompleteTicketTrader })(
-  HomePage
-);
+export default connect(mapStateToProps, {
+  getMyTickets,
+  CompleteTicketTrader,
+  getallProfiles,
+  getCurrentProfile,
+})(HomePage);
