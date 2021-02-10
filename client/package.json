@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.2.1",
     "@testing-library/user-event": "^12.2.2",
     "axios": "^0.21.0",
+    "emailjs-com": "^2.6.4",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-card-carousel": "^1.1.3",
