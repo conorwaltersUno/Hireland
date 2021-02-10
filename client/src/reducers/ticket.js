@@ -14,7 +14,7 @@ import {
   TICKET_COMPLETE_USER,
   LEFT_REVIEW,
   TICKET_REDO_COMPLETE_USER,
-  TICKET_REDO_COMPLETE_TRADER,
+  TICKET_REVIEWED,
   TICKET_COMPLETE_TRADER,
   EDIT_TICKET,
 } from '../actions/types';
@@ -88,7 +88,6 @@ export default function (state = initialState, action) {
       };
     case TICKET_COMPLETE_USER:
     case TICKET_REDO_COMPLETE_USER:
-    case TICKET_REDO_COMPLETE_TRADER:
     case TICKET_COMPLETE_TRADER:
       return {
         ...state,
@@ -113,6 +112,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         error: payload,
+        loading: false,
+      };
+    case TICKET_REVIEWED:
+      return {
+        ...state,
+        ticket: { ticket: payload },
         loading: false,
       };
     default:

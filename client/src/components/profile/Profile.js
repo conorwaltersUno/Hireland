@@ -30,9 +30,10 @@ const Profile = ({
     </Fragment>
   ) : (
     <Fragment>
-      <Link to='/tickets' className='btn btn-white' onClick={clearProfile}>
+      <Link to='/tickets' className='btn btn-white'>
         Back to tickets
       </Link>
+
       {auth.isAuthenticated &&
         auth.loading === false &&
         auth.user._id === profile.user._id && (
