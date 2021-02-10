@@ -67,7 +67,7 @@ const TicketByID = ({
           auth.user.isTrader &&
           !ticket.isCompleteTrader ? (
             <div>
-              <QuoteForm ticketId={match.params.id} />
+              <QuoteForm ticketId={match.params.id} userId={ticket.user} />
             </div>
           ) : ticket.quotes ? (
             <div>

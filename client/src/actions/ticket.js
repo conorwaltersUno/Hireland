@@ -19,6 +19,8 @@ import {
   TICKET_REVIEWED,
   TICKET_COMPLETE_TRADER,
   EDIT_TICKET,
+  GET_TICKET_CREATOR_INFO,
+  GET_USER_INFO_ERROR,
 } from './types';
 
 export const getMyTickets = () => async (dispatch) => {
@@ -438,6 +440,20 @@ export const reviewTrader = (user, formData) => async (dispatch) => {
     dispatch({
       type: QUOTE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const getTicketCreatorInfo = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/users/${userId}`);
+    dispatch({
+      type: GET_TICKET_CREATOR_INFO,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_USER_INFO_ERROR,
     });
   }
 };

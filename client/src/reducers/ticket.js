@@ -17,6 +17,8 @@ import {
   TICKET_REVIEWED,
   TICKET_COMPLETE_TRADER,
   EDIT_TICKET,
+  GET_TICKET_CREATOR_INFO,
+  GET_USER_INFO_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -109,11 +111,20 @@ export default function (state = initialState, action) {
         ...state,
       };
     case QUOTE_ERROR:
+    case GET_USER_INFO_ERROR:
       return {
         ...state,
         error: payload,
         loading: false,
       };
+
+    case GET_TICKET_CREATOR_INFO:
+      return {
+        ...state,
+        ticket: { ...state.ticket, ticketOwner: payload },
+        loading: false,
+      };
+
     case TICKET_REVIEWED:
       return {
         ...state,
