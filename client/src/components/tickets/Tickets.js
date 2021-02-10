@@ -46,6 +46,7 @@ const Ticket = ({
       {!auth.loading && auth.user.isTrader ? (
         !filteredTicket ? (
           <div className='tickets'>
+            {console.log(tickets)}
             {tickets.map((ticket) => (
               <TicketItem key={ticket._id} ticket={ticket} />
             ))}

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 
 import ReviewTrader from './ReviewTrader';
 import Spinner from '../layout/Spinner';
+import { green } from '@material-ui/core/colors';
 
 const QuoteDisplay = ({
   acceptQuote,
@@ -34,11 +35,6 @@ const QuoteDisplay = ({
     e.preventDefault();
     CompleteTicketUser(ticket._id);
   };
-
-  // const onRedoComplete = (e) => {
-  //   e.preventDefault();
-  //   RedoCompleteTicketUser(ticket._id);
-  // };
 
   return ticket.loading && quote ? (
     <Spinner />
@@ -89,12 +85,17 @@ const QuoteDisplay = ({
           )}
           {ticket.isCompleteUser === true && (
             <Fragment>
-              <ReviewTrader user={user}></ReviewTrader>
+              {console.log(ticket)}
+              {!ticket.hasreviewed && ticket._id ? (
+                <ReviewTrader user={user} id={ticket._id}></ReviewTrader>
+              ) : (
+                <div></div>
+              )}
 
-              <diV>
+              <div>
                 You have marked this ticket as complete, please contact a member
-                of the team if you want to reduce it!
-              </diV>
+                of the team if you want to re-do this action!
+              </div>
             </Fragment>
           )}
         </div>
