@@ -4,15 +4,14 @@ import { connect } from 'react-redux';
 import Spinner from './Spinner';
 import { Link, Redirect } from 'react-router-dom';
 import { getallProfiles, getCurrentProfile } from '../../actions/profile';
-import { getMyTickets, CompleteTicketTrader } from '../../actions/ticket';
-import QuoteDisplay from '../tickets/QuoteDisplay';
+import { getMyTickets } from '../../actions/ticket';
+import TicketItem from '../tickets/TicketItem';
 import { TraderReviewCarousel } from '../profile/TraderReviewCarousel';
 
 const HomePage = ({
   getMyTickets,
   getallProfiles,
   getCurrentProfile,
-  CompleteTicketTrader,
   auth,
   profiles,
   profile,
@@ -36,10 +35,6 @@ const HomePage = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-  };
-
-  const onComplete = (ticketi) => {
-    CompleteTicketTrader(ticketi._id);
   };
 
   if (auth.user) {
@@ -118,22 +113,11 @@ const HomePage = ({
                       if (
                         quotei.isAccepted === true &&
                         quotei.user === auth.user._id &&
-                        ticketi.isCompleteTrader === false
+                        ticketi.isCompleteUser === false
                       ) {
                         return (
                           <Fragment>
-                            <QuoteDisplay
-                              quotes={quotei}
-                              ticket={ticketi}
-                              auth={auth}
-                            />
-                            <button
-                              onClick={(e) => onComplete(ticketi)}
-                              type='button'
-                              className='btn btn-success'
-                            >
-                              Mark this job as completed!
-                            </button>
+                            <TicketItem key={ticketi._id} ticket={ticketi} />
                           </Fragment>
                         );
                       }
@@ -156,7 +140,6 @@ HomePage.propTypes = {
   getMyTickets: PropTypes.func.isRequired,
   getallProfiles: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
-  CompleteTicketTrader: PropTypes.func.isRequired,
   ticket: PropTypes.object.isRequired,
   profiles: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
@@ -171,7 +154,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getMyTickets,
-  CompleteTicketTrader,
   getallProfiles,
   getCurrentProfile,
 })(HomePage);

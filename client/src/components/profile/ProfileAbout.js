@@ -7,6 +7,39 @@ import {
 } from '../../actions/profile';
 import Map from '../map/map';
 import Spinner from '../layout/Spinner';
+import ReactCardCarousel from 'react-card-carousel';
+import Stars from 'react-stars-display';
+
+const cardStyle = {
+  position: 'relative',
+  height: '200px',
+  width: '25rem',
+  paddingTop: '60px',
+  textAlign: 'center',
+  background: '#3aafa9',
+  color: '#FFF',
+  fontFamily: 'sans-serif',
+  fontSize: '12px',
+  textTransform: 'uppercase',
+  borderRadius: '10px',
+  boxSizing: 'border-box',
+};
+
+const nameStyle = {
+  color: '#ffffff',
+  maxwidth: '20vh',
+  overflowWrap: 'break-word',
+};
+
+const cardContainerStyle = {
+  position: 'relative',
+  height: '30vh',
+  width: '100%',
+  display: 'flex',
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'middle',
+};
 
 const ProfileAbout = ({
   getCurrentProfile,
@@ -40,7 +73,7 @@ const ProfileAbout = ({
               <h2 className='text-primary'>
                 {user.name.trim().split(' ')[0]}'s Bio
               </h2>
-              <p>{bio}</p>
+              <p style={{ overflowWrap: 'break-word' }}>{bio}</p>
               <div className='line'></div>
             </div>
           )}
@@ -50,15 +83,25 @@ const ProfileAbout = ({
         <Fragment>
           <h2 className='text-primary'>Reviews</h2>
           {review && (
-            <div>
-              {review.map((reviewi) => {
-                return (
-                  <div>
-                    {reviewi.description}
-                    <div>{reviewi.score}</div>
-                  </div>
-                );
-              })}
+            <div style={cardContainerStyle}>
+              <ReactCardCarousel style={{ height: '75%' }}>
+                {review.map((reviewi) => {
+                  return (
+                    <div style={cardStyle}>
+                      <div style={nameStyle}>
+                        <div>Description:</div>
+                        <div style={{ color: '97a7a7' }}>
+                          {reviewi.description}
+                        </div>
+                      </div>
+                      <div>Review Rating:</div>
+                      <div style={nameStyle}>
+                        <Stars stars={reviewi.score} size={20}></Stars>
+                      </div>
+                    </div>
+                  );
+                })}
+              </ReactCardCarousel>
             </div>
           )}
           <div className='line'></div>
@@ -67,8 +110,13 @@ const ProfileAbout = ({
 
       <h2 className='text-primary'>Map</h2>
       <div className='map-container'>
-        {!loading && longitude && latitude && (
+        {!loading && longitude && latitude ? (
           <Map location={locationformap} zoomLevel={18} />
+        ) : (
+          <div>
+            Your postcode cannot be found on google maps
+            <div>Please update your profile to the correct postcode</div>
+          </div>
         )}
       </div>
     </div>

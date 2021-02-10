@@ -14,7 +14,7 @@ import {
   TICKET_COMPLETE_USER,
   LEFT_REVIEW,
   TICKET_REDO_COMPLETE_USER,
-  TICKET_REDO_COMPLETE_TRADER,
+  TICKET_REVIEWED,
   TICKET_COMPLETE_TRADER,
   EDIT_TICKET,
   GET_TICKET_CREATOR_INFO,
@@ -90,7 +90,6 @@ export default function (state = initialState, action) {
       };
     case TICKET_COMPLETE_USER:
     case TICKET_REDO_COMPLETE_USER:
-    case TICKET_REDO_COMPLETE_TRADER:
     case TICKET_COMPLETE_TRADER:
       return {
         ...state,
@@ -118,10 +117,18 @@ export default function (state = initialState, action) {
         error: payload,
         loading: false,
       };
+
     case GET_TICKET_CREATOR_INFO:
       return {
         ...state,
         ticket: { ...state.ticket, ticketOwner: payload },
+        loading: false,
+      };
+
+    case TICKET_REVIEWED:
+      return {
+        ...state,
+        ticket: { ticket: payload },
         loading: false,
       };
     default:

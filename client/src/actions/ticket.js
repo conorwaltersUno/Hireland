@@ -16,7 +16,7 @@ import {
   TICKET_COMPLETE_USER,
   LEFT_REVIEW,
   TICKET_REDO_COMPLETE_USER,
-  TICKET_REDO_COMPLETE_TRADER,
+  TICKET_REVIEWED,
   TICKET_COMPLETE_TRADER,
   EDIT_TICKET,
   GET_TICKET_CREATOR_INFO,
@@ -294,26 +294,31 @@ export const CompleteTicketTrader = (ticketid) => async (dispatch) => {
   }
 };
 
-export const RedoCompleteTicketTrader = (ticketid) => async (dispatch) => {
+export const setReviewBoolean = (ticketid) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
-  const formData = { isCompleteTrader: false };
+  const formData = { hasreviewed: true };
   try {
     const res = await axios.post(
-      `/api/ticket/completetrader/${ticketid}`,
+      `/api/ticket/hasReviewed/${ticketid}`,
       formData,
       config
     );
 
     dispatch({
-      type: TICKET_REDO_COMPLETE_TRADER,
+      type: TICKET_REVIEWED,
       payload: res.data,
     });
 
-    dispatch(setAlert('Ticket Completed has been reverted', 'success'));
+    dispatch(
+      setAlert(
+        'You have reviewed the trader who completed this job!',
+        'success'
+      )
+    );
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,

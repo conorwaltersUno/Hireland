@@ -19,7 +19,7 @@ const TicketByID = ({
   useEffect(() => {
     getTicketById(match.params.id);
     // eslint-disable-next-line
-  }, [match.params.id]);
+  }, [ticket]);
 
   let accepted = false;
 
@@ -69,59 +69,59 @@ const TicketByID = ({
             <div>
               <QuoteForm ticketId={match.params.id} userId={ticket.user} />
             </div>
-          ) : (
-            ticket && (
-              <div>
-                {ticket.quotes.map((quotes) => {
-                  if (quotes.isAccepted === true) {
-                    accepted = true;
+          ) : ticket.quotes ? (
+            <div>
+              {ticket.quotes.map((quotes) => {
+                if (quotes.isAccepted === true) {
+                  accepted = true;
+                  return (
+                    <div>
+                      <Link to={`/profile/${quotes.user}`}>
+                        <h4 className='link-text'>{quotes.name}</h4>
+                      </Link>
+                      <QuoteDisplay
+                        quotes={quotes}
+                        auth={auth}
+                        ticket={ticket}
+                      />
+                    </div>
+                  );
+                }
+              })}
+              {ticket.quotes.map((quotes) => {
+                sortByQuote.push(quotes);
+                sortByQuote.sort(function (a, b) {
+                  return a.quote - b.quote;
+                });
+                if (accepted === false) {
+                  if (sortBy === 'date') {
                     return (
-                      <div>
-                        <Link to={`/profile/${quotes.user}`}>
-                          <h4 className='link-text'>{quotes.name}</h4>
-                        </Link>
-                        <QuoteDisplay
-                          quotes={quotes}
-                          auth={auth}
-                          ticket={ticket}
-                        />
-                      </div>
+                      <QuoteDisplay
+                        quotes={quotes}
+                        auth={auth}
+                        ticket={ticket}
+                      />
                     );
                   }
-                })}
-                {ticket.quotes.map((quotes) => {
-                  sortByQuote.push(quotes);
-                  sortByQuote.sort(function (a, b) {
-                    return a.quote - b.quote;
-                  });
-                  if (accepted === false) {
-                    if (sortBy === 'date') {
+                  if (
+                    sortBy === 'quotes' &&
+                    sortByQuote.length === ticket.quotes.length
+                  ) {
+                    return sortByQuote.map((quotee) => {
                       return (
                         <QuoteDisplay
-                          quotes={quotes}
+                          quotes={quotee}
                           auth={auth}
                           ticket={ticket}
                         />
                       );
-                    }
-                    if (
-                      sortBy === 'quotes' &&
-                      sortByQuote.length === ticket.quotes.length
-                    ) {
-                      return sortByQuote.map((quotee) => {
-                        return (
-                          <QuoteDisplay
-                            quotes={quotee}
-                            auth={auth}
-                            ticket={ticket}
-                          />
-                        );
-                      });
-                    }
+                    });
                   }
-                })}
-              </div>
-            )
+                }
+              })}
+            </div>
+          ) : (
+            <div></div>
           )}
         </div>
       )}

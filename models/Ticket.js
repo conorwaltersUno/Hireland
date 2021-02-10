@@ -35,7 +35,7 @@ const TicketSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  isCompleteTrader: {
+  hasreviewed: {
     type: Boolean,
     default: false,
   },

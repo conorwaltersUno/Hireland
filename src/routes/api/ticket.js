@@ -293,8 +293,8 @@ router.post(
   }
 );
 
-// @route   POST api/quote/accepted/:ticketid/:quoteid
-// @desc    Update a quote to be accepted or not
+// @route   POST api/completeuser/ticketid
+// @desc    Update completeUser boolean in ticket model so that it is complete
 // @access  Private
 router.post(
   '/completeuser/:ticketid',
@@ -328,23 +328,23 @@ router.post(
 // @desc    Update a quote to be accepted or not
 // @access  Private
 router.post(
-  '/completetrader/:ticketid',
+  '/hasReviewed/:ticketid',
   auth,
-  [check('isCompleteTrader', 'isCompleteTrader is required').not().isEmpty()],
+  [check('hasreviewed', 'hasreviewed is required').not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    let { isCompleteTrader } = req.body;
+    let { hasreviewed } = req.body;
     let ticketBody = {};
-    if (isCompleteTrader) ticketBody.isCompleteTrader = isCompleteTrader;
+    if (hasreviewed) ticketBody.hasreviewed = hasreviewed;
 
     try {
       const ticket = await Ticket.findById(req.params.ticketid);
 
-      ticket.isCompleteTrader = isCompleteTrader;
+      ticket.hasreviewed = hasreviewed;
       await ticket.save();
 
       res.json(ticket);
