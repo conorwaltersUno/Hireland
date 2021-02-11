@@ -62,26 +62,34 @@ const Ticket = ({
         </Link>
       )}
 
-      <select value={jobType} onChange={(e) => onDropChange(e)}>
-        <option value=''>* Filter on job type</option>
-        <option value='Brick Laying'>Brick Laying</option>
-        <option value='Carpentry'>Carpentry</option>
-        <option value='Cleaning'>Cleaning</option>
-        <option value='Electrical Installation'>Electrical Installation</option>
-        <option value='Electrical Repair'>Electrical Repair</option>
-        <option value='Flooring'>Flooring</option>
-        <option value='Furnishing'>Furnishing</option>
-        <option value='General Repairing'>General Repairing</option>
-        <option value='Gardening'>Gardening</option>
-        <option value='Painting'>Painting</option>
-        <option value='Pest Control'>Pest Control</option>
-        <option value='Plumbing'>Plumbing</option>
-        <option value='Property extension'>Property extension</option>
-        <option value='Renovating'>Renovating</option>
-        <option value='Structural repair'>Structural repair</option>
-        <option value='Windows, Doors and Conservatories'>Pest Control</option>
-      </select>
-      <input onChange={(e) => onChange(e)} placeholder='search by title' />
+      {!auth.loading && auth.user.isTrader && (
+        <div>
+          <select value={jobType} onChange={(e) => onDropChange(e)}>
+            <option value=''>* Filter on job type</option>
+            <option value='Brick Laying'>Brick Laying</option>
+            <option value='Carpentry'>Carpentry</option>
+            <option value='Cleaning'>Cleaning</option>
+            <option value='Electrical Installation'>
+              Electrical Installation
+            </option>
+            <option value='Electrical Repair'>Electrical Repair</option>
+            <option value='Flooring'>Flooring</option>
+            <option value='Furnishing'>Furnishing</option>
+            <option value='General Repairing'>General Repairing</option>
+            <option value='Gardening'>Gardening</option>
+            <option value='Painting'>Painting</option>
+            <option value='Pest Control'>Pest Control</option>
+            <option value='Plumbing'>Plumbing</option>
+            <option value='Property extension'>Property extension</option>
+            <option value='Renovating'>Renovating</option>
+            <option value='Structural repair'>Structural repair</option>
+            <option value='Windows, Doors and Conservatories'>
+              Pest Control
+            </option>
+          </select>
+          <input onChange={(e) => onChange(e)} placeholder='search by title' />
+        </div>
+      )}
 
       {!auth.loading && auth.user.isTrader ? (
         !jobType && !filteredTicket ? (

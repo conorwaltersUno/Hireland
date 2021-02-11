@@ -4,29 +4,37 @@ import '../map/map.css';
 import { Icon } from '@iconify/react';
 import locationIcon from '@iconify/icons-mdi/map-marker';
 
-const LocationPin = ({ text }) => (
+const LocationPin = () => (
   <div className='pin'>
     <Icon icon={locationIcon} className='pin-icon' />
-    <p className='pin-text'>{text}</p>
   </div>
 );
 
+const apiIsLoaded = (map, maps, center) => {
+  const circle = new maps.Circle({
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.3,
+    map,
+    center: center,
+    radius: 275,
+  });
+};
+
 const Map = ({ location, zoomLevel }) => {
+  console.log(location);
+  let temp = { lat: location.center[0], lng: location.center[1] };
   return (
     <div className='map'>
       <div className='google-map'>
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyCCVzzW0uVIFLXaen-0RaHEgwWzUPG-6vA' }}
           defaultCenter={location.center}
-          center={location.center}
           defaultZoom={zoomLevel}
-        >
-          <LocationPin
-            lat={location.lat}
-            lng={location.lng}
-            text={location.address}
-          />
-        </GoogleMapReact>
+          onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, temp)}
+        ></GoogleMapReact>
       </div>
     </div>
   );

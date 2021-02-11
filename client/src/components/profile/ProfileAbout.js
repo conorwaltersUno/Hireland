@@ -111,7 +111,7 @@ const ProfileAbout = ({
       <h2 className='text-primary'>Map</h2>
       <div className='map-container'>
         {!loading && longitude && latitude ? (
-          <Map location={locationformap} zoomLevel={18} />
+          <Map location={locationformap} zoomLevel={15} />
         ) : (
           <div>
             Your postcode cannot be found on google maps
