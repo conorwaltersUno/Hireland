@@ -18,17 +18,37 @@ const Ticket = ({
     getCurrentProfile();
   }, [getMyTickets]);
 
+  function initialJobType() {
+    return '';
+  }
+
   const [filteredTicket, setFilter] = useState('');
+
+  const [jobType, setJobType] = useState(initialJobType());
 
   const onChange = (e) => {
     setFilter(e.target.value);
   };
 
+  const onDropChange = (e) => {
+    e.preventDefault();
+    setJobType(e.target.value);
+  };
+
+  let filteredJobType = [];
+
   if (!auth.loading) {
-    if (profile.profile === null && auth.user.isTrader) {
-      return <Redirect to='/profile'></Redirect>;
+    if (auth.user) {
+      if (profile.profile === null && auth.user.isTrader) {
+        return <Redirect to='/profile'></Redirect>;
+      }
+    } else {
     }
   }
+
+  const pushtoArray = (ticket) => {
+    filteredJobType.push(ticket);
+  };
 
   return loading ? (
     <Spinner />
@@ -41,15 +61,57 @@ const Ticket = ({
           Create a Ticket
         </Link>
       )}
+
+      <select value={jobType} onChange={(e) => onDropChange(e)}>
+        <option value=''>* Filter on job type</option>
+        <option value='Brick Laying'>Brick Laying</option>
+        <option value='Carpentry'>Carpentry</option>
+        <option value='Cleaning'>Cleaning</option>
+        <option value='Electrical Installation'>Electrical Installation</option>
+        <option value='Electrical Repair'>Electrical Repair</option>
+        <option value='Flooring'>Flooring</option>
+        <option value='Furnishing'>Furnishing</option>
+        <option value='General Repairing'>General Repairing</option>
+        <option value='Gardening'>Gardening</option>
+        <option value='Painting'>Painting</option>
+        <option value='Pest Control'>Pest Control</option>
+        <option value='Plumbing'>Plumbing</option>
+        <option value='Property extension'>Property extension</option>
+        <option value='Renovating'>Renovating</option>
+        <option value='Structural repair'>Structural repair</option>
+        <option value='Windows, Doors and Conservatories'>Pest Control</option>
+      </select>
       <input onChange={(e) => onChange(e)} placeholder='search by title' />
 
       {!auth.loading && auth.user.isTrader ? (
-        !filteredTicket ? (
+        !jobType && !filteredTicket ? (
           <div className='tickets'>
-            {console.log(tickets)}
             {tickets.map((ticket) => (
               <TicketItem key={ticket._id} ticket={ticket} />
             ))}
+          </div>
+        ) : jobType ? (
+          <div>
+            {tickets.map((ticket) => {
+              if (ticket.jobType.includes(jobType)) {
+                if (filteredTicket) {
+                  if (ticket.title.toLowerCase().includes(filteredTicket)) {
+                    return (
+                      <div>
+                        <TicketItem key={ticket._id} ticket={ticket} />
+                      </div>
+                    );
+                  }
+                } else {
+                  return (
+                    <div>
+                      {pushtoArray(ticket)}
+                      <TicketItem key={ticket._id} ticket={ticket} />
+                    </div>
+                  );
+                }
+              }
+            })}
           </div>
         ) : (
           <div>

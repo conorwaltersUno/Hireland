@@ -57,17 +57,20 @@ export const TraderReviewCarousel = ({ profiles, loading }) => {
 
     profiles.map((profile) => {
       traderTotalReview = 0;
-      if (profile.user.isTrader && profile.review.length > 0) {
-        profile.review.map((reviewi) => {
-          traderTotalReview += parseInt(reviewi.score);
-        });
-        traderObj = {
-          name: profile.user.name,
-          avg: parseFloat(traderTotalReview / profile.review.length),
-          id: profile.user._id,
-          avatar: profile.user.avatar,
-        };
-        traderArr.push(traderObj);
+      if (profile.user) {
+        if (profile.user.isTrader && profile.review.length > 0) {
+          profile.review.map((reviewi) => {
+            traderTotalReview += parseInt(reviewi.score);
+          });
+          traderObj = {
+            name: profile.user.name,
+            avg: parseFloat(traderTotalReview / profile.review.length),
+            id: profile.user._id,
+            avatar: profile.user.avatar,
+          };
+          traderArr.push(traderObj);
+        }
+      } else {
       }
     });
     traderArr.map((trader) => {

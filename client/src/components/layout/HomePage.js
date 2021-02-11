@@ -24,7 +24,7 @@ const HomePage = ({
   }, [getMyTickets]);
 
   const [formData, setFormData] = useState({
-    jobType: '',
+    jobType: 'Please select your job type',
     location: '',
   });
 
@@ -56,14 +56,36 @@ const HomePage = ({
               A faster way to get your jobs complete
             </h3>
             <div className='customer-input-container'>
-              <input
-                className='customer-input'
-                type='text'
-                name='jobType'
-                value={jobType}
-                onChange={(e) => onChange(e)}
-                placeholder='What Job do you want to be completed?'
-              ></input>
+              <div className='form-text-jobtype-dropdown'>
+                <select
+                  name='jobType'
+                  value={jobType}
+                  onChange={(e) => onChange(e)}
+                >
+                  <option value=''>* Please select your job type</option>
+                  <option value='Brick Laying'>Brick Laying</option>
+
+                  <option value='Carpentry'>Carpentry</option>
+                  <option value='Cleaning'>Cleaning</option>
+                  <option value='Electrical Installation'>
+                    Electrical Installation
+                  </option>
+                  <option value='Electrical Repair'>Electrical Repair</option>
+                  <option value='Flooring'>Flooring</option>
+                  <option value='Furnishing'>Furnishing</option>
+                  <option value='General Repairing'>General Repairing</option>
+                  <option value='Gardening'>Gardening</option>
+                  <option value='Painting'>Painting</option>
+                  <option value='Pest Control'>Pest Control</option>
+                  <option value='Plumbing'>Plumbing</option>
+                  <option value='Property extension'>Property extension</option>
+                  <option value='Renovating'>Renovating</option>
+                  <option value='Structural repair'>Structural repair</option>
+                  <option value='Windows, Doors and Conservatories'>
+                    Pest Control
+                  </option>
+                </select>
+              </div>
 
               <input
                 className='customer-location'
@@ -114,6 +136,27 @@ const HomePage = ({
                         quotei.isAccepted === true &&
                         quotei.user === auth.user._id &&
                         ticketi.isCompleteUser === false
+                      ) {
+                        return (
+                          <Fragment>
+                            <TicketItem key={ticketi._id} ticket={ticketi} />
+                          </Fragment>
+                        );
+                      }
+                    })}
+                  </div>
+                );
+              })}
+              <h2>Past Tickets</h2>
+              {ticket.tickets.map((ticketi) => {
+                return (
+                  <div>
+                    {/* eslint-disable-next-line */}
+                    {ticketi.quotes.map((quotei) => {
+                      if (
+                        quotei.isAccepted === true &&
+                        quotei.user === auth.user._id &&
+                        ticketi.isCompleteUser === true
                       ) {
                         return (
                           <Fragment>

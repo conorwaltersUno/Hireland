@@ -43,24 +43,68 @@ const CreateTicket = ({ createTicket, history }) => {
       <form className='form' onSubmit={(e) => onSubmit(e)}>
         <div className='form-text'>
           {jt && (
-            <input
-              type='text'
-              placeholder='eg. plumbing, roofing,
-             gardening, landscaping'
-              name='jobType'
-              value={jobType}
-              onChange={(e) => onChange(e)}
-            />
+            <div className='form-text'>
+              <select
+                name='jobType'
+                value={jobType}
+                onChange={(e) => onChange(e)}
+              >
+                <option value=''>* Please select your job type</option>
+                <option value='Brick Laying'>Brick Laying</option>
+
+                <option value='Carpentry'>Carpentry</option>
+                <option value='Cleaning'>Cleaning</option>
+                <option value='Electrical Installation'>
+                  Electrical Installation
+                </option>
+                <option value='Electrical Repair'>Electrical Repair</option>
+                <option value='Flooring'>Flooring</option>
+                <option value='Furnishing'>Furnishing</option>
+                <option value='General Repairing'>General Repairing</option>
+                <option value='Gardening'>Gardening</option>
+                <option value='Painting'>Painting</option>
+                <option value='Pest Control'>Pest Control</option>
+                <option value='Plumbing'>Plumbing</option>
+                <option value='Property extension'>Property extension</option>
+                <option value='Renovating'>Renovating</option>
+                <option value='Structural repair'>Structural repair</option>
+                <option value='Windows, Doors and Conservatories'>
+                  Pest Control
+                </option>
+              </select>
+            </div>
           )}
           {!jt && (
-            <input
-              type='text'
-              placeholder='eg. plumbing, roofing,
-            gardening, landscaping'
-              name='jobType'
-              value={jobType}
-              onChange={(e) => onChange(e)}
-            />
+            <div className='form-text'>
+              <select
+                name='jobType'
+                value={jobType}
+                onChange={(e) => onChange(e)}
+              >
+                <option value=''>* Please select your job type</option>
+                <option value='Brick Laying'>Brick Laying</option>
+
+                <option value='Carpentry'>Carpentry</option>
+                <option value='Cleaning'>Cleaning</option>
+                <option value='Electrical Installation'>
+                  Electrical Installation
+                </option>
+                <option value='Electrical Repair'>Electrical Repair</option>
+                <option value='Flooring'>Flooring</option>
+                <option value='Furnishing'>Furnishing</option>
+                <option value='General Repairing'>General Repairing</option>
+                <option value='Gardening'>Gardening</option>
+                <option value='Painting'>Painting</option>
+                <option value='Pest Control'>Pest Control</option>
+                <option value='Plumbing'>Plumbing</option>
+                <option value='Property extension'>Property extension</option>
+                <option value='Renovating'>Renovating</option>
+                <option value='Structural repair'>Structural repair</option>
+                <option value='Windows, Doors and Conservatories'>
+                  Pest Control
+                </option>
+              </select>
+            </div>
           )}
 
           <small className='form-text'>* Job Type</small>

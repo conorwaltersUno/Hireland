@@ -594,6 +594,11 @@ button {
   align-items: center;
 }
 
+.form-text-jobtype-dropdown {
+  margin-left: -46px;
+  width: 50%;
+}
+
 .trader-carousel-name {
   color: #ffffff;
 }
