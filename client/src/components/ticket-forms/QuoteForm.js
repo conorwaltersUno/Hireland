@@ -17,7 +17,7 @@ const QuoteForm = ({
   const onSubmit = (e) => {
     e.preventDefault();
     quoteTicket(ticketId, { quote });
-    console.log(auth);
+    console.log(ticket);
     emailjs.send(
       'service_er09efl',
       'template_10bw78j',
@@ -59,10 +59,11 @@ QuoteForm.propTypes = {
   quoteTicket: PropTypes.func.isRequired,
   // getTicketCreatorInfo: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  ticket: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  ticket: state.ticket.ticket,
+  ticket: state.ticket,
   auth: state.auth,
 });
 

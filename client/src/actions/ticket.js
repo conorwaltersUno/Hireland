@@ -448,10 +448,13 @@ export const reviewTrader = (user, formData) => async (dispatch) => {
 
 export const getTicketCreatorInfo = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/users/${userId}`);
+    const res = await axios.get(`/api/ticket/user/${userId}`);
+    console.log(res.data);
+    const userInfo = await axios.get(`/api/ticket/user/getuser/${res.data}`);
+    console.log(userInfo);
     dispatch({
       type: GET_TICKET_CREATOR_INFO,
-      payload: res.data,
+      payload: userInfo.data,
     });
   } catch (err) {
     dispatch({

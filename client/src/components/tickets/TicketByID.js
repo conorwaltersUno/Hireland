@@ -19,7 +19,7 @@ const TicketByID = ({
 }) => {
   useEffect(() => {
     getTicketById(match.params.id);
-    getTicketCreatorInfo(ticket.user);
+    getTicketCreatorInfo(match.params.id);
     // eslint-disable-next-line
   }, []);
 
