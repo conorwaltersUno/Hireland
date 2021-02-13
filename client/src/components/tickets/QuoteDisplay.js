@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   acceptQuote,
   revertAcceptQuote,
   CompleteTicketUser,
+  getQuoteStat,
 } from '../../actions/ticket';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
@@ -15,26 +16,36 @@ import { green } from '@material-ui/core/colors';
 
 const QuoteDisplay = ({
   acceptQuote,
+  getQuoteStat,
   revertAcceptQuote,
   CompleteTicketUser,
-
   quotes: { _id, name, quote, isAccepted, user },
+  quotes,
   ticket,
   auth,
 }) => {
   const onSubmit = (e) => {
     e.preventDefault();
+    setAccept(() => !accept);
     acceptQuote(ticket._id, _id);
   };
   const onRevert = (e) => {
     e.preventDefault();
+    setAccept(() => !accept);
     revertAcceptQuote(ticket._id, _id);
   };
 
   const onComplete = (e) => {
     e.preventDefault();
+    setAccept(() => !accept);
     CompleteTicketUser(ticket._id);
   };
+
+  const [accept, setAccept] = useState(false);
+
+  useEffect(() => {
+    getQuoteStat(ticket._id);
+  }, [accept]);
 
   return ticket.loading && quote ? (
     <Spinner />
@@ -106,15 +117,23 @@ const QuoteDisplay = ({
 
 QuoteDisplay.propTypes = {
   ticket: PropTypes.object.isRequired,
-  quotes: PropTypes.object.isRequired,
+  quotes: PropTypes.array.isRequired,
   auth: PropTypes.object.isRequired,
   acceptQuote: PropTypes.func.isRequired,
   revertAcceptQuote: PropTypes.func.isRequired,
   CompleteTicketUser: PropTypes.func.isRequired,
+  getQuoteStat: PropTypes.func.isRequired,
 };
 
-export default connect(null, {
+const mapStateToProps = (state) => ({
+  ticket: state.ticket.ticket,
+  //quotes: state.ticket.ticket.quotes,
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {
   acceptQuote,
   revertAcceptQuote,
   CompleteTicketUser,
+  getQuoteStat,
 })(QuoteDisplay);

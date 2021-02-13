@@ -355,4 +355,23 @@ router.post(
   }
 );
 
+// @route     GET api/ticket/quote/:ticketid/:quoteid
+// @desc      Get the status of all quotes of a ticket
+// @access    Private
+router.get('/quote/:ticketid', auth, async (req, res) => {
+  try {
+    const quotes = await Ticket.findById(req.params.ticketid);
+    if (!quotes) {
+      return res.status(404).json({ msg: 'Quotes not found' });
+    }
+    res.json(quotes);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'Quotes not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
