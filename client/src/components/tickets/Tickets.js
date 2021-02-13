@@ -103,7 +103,11 @@ const Ticket = ({
             {tickets.map((ticket) => {
               if (ticket.jobType.includes(jobType)) {
                 if (filteredTicket) {
-                  if (ticket.title.toLowerCase().includes(filteredTicket)) {
+                  if (
+                    ticket.title
+                      .toLowerCase()
+                      .includes(filteredTicket.toLowerCase())
+                  ) {
                     return (
                       <div>
                         <TicketItem key={ticket._id} ticket={ticket} />

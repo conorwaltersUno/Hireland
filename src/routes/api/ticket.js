@@ -355,4 +355,53 @@ router.post(
   }
 );
 
+// @route     GET api/ticket/quote/:ticketid/:quoteid
+// @desc      Get the status of all quotes of a ticket
+// @access    Private
+router.get('/quote/:ticketid', auth, async (req, res) => {
+  try {
+    const quotes = await Ticket.findById(req.params.ticketid);
+    if (!quotes) {
+      return res.status(404).json({ msg: 'Quotes not found' });
+    }
+    res.json(quotes);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'Quotes not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/user/:id', auth, async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id).select('user');
+
+    res.json(ticket.user);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'ticket not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/user/getuser/:id', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

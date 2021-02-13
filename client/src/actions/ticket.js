@@ -21,6 +21,8 @@ import {
   EDIT_TICKET,
   GET_TICKET_CREATOR_INFO,
   GET_USER_INFO_ERROR,
+  GET_QUOTE_STATUS,
+  GET_QUOTE_ERROR,
 } from './types';
 
 export const getMyTickets = () => async (dispatch) => {
@@ -446,14 +448,31 @@ export const reviewTrader = (user, formData) => async (dispatch) => {
 
 export const getTicketCreatorInfo = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/users/${userId}`);
+    const res = await axios.get(`/api/ticket/user/${userId}`);
+    console.log(res.data);
+    const userInfo = await axios.get(`/api/ticket/user/getuser/${res.data}`);
+    console.log(userInfo);
     dispatch({
       type: GET_TICKET_CREATOR_INFO,
-      payload: res.data,
+      payload: userInfo.data,
     });
   } catch (err) {
     dispatch({
       type: GET_USER_INFO_ERROR,
+    });
+  }
+};
+
+export const getQuoteStat = (ticketId) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/ticket/quote/${ticketId}`);
+    dispatch({
+      type: GET_QUOTE_STATUS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_QUOTE_ERROR,
     });
   }
 };

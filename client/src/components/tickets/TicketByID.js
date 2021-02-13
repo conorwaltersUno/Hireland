@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTicketById } from '../../actions/ticket';
+import { getTicketById, getTicketCreatorInfo } from '../../actions/ticket';
 import Spinner from '../layout/Spinner';
 import { clearTicket } from '../../actions/ticket';
 import TicketDisplay from './TicketDisplay';
@@ -15,9 +15,11 @@ const TicketByID = ({
   auth,
   match,
   ticket: { ticket, loading },
+  getTicketCreatorInfo,
 }) => {
   useEffect(() => {
     getTicketById(match.params.id);
+    getTicketCreatorInfo(match.params.id);
     // eslint-disable-next-line
   }, []);
 
@@ -134,6 +136,7 @@ TicketByID.propTypes = {
   ticket: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   clearTicket: PropTypes.func.isRequired,
+  getTicketCreatorInfo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -142,6 +145,8 @@ const mapStateToProps = (state) => ({
 });
 
 //call clearTicket when returning to ticket page to clear the current ticket in state
-export default connect(mapStateToProps, { getTicketById, clearTicket })(
-  TicketByID
-);
+export default connect(mapStateToProps, {
+  getTicketById,
+  clearTicket,
+  getTicketCreatorInfo,
+})(TicketByID);

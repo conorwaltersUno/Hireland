@@ -19,10 +19,12 @@ import {
   EDIT_TICKET,
   GET_TICKET_CREATOR_INFO,
   GET_USER_INFO_ERROR,
+  GET_QUOTE_STATUS,
+  GET_QUOTE_ERROR,
 } from '../actions/types';
 
 const initialState = {
-  ticket: null,
+  ticket: { quotes: [] },
   tickets: [],
   loading: true,
   error: {},
@@ -112,6 +114,7 @@ export default function (state = initialState, action) {
       };
     case QUOTE_ERROR:
     case GET_USER_INFO_ERROR:
+    case GET_QUOTE_ERROR:
       return {
         ...state,
         error: payload,
@@ -131,6 +134,14 @@ export default function (state = initialState, action) {
         ticket: { ticket: payload },
         loading: false,
       };
+
+    case GET_QUOTE_STATUS:
+      return {
+        ...state,
+        ticket: payload,
+        loading: false,
+      };
+
     default:
       return state;
   }
