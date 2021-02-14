@@ -155,7 +155,7 @@ router.put(
   [
     auth,
     [
-      check('score', 'score is required').not().isEmpty(),
+      check('score', 'score is required').isNumeric().notEmpty(),
       check('description', 'Description is required').not().isEmpty(),
     ],
   ],

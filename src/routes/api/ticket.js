@@ -223,7 +223,10 @@ router.delete('/:id', auth, async (req, res) => {
 router.post(
   '/quote/:id',
   auth,
-  check('quote', 'Quote is required').notEmpty(),
+  check('quote', 'Quote is required and has to be numeric')
+    .isNumeric()
+    .not()
+    .isEmpty(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
