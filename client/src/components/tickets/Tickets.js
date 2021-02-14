@@ -94,14 +94,16 @@ const Ticket = ({
       {!auth.loading && auth.user.isTrader ? (
         !jobType && !filteredTicket ? (
           <div className='tickets'>
-            {tickets.map((ticket) => (
-              <TicketItem key={ticket._id} ticket={ticket} />
-            ))}
+            {tickets.map((ticket) => {
+              if (!ticket.isCompleteUser) {
+                return <TicketItem key={ticket._id} ticket={ticket} />;
+              }
+            })}
           </div>
         ) : jobType ? (
           <div>
             {tickets.map((ticket) => {
-              if (ticket.jobType.includes(jobType)) {
+              if (ticket.jobType.includes(jobType) && !ticket.isCompleteUser) {
                 if (filteredTicket) {
                   if (
                     ticket.title
@@ -128,12 +130,18 @@ const Ticket = ({
         ) : (
           <div>
             {tickets.map((ticket) => {
-              if (ticket.title.toLowerCase().includes(filteredTicket)) {
-                return (
-                  <div>
-                    <TicketItem key={ticket._id} ticket={ticket} />
-                  </div>
-                );
+              if (!ticket.isCompleteUser) {
+                if (
+                  ticket.title
+                    .toLowerCase()
+                    .includes(filteredTicket.toLowerCase())
+                ) {
+                  return (
+                    <div>
+                      <TicketItem key={ticket._id} ticket={ticket} />
+                    </div>
+                  );
+                }
               }
             })}
           </div>

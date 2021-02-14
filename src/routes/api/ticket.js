@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const { mongoose } = require('mongoose');
 const auth = require('../../../middleware/auth');
+const Profile = require('../../../models/Profile');
 
 const Ticket = require('../../../models/Ticket');
 const User = require('../../../models/User');
@@ -236,6 +237,9 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select('-password');
       const ticket = await Ticket.findById(req.params.id);
+      //const quotes = await Ticket.findById(req.params.id).select('quotes');
+
+      console.log(quotes);
 
       const newQuote = {
         quote: req.body.quote,
@@ -244,10 +248,21 @@ router.post(
         user: req.user.id,
       };
 
-      ticket.quotes.unshift(newQuote);
+      const checkUser = {
+        user: req.user.id,
+      };
+
+      //ticket.quotes.unshift(newQuote);
+      ticket.quotes.findOneAndReplace(
+        checkUser,
+        { $set: newQuote },
+        {
+          new: true,
+        }
+      );
 
       await ticket.save();
-
+      console.log(ticket.quotes);
       res.json(ticket.quotes);
     } catch (err) {
       console.error(err.message);

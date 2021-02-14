@@ -17,7 +17,6 @@ const QuoteForm = ({
   const onSubmit = (e) => {
     e.preventDefault();
     quoteTicket(ticketId, { quote });
-    console.log(ticket);
     emailjs.send(
       'service_er09efl',
       'template_10bw78j',
