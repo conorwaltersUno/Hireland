@@ -1,11 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const { mongoose } = require('mongoose');
 const auth = require('../../../middleware/auth');
+const multer = require('multer');
+let path = require('path');
 
 const Ticket = require('../../../models/Ticket');
 const User = require('../../../models/User');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'images');
+  },
+  filename: function (req, file, cb) {
+    cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+  if (allowedFileTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+let upload = multer({ storage, fileFilter });
 
 // @route   GET api/ticket/me
 // @desc    Get current user ticket/tickets based on userID in token
@@ -32,6 +53,7 @@ router.get('/me', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
+  upload.single('photo'),
   [
     auth,
     [
@@ -60,6 +82,7 @@ router.post(
       completionDate,
       quotes,
     } = req.body;
+
     const ticketField = {};
     ticketField.user = req.user.id;
     if (title) ticketField.title = title;
@@ -68,6 +91,7 @@ router.post(
     if (location) ticketField.location = location;
     if (completionDate) ticketField.completionDate = completionDate;
     if (quotes) ticketField.quotes = quotes;
+    if (req.file.filename) ticketField.photo = req.file.filename;
 
     //only allow one ticket per user, need to fix
     try {

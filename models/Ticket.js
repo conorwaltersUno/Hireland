@@ -42,6 +42,9 @@ const TicketSchema = new mongoose.Schema({
   avatar: {
     type: String,
   },
+  photo: {
+    type: String,
+  },
   quotes: [
     {
       user: {

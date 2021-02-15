@@ -11,19 +11,38 @@ const CreateTicket = ({ createTicket, history }) => {
     location: '',
     description: '',
     completionDate: '',
+    photo: '',
   });
 
-  const { jobType, title, location, description, completionDate } = formData;
+  const {
+    jobType,
+    title,
+    location,
+    description,
+    completionDate,
+    photo,
+  } = formData;
 
   const { jt } = useParams();
   const { l } = useParams();
 
-  const onChange = (e) =>
+  const onChange = (e) => {
+    if (e.target.files) {
+      formData.photo = e.target.files[0];
+    }
+
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
     createTicket(formData, history);
+  };
+
+  const handlePhoto = (e) => {
+    console.log(e.target.files[0]);
+    setFormData({ ...formData, photo: e.target.files[0] });
+    console.log(formData.photo);
   };
 
   useEffect(() => {
@@ -149,6 +168,15 @@ const CreateTicket = ({ createTicket, history }) => {
             onChange={(e) => onChange(e)}
           ></textarea>
           <small className='form-text'>* Description</small>
+        </div>
+        <div className='form-text'>
+          <input
+            type='file'
+            accept='.png, .jpg, .jpeg'
+            value={photo}
+            name='photo'
+            onChange={(e) => onChange(e)}
+          />
         </div>
         <div className='form-text'>
           <input

@@ -66,7 +66,9 @@ export const createTicket = (formData, history, edit = false) => async (
         'Content-Type': 'application/json',
       },
     };
+    console.log(formData);
     const res = await axios.post('/api/ticket', formData, config);
+    console.log(res);
 
     dispatch({
       type: ADD_TICKET,
