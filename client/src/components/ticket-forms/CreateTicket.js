@@ -11,15 +11,24 @@ const CreateTicket = ({ createTicket, history }) => {
     location: '',
     description: '',
     completionDate: '',
+    ticketImg: '',
   });
 
-  const { jobType, title, location, description, completionDate } = formData;
+  const {
+    jobType,
+    title,
+    location,
+    description,
+    completionDate,
+    ticketImg,
+  } = formData;
 
   const { jt } = useParams();
   const { l } = useParams();
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -150,6 +159,20 @@ const CreateTicket = ({ createTicket, history }) => {
           ></textarea>
           <small className='form-text'>* Description</small>
         </div>
+        <div className='row'>
+          <form>
+            <h3>React File Upload</h3>
+            <div className='form-text'>
+              <input
+                type='file'
+                name='ticketImg'
+                value={ticketImg}
+                onChange={(e) => onChange(e)}
+              />
+            </div>
+          </form>
+        </div>
+
         <div className='form-text'>
           <input
             type='date'

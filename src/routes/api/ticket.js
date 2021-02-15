@@ -1,8 +1,34 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const { mongoose } = require('mongoose');
 const auth = require('../../../middleware/auth');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, DIR);
+  },
+  filename: (req, file, cb) => {
+    const fileName = file.originalname.toLowerCase().split(' ').join('-');
+    cb(null, uuidv4() + '-' + fileName);
+  },
+});
+
+var upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == 'image/png' ||
+      file.mimetype == 'image/jpg' ||
+      file.mimetype == 'image/jpeg'
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
+  },
+});
 
 const Ticket = require('../../../models/Ticket');
 const User = require('../../../models/User');
@@ -32,6 +58,7 @@ router.get('/me', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
+  upload.single('ticketImg'),
   [
     auth,
     [
@@ -68,6 +95,9 @@ router.post(
     if (location) ticketField.location = location;
     if (completionDate) ticketField.completionDate = completionDate;
     if (quotes) ticketField.quotes = quotes;
+    if (req.file.filename) {
+      ticketField.ticketImg = '/public/' + req.file.filename;
+    }
 
     //only allow one ticket per user, need to fix
     try {
@@ -85,6 +115,8 @@ router.post(
           { $set: ticketField },
           { new: true }
         );
+
+        console.log(ticket);
 
         return res.json(ticket);
       } else {
