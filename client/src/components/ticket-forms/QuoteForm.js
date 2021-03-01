@@ -16,20 +16,22 @@ const QuoteForm = ({
   const [quote, setQuote] = useState('');
   const onSubmit = (e) => {
     e.preventDefault();
-    quoteTicket(ticketId, { quote });
-    emailjs.send(
-      'service_er09efl',
-      'template_10bw78j',
-      {
-        from_name: auth.user.name,
-        to_name: ticket.ticketOwner.name,
-        message: quote,
-        to_email: ticket.ticketOwner.email,
-        //to_email: 'jialianglee98@gmail.com',
-        reply_to: ticket.title,
-      },
-      'user_0BKx8SUrYQ0Ldp57gHVyV'
-    );
+    quoteTicket(ticketId, { quote }, auth.user._id);
+    if (quote) {
+      emailjs.send(
+        'service_er09efl',
+        'template_10bw78j',
+        {
+          from_name: auth.user.name,
+          to_name: ticket.ticketOwner.name,
+          message: quote,
+          to_email: ticket.ticketOwner.email,
+          //to_email: 'jialianglee98@gmail.com',
+          reply_to: ticket.title,
+        },
+        'user_0BKx8SUrYQ0Ldp57gHVyV'
+      );
+    }
     setQuote('');
   };
 

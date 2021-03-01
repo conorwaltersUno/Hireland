@@ -221,13 +221,11 @@ router.delete('/:id', auth, async (req, res) => {
 // @route   POST api/ticket/quote
 // @desc    Create a quote for ticket as trader
 // @access  Private
+// @access  Private
 router.post(
   '/quote/:id',
   auth,
-  check('quote', 'Quote is required and has to be numeric')
-    .isNumeric()
-    .not()
-    .isEmpty(),
+  check('quote', 'Quote is required').isNumeric().notEmpty(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -237,9 +235,6 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select('-password');
       const ticket = await Ticket.findById(req.params.id);
-      //const quotes = await Ticket.findById(req.params.id).select('quotes');
-
-      console.log(quotes);
 
       const newQuote = {
         quote: req.body.quote,
@@ -248,21 +243,10 @@ router.post(
         user: req.user.id,
       };
 
-      const checkUser = {
-        user: req.user.id,
-      };
-
-      //ticket.quotes.unshift(newQuote);
-      ticket.quotes.findOneAndReplace(
-        checkUser,
-        { $set: newQuote },
-        {
-          new: true,
-        }
-      );
+      ticket.quotes.unshift(newQuote);
 
       await ticket.save();
-      console.log(ticket.quotes);
+
       res.json(ticket.quotes);
     } catch (err) {
       console.error(err.message);
@@ -378,7 +362,7 @@ router.post(
 // @access    Private
 router.get('/quote/:ticketid', auth, async (req, res) => {
   try {
-    const quotes = await Ticket.findById(req.params.ticketid);
+    const quotes = await Ticket.findById(req.params.ticketid).select('quotes');
     if (!quotes) {
       return res.status(404).json({ msg: 'Quotes not found' });
     }
@@ -417,6 +401,23 @@ router.get('/user/getuser/:id', auth, async (req, res) => {
     console.error(err.message);
     if (err.kind == 'ObjectId') {
       return res.status(404).json({ msg: 'User not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+//testing api call
+//useless
+router.get('ticket/quotes/:quoteId', auth, async (req, res) => {
+  try {
+    const quote = await Ticket.findById(req.params.quoteId);
+    if (!quote) {
+      return res.status(404).json({ msg: 'Quote not found' });
+    }
+    res.json(quote);
+  } catch (err) {
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'Quote not found' });
     }
     res.status(500).send('Server Error');
   }

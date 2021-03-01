@@ -371,25 +371,41 @@ export const clearTicket = () => async (dispatch) => {
 };
 
 //Quote Ticket
-export const quoteTicket = (ticketId, formData) => async (dispatch) => {
+export const quoteTicket = (ticketId, formData, userId) => async (dispatch) => {
   try {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.post(
-      `/api/ticket/quote/${ticketId}`,
-      formData,
-      config
-    );
 
-    dispatch({
-      type: QUOTE_TICKET,
-      payload: res.data,
-    });
+    let quoted = false;
+    console.log(quoted);
 
-    dispatch(setAlert('Ticket Quoted', 'success'));
+    const quotes = await axios.get(`/api/ticket/quote/${ticketId}`);
+    if (quotes) {
+      quotes.data.quotes.map((quote) => {
+        if (quote.user === userId) {
+          quoted = true;
+          dispatch(setAlert('User has already quoted', 'danger'));
+        }
+      });
+    }
+
+    if (quoted === false) {
+      const res = await axios.post(
+        `/api/ticket/quote/${ticketId}`,
+        formData,
+        config
+      );
+
+      dispatch({
+        type: QUOTE_TICKET,
+        payload: res.data,
+      });
+
+      dispatch(setAlert('Ticket Quoted', 'success'));
+    }
   } catch (err) {
     dispatch({
       type: QUOTE_ERROR,
@@ -451,7 +467,6 @@ export const getTicketCreatorInfo = (userId) => async (dispatch) => {
     const res = await axios.get(`/api/ticket/user/${userId}`);
     console.log(res.data);
     const userInfo = await axios.get(`/api/ticket/user/getuser/${res.data}`);
-    console.log(userInfo);
     dispatch({
       type: GET_TICKET_CREATOR_INFO,
       payload: userInfo.data,

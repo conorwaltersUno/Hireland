@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reviewTrader, setReviewBoolean } from '../../actions/ticket';
 import ReactStars from 'react-rating-stars-component';
-import { startSession } from 'mongoose';
 
 const initialState = {
   description: '',
@@ -40,7 +39,6 @@ const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id }) => {
     e.preventDefault();
     reviewTrader(user, formData);
     setReviewBoolean(formData.tid);
-    console.log(formData);
   };
 
   return (
