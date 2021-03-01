@@ -59,6 +59,7 @@ router.post(
       location,
       completionDate,
       quotes,
+      avatar,
     } = req.body;
     const ticketField = {};
     ticketField.user = req.user.id;
@@ -68,6 +69,7 @@ router.post(
     if (location) ticketField.location = location;
     if (completionDate) ticketField.completionDate = completionDate;
     if (quotes) ticketField.quotes = quotes;
+    if (avatar) ticketField.avatar = avatar;
 
     //only allow one ticket per user, need to fix
     try {
@@ -170,6 +172,25 @@ router.get('/', auth, async (req, res) => {
     res.json(tickets);
   } catch (err) {
     console.error(err.nessage);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route GET api/users/avatar/id
+// @desc get user avatar by id
+// @access Public
+router.get('/avatar/:id', async (req, res) => {
+  try {
+    const userAvatar = await User.findById(req.params.id).select('avatar');
+    if (!userAvatar) {
+      return res.status(404).json({ msg: 'user avatar not found' });
+    }
+    res.json(userAvatar);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'user avatar not found' });
+    }
     res.status(500).send('Server Error');
   }
 });

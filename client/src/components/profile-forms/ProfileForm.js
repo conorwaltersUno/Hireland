@@ -77,9 +77,7 @@ const ProfileForm = ({
             value={company}
             onChange={onChange}
           />
-          <small className='form-text'>
-            Could be your own company or one you work for
-          </small>
+          <small className='form-text'>Company Name / Personal Name</small>
         </div>
         <div className='form-text'>
           <input
@@ -89,9 +87,7 @@ const ProfileForm = ({
             value={website}
             onChange={onChange}
           />
-          <small className='form-text'>
-            Could be your own or a company website
-          </small>
+          <small className='form-text'>Company / Personal website</small>
         </div>
         <div className='form-text'>
           <input

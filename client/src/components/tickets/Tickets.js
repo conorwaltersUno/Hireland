@@ -14,8 +14,8 @@ const Ticket = ({
   profile,
 }) => {
   useEffect(() => {
-    getMyTickets();
     getCurrentProfile();
+    getMyTickets();
   }, [getMyTickets]);
 
   function initialJobType() {
@@ -63,8 +63,12 @@ const Ticket = ({
       )}
 
       {!auth.loading && auth.user.isTrader && (
-        <div>
-          <select value={jobType} onChange={(e) => onDropChange(e)}>
+        <div className='search-container-tickets'>
+          <select
+            value={jobType}
+            onChange={(e) => onDropChange(e)}
+            className='drop-down-tickets'
+          >
             <option value=''>* Filter on job type</option>
             <option value='Brick Laying'>Brick Laying</option>
             <option value='Carpentry'>Carpentry</option>
@@ -87,15 +91,21 @@ const Ticket = ({
               Pest Control
             </option>
           </select>
-          <input onChange={(e) => onChange(e)} placeholder='search by title' />
+          <input
+            onChange={(e) => onChange(e)}
+            placeholder='search by title'
+            className='search-bar'
+          />
         </div>
       )}
 
-      {!auth.loading && auth.user.isTrader ? (
-        !jobType && !filteredTicket ? (
+      {!auth.loading && auth.user.isTrader && !loading ? (
+        !jobType && !filteredTicket && tickets ? (
           <div className='tickets'>
-            {tickets.map((ticket) => (
-              <TicketItem key={ticket._id} ticket={ticket} />
+            {tickets.map((ticketi) => (
+              <div className='ticketitem-container'>
+                <TicketItem ticket={ticketi} />
+              </div>
             ))}
           </div>
         ) : jobType ? (
@@ -109,14 +119,14 @@ const Ticket = ({
                       .includes(filteredTicket.toLowerCase())
                   ) {
                     return (
-                      <div>
+                      <div className='ticketitem-container'>
                         <TicketItem key={ticket._id} ticket={ticket} />
                       </div>
                     );
                   }
                 } else {
                   return (
-                    <div>
+                    <div className='ticketitem-container'>
                       {pushtoArray(ticket)}
                       <TicketItem key={ticket._id} ticket={ticket} />
                     </div>
@@ -130,7 +140,7 @@ const Ticket = ({
             {tickets.map((ticket) => {
               if (ticket.title.toLowerCase().includes(filteredTicket)) {
                 return (
-                  <div>
+                  <div className='ticketitem-container'>
                     <TicketItem key={ticket._id} ticket={ticket} />
                   </div>
                 );
@@ -150,7 +160,7 @@ const Ticket = ({
             ticket.title.toLowerCase().includes(filteredTicket)
           ) {
             return (
-              <div>
+              <div className='ticketitem-container'>
                 <TicketItem key={ticket._id} ticket={ticket} />
               </div>
             );

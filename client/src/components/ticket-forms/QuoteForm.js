@@ -17,7 +17,6 @@ const QuoteForm = ({
   const onSubmit = (e) => {
     e.preventDefault();
     quoteTicket(ticketId, { quote });
-    console.log(ticket);
     emailjs.send(
       'service_er09efl',
       'template_10bw78j',
@@ -35,16 +34,23 @@ const QuoteForm = ({
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
       <div>
-        <h3>Quote ticket</h3>
+        <h3>Quote this ticket</h3>
       </div>
       <form onSubmit={(e) => onSubmit(e)}>
-        <textarea
+        <input
+          type='number'
           name='quote'
           cols='30'
           rows='5'
-          placeholder='Quote ticket'
+          placeholder='Price to complete job'
           value={quote}
           onChange={(e) => setQuote(e.target.value)}
           required

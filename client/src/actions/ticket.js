@@ -36,7 +36,7 @@ export const getMyTickets = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
-      //payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -57,15 +57,16 @@ export const getMyTicket = () => async (dispatch) => {
 };
 
 //Create a ticket
-export const createTicket = (formData, history, edit = false) => async (
-  dispatch
-) => {
+export const createTicket = (formData, history, auth) => async (dispatch) => {
   try {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
+    const avatartemp = await axios.get(`/api/ticket/avatar/${auth}`);
+    formData.avatar = avatartemp.data.avatar;
     const res = await axios.post('/api/ticket', formData, config);
 
     dispatch({
@@ -73,11 +74,9 @@ export const createTicket = (formData, history, edit = false) => async (
       payload: res.data,
     });
 
-    dispatch(setAlert(edit ? 'Ticket Updated' : 'Ticket Created'));
+    dispatch(setAlert('Ticket Created', 'success'));
 
-    if (!edit) {
-      history.push('/tickets');
-    }
+    history.push('/tickets');
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
@@ -95,18 +94,17 @@ export const editTicket = (formData, history, ticket) => async (dispatch) => {
       },
     };
     const res = await axios.post(`/api/ticket/${ticket._id}`, formData, config);
-
     dispatch({
       type: EDIT_TICKET,
       payload: res.data,
     });
 
-    dispatch(setAlert('Ticket Updated'));
+    dispatch(setAlert('Ticket successfully updated', 'success'));
     history.push('/tickets');
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response, status: err.response },
     });
   }
 };
@@ -121,7 +119,7 @@ export const deleteTicket = (id) => async (dispatch) => {
       payload: id,
     });
 
-    dispatch(setAlert('Ticket Removed', 'success'));
+    dispatch(setAlert('Ticket removed successfully', 'success'));
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
@@ -176,6 +174,12 @@ export const acceptQuote = (ticketid, quoteid) => async (dispatch) => {
 
     dispatch(setAlert('Quote Accepted', 'success'));
   } catch (err) {
+    dispatch(
+      setAlert(
+        'Problem when acceepting quote, please refresh and try again',
+        'danger'
+      )
+    );
     dispatch({
       type: TICKET_ERROR,
       payload: { msg: err.response, status: err.response },
@@ -205,6 +209,7 @@ export const revertAcceptQuote = (ticketid, quoteid) => async (dispatch) => {
 
     dispatch(setAlert('Quote Reverted', 'success'));
   } catch (err) {
+    dispatch(setAlert('Quote cannot be reverted', 'danger'));
     dispatch({
       type: TICKET_ERROR,
       payload: { msg: err.response, status: err.response },
@@ -231,8 +236,9 @@ export const CompleteTicketUser = (ticketid) => async (dispatch) => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Ticket Completed!', 'success'));
+    dispatch(setAlert('Ticket marked as completed!', 'success'));
   } catch (err) {
+    dispatch(setAlert('Ticket cannot be marked as completed!', 'danger'));
     dispatch({
       type: TICKET_ERROR,
       payload: { msg: err.response, status: err.response },
@@ -259,7 +265,7 @@ export const RedoCompleteTicketUser = (ticketid) => async (dispatch) => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Ticket Completed has been reverted', 'success'));
+    dispatch(setAlert('Ticket has been reverted', 'success'));
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
@@ -322,6 +328,12 @@ export const setReviewBoolean = (ticketid) => async (dispatch) => {
       )
     );
   } catch (err) {
+    dispatch(
+      setAlert(
+        'Cannot find trader who completed this job, please contact a member of staff for advice',
+        'danger'
+      )
+    );
     dispatch({
       type: TICKET_ERROR,
       payload: { msg: err.response, status: err.response },
@@ -391,6 +403,7 @@ export const quoteTicket = (ticketId, formData) => async (dispatch) => {
 
     dispatch(setAlert('Ticket Quoted', 'success'));
   } catch (err) {
+    dispatch(setAlert('Error when quoting ticket', 'danger'));
     dispatch({
       type: QUOTE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -410,6 +423,7 @@ export const deleteQuote = (ticketId, quoteId) => async (dispatch) => {
 
     dispatch(setAlert('Quote Removed', 'success'));
   } catch (err) {
+    dispatch(setAlert('Problem deleting quote', 'danger'));
     dispatch({
       type: TICKET_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -425,6 +439,7 @@ export const reviewTrader = (user, formData) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
+    console.log(formData);
     const traderprofile = await axios.get(`/api/profile/user/${user}`, config);
     const res = await axios.put(
       `/api/profile/${traderprofile.data._id}/review`,
@@ -439,6 +454,7 @@ export const reviewTrader = (user, formData) => async (dispatch) => {
 
     dispatch(setAlert('Trader Reviewed', 'success'));
   } catch (err) {
+    dispatch(setAlert('Cannot review trader', 'danger'));
     dispatch({
       type: QUOTE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -449,9 +465,7 @@ export const reviewTrader = (user, formData) => async (dispatch) => {
 export const getTicketCreatorInfo = (userId) => async (dispatch) => {
   try {
     const res = await axios.get(`/api/ticket/user/${userId}`);
-    console.log(res.data);
     const userInfo = await axios.get(`/api/ticket/user/getuser/${res.data}`);
-    console.log(userInfo);
     dispatch({
       type: GET_TICKET_CREATOR_INFO,
       payload: userInfo.data,

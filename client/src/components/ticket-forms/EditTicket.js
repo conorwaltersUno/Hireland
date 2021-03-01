@@ -22,7 +22,7 @@ const EditTicket = ({
   useEffect(() => {
     getMyTickets();
 
-    if (!loading) {
+    if (!loading && ticket) {
       setFormData({
         jobType: loading || !ticket.jobType ? '' : ticket.jobType,
         title: loading || !ticket.title ? '' : ticket.title,
@@ -46,8 +46,11 @@ const EditTicket = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
-    e.preventDefault();
-    editTicket(formData, history, ticket);
+    if (ticket) {
+      e.preventDefault();
+      console.log('hi');
+      editTicket(formData, history, ticket);
+    }
   };
 
   return (

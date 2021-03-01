@@ -24,8 +24,8 @@ const apiIsLoaded = (map, maps, center) => {
 };
 
 const Map = ({ location, zoomLevel }) => {
-  console.log(location);
   let temp = { lat: location.center[0], lng: location.center[1] };
+  console.log(location);
   return (
     <div className='map'>
       <div className='google-map'>

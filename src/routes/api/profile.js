@@ -157,6 +157,7 @@ router.put(
     [
       check('score', 'score is required').not().isEmpty(),
       check('description', 'Description is required').not().isEmpty(),
+      check('username', 'Username is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -164,10 +165,11 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { description, score } = req.body;
+    const { description, score, username } = req.body;
     const newReview = {
       score,
       description,
+      username,
     };
     try {
       const profile = await Profile.findById(req.params.profileid);
