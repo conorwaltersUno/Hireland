@@ -4,16 +4,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createTicket } from '../../actions/ticket';
 
-const CreateTicket = ({ createTicket, history }) => {
+const CreateTicket = ({ createTicket, history, auth }) => {
   const [formData, setFormData] = useState({
     jobType: '',
     title: '',
     location: '',
     description: '',
     completionDate: '',
+    avatar: '',
   });
 
-  const { jobType, title, location, description, completionDate } = formData;
+  const {
+    jobType,
+    title,
+    location,
+    description,
+    completionDate,
+    avatar,
+  } = formData;
 
   const { jt } = useParams();
   const { l } = useParams();
@@ -23,7 +31,7 @@ const CreateTicket = ({ createTicket, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createTicket(formData, history);
+    createTicket(formData, history, auth.user._id);
   };
 
   useEffect(() => {
@@ -170,6 +178,13 @@ const CreateTicket = ({ createTicket, history }) => {
 
 CreateTicket.propTypes = {
   createTicket: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default connect(null, { createTicket })(withRouter(CreateTicket));
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { createTicket })(
+  withRouter(CreateTicket)
+);

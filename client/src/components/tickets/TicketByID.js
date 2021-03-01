@@ -41,27 +41,35 @@ const TicketByID = ({
   ) : (
     <Fragment>
       {ticket != null && (
-        <div>
-          {!loading && ticket && (
-            <div className='profile-top bg-primary p-2'>
-              <TicketDisplay ticket={ticket} />
-            </div>
-          )}
+        <div style={{ maxHeight: '80%' }}>
           {!auth.loading && auth.user._id === ticket.user && (
             <div>
               {' '}
-              <Link to='/edit-ticket' className='btn btn-white'>
+              <Link
+                to='/edit-ticket'
+                className='btn btn-white'
+                style={{ marginBottom: '10px' }}
+              >
                 Edit ticket
               </Link>
             </div>
           )}
+          {!loading && ticket && <TicketDisplay ticket={ticket} />}
 
-          <button onClick={() => setToggle(!toggle)}>Sorted By</button>
-          {toggle && (
+          {!auth.loading && auth.user._id === ticket.user && (
             <div>
-              <button onClick={() => setSortBy('date')}>Date</button>
-              <button onClick={() => setSortBy('quotes')}>Quote price</button>
-              <button onClick={() => setSortBy('review')}>Review</button>
+              <button onClick={() => setToggle(!toggle)}>Sorted By</button>
+              <h2 className='text-primary' style={{ textAlign: 'center' }}>
+                Quotes
+              </h2>
+              {toggle && (
+                <div>
+                  <button onClick={() => setSortBy('date')}>Quote Date</button>
+                  <button onClick={() => setSortBy('quotes')}>
+                    Quote price
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
@@ -72,7 +80,7 @@ const TicketByID = ({
               <QuoteForm ticketId={match.params.id} userId={ticket.user} />
             </div>
           ) : ticket.quotes ? (
-            <div>
+            <div style={{ maxHeight: '790px', overflowY: 'scroll' }}>
               {ticket.quotes.map((quotes) => {
                 if (quotes.isAccepted === true) {
                   accepted = true;
@@ -98,11 +106,13 @@ const TicketByID = ({
                 if (accepted === false) {
                   if (sortBy === 'date') {
                     return (
-                      <QuoteDisplay
-                        quotes={quotes}
-                        auth={auth}
-                        ticket={ticket}
-                      />
+                      <div>
+                        <QuoteDisplay
+                          quotes={quotes}
+                          auth={auth}
+                          ticket={ticket}
+                        />
+                      </div>
                     );
                   }
                   if (

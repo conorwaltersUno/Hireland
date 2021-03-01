@@ -89,6 +89,10 @@ const ProfileAbout = ({
                   return (
                     <div style={cardStyle}>
                       <div style={nameStyle}>
+                        <div>User Name:</div>
+                        <div style={{ color: '97a7a7' }}>
+                          {reviewi.username}
+                        </div>
                         <div>Description:</div>
                         <div style={{ color: '97a7a7' }}>
                           {reviewi.description}

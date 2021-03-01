@@ -21,6 +21,7 @@ import {
   GET_USER_INFO_ERROR,
   GET_QUOTE_STATUS,
   GET_QUOTE_ERROR,
+  GET_TICKET_MAP_LOCATION,
 } from '../actions/types';
 
 const initialState = {
@@ -41,10 +42,19 @@ export default function (state = initialState, action) {
         ticket: payload,
         loading: false,
       };
+    case GET_TICKET_MAP_LOCATION:
+      return {
+        ...state,
+        ticket: {
+          ...state.ticket,
+          latitude: payload.result.latitude,
+          longitude: payload.result.longitude,
+        },
+        loading: false,
+      };
 
     case GET_TICKETS:
       return {
-        ...state,
         tickets: payload,
         loading: false,
       };
@@ -138,7 +148,7 @@ export default function (state = initialState, action) {
     case GET_QUOTE_STATUS:
       return {
         ...state,
-        ticket: payload,
+        ticket: { ...state.ticket, ticket: payload },
         loading: false,
       };
 

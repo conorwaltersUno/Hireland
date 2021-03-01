@@ -6,12 +6,13 @@ import { reviewTrader, setReviewBoolean } from '../../actions/ticket';
 const initialState = {
   description: '',
   score: '',
+  username: '',
 };
 
-const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id }) => {
+const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id, auth }) => {
   const [formData, setFormData] = useState(initialState);
 
-  const { description, score, tid } = formData;
+  const { description, score, tid, username } = formData;
   formData.tid = id;
 
   const onChange = (e) =>
@@ -19,6 +20,9 @@ const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (auth) {
+      formData.username = auth.user.name;
+    }
     reviewTrader(user, formData);
     setReviewBoolean(formData.tid);
   };
@@ -57,6 +61,13 @@ ReviewTrader.propTypes = {
   user: PropTypes.object.isRequired,
   reviewTrader: PropTypes.func.isRequired,
   setReviewBoolean: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default connect(null, { reviewTrader, setReviewBoolean })(ReviewTrader);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { reviewTrader, setReviewBoolean })(
+  ReviewTrader
+);

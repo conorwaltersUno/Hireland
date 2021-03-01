@@ -225,6 +225,10 @@ img {
   border-radius: 50%;
 }
 
+.round-img-left {
+  border-radius: 50%;
+}
+
 .line {
   height: 1px;
   background: #ccc;
@@ -404,6 +408,49 @@ button {
   color: var(--dark-color);
 }
 
+.quote-top {
+  grid-area: top;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.quote-top img {
+  width: 250px;
+}
+
+.quote-top .icons a {
+  color: #fff;
+  margin: 0 0.3rem;
+}
+
+.quote-top .icons a:hover {
+  color: var(--dark-color);
+}
+
+.ticket-top {
+  grid-area: top;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.ticket-top img {
+  width: 250px;
+}
+
+.ticket-top .icons a {
+  color: #fff;
+  margin: 0 0.3rem;
+}
+
+.ticket-top .icons a:hover {
+  color: var(--dark-color);
+}
+
 .profile-about {
   grid-area: about;
   text-align: center;
@@ -475,6 +522,9 @@ button {
   grid-template-columns: 1fr 4fr;
   grid-gap: 2rem;
   align-items: center;
+}
+.post:hover {
+  background-color: #def2f1;
 }
 
 .post > div:first-child {
@@ -620,6 +670,10 @@ button {
   margin-right: 3%;
 }
 
+.map-container-ticket {
+  display: auto;
+}
+
 .customer-lighter-text-title {
   color: #9da0b6;
 }
@@ -652,4 +706,25 @@ button {
 
 .link-text {
   color: white;
+}
+
+.drop-down-tickets {
+  height: 40px;
+  background-color: (var(--primary-color));
+  margin-right: 40px;
+}
+
+.search-bar {
+  width: 500px;
+}
+
+.search-container-tickets {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.text-ticket-page {
+  float: right;
+  margin-right: 45%;
 }

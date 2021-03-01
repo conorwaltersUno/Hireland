@@ -8,6 +8,7 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../../../middleware/auth');
 
 const User = require('../../../models/User');
+const { findById } = require('../../../models/User');
 
 // @route   POST api/users
 // @desc    Register user

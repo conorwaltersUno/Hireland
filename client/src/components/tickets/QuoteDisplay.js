@@ -9,10 +9,8 @@ import {
 } from '../../actions/ticket';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-
 import ReviewTrader from './ReviewTrader';
 import Spinner from '../layout/Spinner';
-import { green } from '@material-ui/core/colors';
 
 const QuoteDisplay = ({
   acceptQuote,
@@ -20,7 +18,6 @@ const QuoteDisplay = ({
   revertAcceptQuote,
   CompleteTicketUser,
   quotes: { _id, name, quote, isAccepted, user },
-  quotes,
   ticket,
   auth,
 }) => {
@@ -50,14 +47,14 @@ const QuoteDisplay = ({
   return ticket.loading && quote ? (
     <Spinner />
   ) : (
-    <div className='profile-top bg-primary p-2'>
+    <div className='quote-top bg-primary p-2'>
       <div>
         <h2>Trader's name:</h2>
         <Link to={`/profile/${user}`}>
           <h4 className='link-text'>{name}</h4>
         </Link>
         <h2>Quoted price</h2>
-        <div>{quote}</div>
+        <div>£ {quote}</div>
       </div>
       {!auth.loading && ticket.user === auth.user._id && (
         <div>
@@ -69,6 +66,7 @@ const QuoteDisplay = ({
                   type='button'
                   className='btn btn-success'
                 >
+                  Accept Quote <a> </a>
                   <i className='fas fa-check'></i>
                 </button>
               )}
@@ -96,7 +94,6 @@ const QuoteDisplay = ({
           )}
           {ticket.isCompleteUser === true && (
             <Fragment>
-              {console.log(ticket)}
               {!ticket.hasreviewed && ticket._id ? (
                 <ReviewTrader user={user} id={ticket._id}></ReviewTrader>
               ) : (
@@ -127,7 +124,6 @@ QuoteDisplay.propTypes = {
 
 const mapStateToProps = (state) => ({
   ticket: state.ticket.ticket,
-  //quotes: state.ticket.ticket.quotes,
   auth: state.auth,
 });
 
