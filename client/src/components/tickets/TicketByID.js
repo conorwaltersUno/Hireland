@@ -58,7 +58,10 @@ const TicketByID = ({
 
           {!auth.loading && auth.user._id === ticket.user && (
             <div>
-              <button onClick={() => setToggle(!toggle)}>Sorted By</button>
+              {ticket.quotes.length > 0 && (
+                <button onClick={() => setToggle(!toggle)}>Sorted By</button>
+              )}
+
               <h2 className='text-primary' style={{ textAlign: 'center' }}>
                 Quotes
               </h2>

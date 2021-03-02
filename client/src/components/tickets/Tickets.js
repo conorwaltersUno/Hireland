@@ -104,7 +104,9 @@ const Ticket = ({
           <div className='tickets'>
             {tickets.map((ticketi) => (
               <div className='ticketitem-container'>
-                <TicketItem ticket={ticketi} />
+                {ticketi.isCompleteUser == false && (
+                  <TicketItem ticket={ticketi} />
+                )}
               </div>
             ))}
           </div>
@@ -116,7 +118,8 @@ const Ticket = ({
                   if (
                     ticket.title
                       .toLowerCase()
-                      .includes(filteredTicket.toLowerCase())
+                      .includes(filteredTicket.toLowerCase()) &&
+                    ticket.isCompleteUser === false
                   ) {
                     return (
                       <div className='ticketitem-container'>
@@ -124,21 +127,26 @@ const Ticket = ({
                       </div>
                     );
                   }
-                } else {
+                } else if (ticket.isCompleteUser === false) {
                   return (
                     <div className='ticketitem-container'>
                       {pushtoArray(ticket)}
                       <TicketItem key={ticket._id} ticket={ticket} />
                     </div>
                   );
-                }
+                } else return <div> </div>;
               }
             })}
           </div>
         ) : (
           <div>
             {tickets.map((ticket) => {
-              if (ticket.title.toLowerCase().includes(filteredTicket)) {
+              if (
+                ticket.title
+                  .toLowerCase()
+                  .includes(filteredTicket.toLowerCase()) &&
+                ticket.isCompleteUser === false
+              ) {
                 return (
                   <div className='ticketitem-container'>
                     <TicketItem key={ticket._id} ticket={ticket} />
