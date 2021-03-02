@@ -74,7 +74,7 @@ export const TraderReviewCarousel = ({ profiles, loading }) => {
       }
     });
     traderArr.map((trader) => {
-      if (trader.avg >= 4) {
+      if (trader.avg >= 3) {
         sortedTrader.push(trader);
         sortedTrader.sort(function (a, b) {
           return b.avg - a.avg;

@@ -26,11 +26,13 @@ const QuoteDisplay = ({
     e.preventDefault();
     setAccept(() => !accept);
     acceptQuote(ticket._id, _id);
+    window.location.reload();
   };
   const onRevert = (e) => {
     e.preventDefault();
     setAccept(() => !accept);
     revertAcceptQuote(ticket._id, _id);
+    window.location.reload();
   };
 
   function getUnique(arr, comp) {
