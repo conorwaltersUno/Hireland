@@ -36,7 +36,7 @@ export const getMyTickets = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: TICKET_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response, status: err.response },
     });
   }
 };
@@ -94,6 +94,7 @@ export const editTicket = (formData, history, ticket) => async (dispatch) => {
       },
     };
     const res = await axios.post(`/api/ticket/${ticket._id}`, formData, config);
+
     dispatch({
       type: EDIT_TICKET,
       payload: res.data,
@@ -462,7 +463,6 @@ export const reviewTrader = (user, formData) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    console.log(formData);
     const traderprofile = await axios.get(`/api/profile/user/${user}`, config);
     const res = await axios.put(
       `/api/profile/${traderprofile.data._id}/review`,

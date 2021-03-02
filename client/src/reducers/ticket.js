@@ -55,6 +55,7 @@ export default function (state = initialState, action) {
 
     case GET_TICKETS:
       return {
+        ...state,
         tickets: payload,
         loading: false,
       };
@@ -141,7 +142,7 @@ export default function (state = initialState, action) {
     case TICKET_REVIEWED:
       return {
         ...state,
-        ticket: { ticket: payload },
+        ticket: { ...state.ticket, ticket: payload },
         loading: false,
       };
 

@@ -18,6 +18,7 @@ const TicketDisplay = ({
     description,
     completionDate,
     avatar,
+    jobType,
     longitude,
     latitude,
     loading,
@@ -27,9 +28,12 @@ const TicketDisplay = ({
   getTicketMapLocation,
 }) => {
   useEffect(() => {
-    getTicketMapLocation(location);
+    if (location) {
+      getTicketMapLocation(location);
+    }
+
     // eslint-disable-next-line
-  }, [latitude, longitude]);
+  }, [latitude, longitude, location]);
 
   const locationformap = {
     address: '',
@@ -46,6 +50,7 @@ const TicketDisplay = ({
         <div className='text-ticket-page'>
           <div style={{ width: '100%' }}>
             <h1>{title}</h1>
+            <h2>{jobType}</h2>
             <div className='line'></div>
             <div>{description}</div>
             <div className='line'></div>

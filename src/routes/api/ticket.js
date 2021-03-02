@@ -144,10 +144,9 @@ router.post(
       });
       //If ticket id exist, update the ticket
       if (ticket) {
-        ticket = await Ticket.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: ticketField },
-          { new: true }
+        ticket = await Ticket.findByIdAndUpdate(
+          req.params.ticketid,
+          ticketField
         );
         return res.json(ticket);
       } else {
