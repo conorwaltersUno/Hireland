@@ -65,6 +65,9 @@ const TicketSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
       },
+      email: {
+        type: String,
+      },
     },
   ],
 });

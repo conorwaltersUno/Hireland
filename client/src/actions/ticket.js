@@ -383,25 +383,48 @@ export const clearTicket = () => async (dispatch) => {
 };
 
 //Quote Ticket
-export const quoteTicket = (ticketId, formData) => async (dispatch) => {
+export const quoteTicket = (ticketId, formData, userId) => async (dispatch) => {
   try {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.post(
-      `/api/ticket/quote/${ticketId}`,
-      formData,
-      config
-    );
+    let count = 0;
 
-    dispatch({
-      type: QUOTE_TICKET,
-      payload: res.data,
-    });
+    const quotes = await axios.get(`/api/ticket/quote/${ticketId}`);
+    if (quotes) {
+      quotes.data.quotes.map((quote) => {
+        if (quote.user === userId) {
+          count++;
+        }
+      });
+    }
 
-    dispatch(setAlert('Ticket Quoted', 'success'));
+    if (count >= 5) {
+      dispatch(
+        setAlert('You have reached the quote limit on the ticket', 'danger')
+      );
+    }
+
+    if (count < 5) {
+      const res = await axios.post(
+        `/api/ticket/quote/${ticketId}`,
+        formData,
+        config
+      );
+      dispatch({
+        type: QUOTE_TICKET,
+        payload: res.data,
+      });
+
+      dispatch(
+        setAlert(
+          `Ticket Quoted, you have quoted ${count + 1} time(s) on the ticket`,
+          'success'
+        )
+      );
+    }
   } catch (err) {
     dispatch(setAlert('Error when quoting ticket', 'danger'));
     dispatch({

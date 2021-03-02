@@ -11,6 +11,7 @@ import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import ReviewTrader from './ReviewTrader';
 import Spinner from '../layout/Spinner';
+import emailjs from 'emailjs-com';
 
 const QuoteDisplay = ({
   acceptQuote,
@@ -32,10 +33,50 @@ const QuoteDisplay = ({
     revertAcceptQuote(ticket._id, _id);
   };
 
+  function getUnique(arr, comp) {
+    const unique = arr
+      .map((e) => e[comp])
+      .map((e, i, final) => final.indexOf(e) === i && i)
+      .filter((e) => arr[e])
+      .map((e) => arr[e]);
+    return unique;
+  }
+
+  let averageQuote = 0;
+  let uniqueTrader = [];
+  ticket.quotes.map((quote) => {
+    averageQuote += parseInt(quote.quote);
+    uniqueTrader.push({ name: quote.name, email: quote.email });
+  });
+
+  averageQuote = parseFloat(averageQuote / ticket.quotes.length);
+
+  if (uniqueTrader) {
+    uniqueTrader = getUnique(uniqueTrader, 'email');
+  }
+
   const onComplete = (e) => {
     e.preventDefault();
     setAccept(() => !accept);
     CompleteTicketUser(ticket._id);
+    uniqueTrader.map((trader) => {
+      emailjs.send(
+        'service_er09efl',
+        'template_rt85qsh',
+        {
+          from_name: 'Hireland',
+          to_name: trader.name,
+          message: averageQuote,
+          //traders' emial
+          to_email: trader.email,
+          //to_email: 'jialianglee98@gmail.com',
+          reply_to: quote,
+          quote_count: ticket.quotes.length,
+          trader_count: uniqueTrader.length,
+        },
+        'user_0BKx8SUrYQ0Ldp57gHVyV'
+      );
+    });
   };
 
   const [accept, setAccept] = useState(false);

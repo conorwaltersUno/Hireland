@@ -2,11 +2,23 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reviewTrader, setReviewBoolean } from '../../actions/ticket';
+import ReactStars from 'react-rating-stars-component';
 
 const initialState = {
   description: '',
   score: '',
   username: '',
+};
+
+const reviewStars = {
+  size: 40,
+  count: 5,
+  value: 7.5,
+  a11y: true,
+  isHalf: true,
+  emptyIcon: <i className='far fa-star' />,
+  halfIcon: <i className='fa fa-star-half-alt' />,
+  filledIcon: <i className='fa fa-star' />,
 };
 
 const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id, auth }) => {
@@ -15,8 +27,11 @@ const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id, auth }) => {
   const { description, score, tid, username } = formData;
   formData.tid = id;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onReviewChange = (e) => setFormData({ ...formData, score: e });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -42,15 +57,8 @@ const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id, auth }) => {
           onChange={onChange}
           required
         />
-        <textarea
-          name='score'
-          cols='30'
-          rows='5'
-          placeholder='Please enter 1 to 5 in this box rating your experience.'
-          value={score}
-          onChange={onChange}
-          required
-        />
+        <ReactStars onChange={onReviewChange} {...reviewStars} />
+
         <input type='submit' value='submit' />
       </form>
     </div>

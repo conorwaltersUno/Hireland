@@ -256,6 +256,7 @@ router.post(
       const ticket = await Ticket.findById(req.params.id);
 
       const newQuote = {
+        email: user.email,
         quote: req.body.quote,
         name: user.name,
         avatar: user.avatar,
