@@ -16,7 +16,7 @@ const QuoteForm = ({
   const [quote, setQuote] = useState('');
   const onSubmit = (e) => {
     e.preventDefault();
-    quoteTicket(ticketId, { quote });
+    quoteTicket(ticketId, { quote }, auth.user._id);
     emailjs.send(
       'service_er09efl',
       'template_10bw78j',
