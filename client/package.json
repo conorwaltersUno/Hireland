@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^12.2.2",
     "axios": "^0.21.0",
     "emailjs-com": "^2.6.4",
+    "expect": "^26.6.2",
+    "fetch-mock": "^9.11.0",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-card-carousel": "^1.1.3",
@@ -16,15 +18,19 @@
     "react-rating-stars-component": "^2.2.0",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.3",
     "react-stars-display": "^0.1.24",
+    "react-test-renderer": "^17.0.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
+    "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.3.0",
     "uuid": "^8.3.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [

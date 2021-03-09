@@ -58,6 +58,7 @@ const TicketByID = ({
 
           {!auth.loading && auth.user._id === ticket.user && (
             <div>
+              {/* only show the button when there is quote given by trader */}
               {ticket.quotes.length > 0 && (
                 <button onClick={() => setToggle(!toggle)}>Sorted By</button>
               )}
@@ -65,6 +66,7 @@ const TicketByID = ({
               <h2 className='text-primary' style={{ textAlign: 'center' }}>
                 Quotes
               </h2>
+              {/* Using toggle to show or hide the sorting options (Quote date or Quote price) */}
               {toggle && (
                 <div>
                   <button onClick={() => setSortBy('date')}>Quote Date</button>

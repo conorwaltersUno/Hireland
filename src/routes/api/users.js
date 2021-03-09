@@ -5,14 +5,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-const auth = require('../../../middleware/auth');
 
 const User = require('../../../models/User');
-const { findById } = require('../../../models/User');
 
 // @route   POST api/users
 // @desc    Register user
 // @access  Public
+// tested
 router.post(
   '/',
   [
@@ -74,9 +73,5 @@ router.post(
     }
   }
 );
-
-//@route  GET api/users/userId
-//@desc   Get user's info
-//@access Private
 
 module.exports = router;

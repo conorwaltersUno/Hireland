@@ -3,6 +3,8 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const { mongoose } = require('mongoose');
 const auth = require('../../../middleware/auth');
+const fs = require('fs');
+const path = require('path');
 
 const Ticket = require('../../../models/Ticket');
 const User = require('../../../models/User');
@@ -10,6 +12,7 @@ const User = require('../../../models/User');
 // @route   GET api/ticket/me
 // @desc    Get current user ticket/tickets based on userID in token
 // @access  Private
+// tested
 router.get('/me', auth, async (req, res) => {
   try {
     const ticket = await Ticket.findOne({
@@ -30,6 +33,7 @@ router.get('/me', auth, async (req, res) => {
 // @route   POST api/ticket
 // @desc    Create a ticket
 // @access  Private
+// tested
 router.post(
   '/',
   [
@@ -60,6 +64,8 @@ router.post(
       completionDate,
       quotes,
       avatar,
+      imageName,
+      imageData,
     } = req.body;
     const ticketField = {};
     ticketField.user = req.user.id;
@@ -70,8 +76,9 @@ router.post(
     if (completionDate) ticketField.completionDate = completionDate;
     if (quotes) ticketField.quotes = quotes;
     if (avatar) ticketField.avatar = avatar;
+    if (imageName) ticketField.imageName = imageName;
+    if (imageData) ticketField.imageData = imageData;
 
-    //only allow one ticket per user, need to fix
     try {
       //let user = await User.findById({ user: req.user.id });
       let ticket = await Ticket.findOne({
@@ -105,6 +112,7 @@ router.post(
 // @route   POST api/ticket
 // @desc    Update a ticket
 // @access  Private
+// tested
 router.post(
   '/:ticketid',
   [
@@ -165,6 +173,7 @@ router.post(
 // @route   GET api/ticket
 // @desc    GET all tickets
 // @access  Private
+// tested
 router.get('/', auth, async (req, res) => {
   try {
     const tickets = await Ticket.find().sort({ date: -1 });
@@ -178,6 +187,7 @@ router.get('/', auth, async (req, res) => {
 // @route GET api/users/avatar/id
 // @desc get user avatar by id
 // @access Public
+// tested
 router.get('/avatar/:id', async (req, res) => {
   try {
     const userAvatar = await User.findById(req.params.id).select('avatar');
@@ -197,6 +207,7 @@ router.get('/avatar/:id', async (req, res) => {
 // @route   GET api/ticket/:id
 // @desc    GET ticket by id
 // @access  Private
+// tested
 router.get('/:id', auth, async (req, res) => {
   try {
     const ticket = await Ticket.findById(req.params.id);
@@ -216,6 +227,7 @@ router.get('/:id', auth, async (req, res) => {
 // @route   Delete api/ticket/:id
 // @desc    Delete a ticket by id
 // @access  Private
+// tested
 router.delete('/:id', auth, async (req, res) => {
   try {
     const ticket = await Ticket.findById(req.params.id);
@@ -240,6 +252,7 @@ router.delete('/:id', auth, async (req, res) => {
 // @route   POST api/ticket/quote
 // @desc    Create a quote for ticket as trader
 // @access  Private
+// tested
 router.post(
   '/quote/:id',
   auth,
@@ -277,6 +290,7 @@ router.post(
 // @route   POST api/quote/accepted/:ticketid/:quoteid
 // @desc    Update a quote to be accepted or not
 // @access  Private
+// tested
 router.post(
   '/quote/accepted/:ticketid/:quoteid',
   auth,
@@ -317,6 +331,7 @@ router.post(
 // @route   POST api/completeuser/ticketid
 // @desc    Update completeUser boolean in ticket model so that it is complete
 // @access  Private
+// tested
 router.post(
   '/completeuser/:ticketid',
   auth,
@@ -346,8 +361,9 @@ router.post(
 );
 
 // @route   POST api/quote/accepted/:ticketid/:quoteid
-// @desc    Update a quote to be accepted or not
+// @desc    Update a quote to be reviewed
 // @access  Private
+// tested
 router.post(
   '/hasReviewed/:ticketid',
   auth,
@@ -379,6 +395,7 @@ router.post(
 // @route     GET api/ticket/quote/:ticketid/:quoteid
 // @desc      Get the status of all quotes of a ticket
 // @access    Private
+// tested (same test for ticket by ID)
 router.get('/quote/:ticketid', auth, async (req, res) => {
   try {
     const quotes = await Ticket.findById(req.params.ticketid);
