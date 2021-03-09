@@ -728,3 +728,7 @@ button {
   float: right;
   margin-right: 45%;
 }
+
+.ticketitem-completed-homeowner {
+  background: #3aafa9;
+}

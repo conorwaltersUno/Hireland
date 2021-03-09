@@ -43,21 +43,31 @@ const imgStyle = {
 };
 
 export const TraderReviewCarousel = ({ profiles, loading }) => {
+  // traderTotalReview holds the total rating of each trader
   let traderTotalReview;
+  // traderArr holds the information needed to display on card-carousel
   let traderArr = [];
+  // sortedTrader holds the traderObj in descending order
   let sortedTrader = [];
+  // an object to hold trader information
   let traderObj = { name: '', avg: Number, id: '', avatar: '' };
+
   const sortTraders = () => {
+    // To clear the array everytime this component is loaded
     traderArr.forEach = (e) => {
       traderArr.pop(e);
     };
+    // To clear the array everytime this component is loaded
     sortedTrader.forEach = (e) => {
       sortedTrader.pop(e);
     };
-
+    // Map through all the trader profiles
     profiles.map((profile) => {
+      // reset the traderTotalReview to 0
       traderTotalReview = 0;
+      // To prevent function runs before state is ready
       if (profile.user) {
+        // Only extract rating from trader account with one or more review
         if (profile.user.isTrader && profile.review.length > 0) {
           profile.review.map((reviewi) => {
             traderTotalReview += parseInt(reviewi.score);
@@ -68,11 +78,13 @@ export const TraderReviewCarousel = ({ profiles, loading }) => {
             id: profile.user._id,
             avatar: profile.user.avatar,
           };
+          // Push the required information to traderArr
           traderArr.push(traderObj);
         }
       } else {
       }
     });
+    // Select traders that have average rating of 3 or more.
     traderArr.map((trader) => {
       if (trader.avg >= 3) {
         sortedTrader.push(trader);

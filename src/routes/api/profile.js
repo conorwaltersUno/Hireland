@@ -9,6 +9,7 @@ const User = require('../../../models/User');
 // @route   GET api/profile/me
 // @desc    Get current user profile based on userID in token
 // @access  Private
+// tested
 router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
@@ -29,9 +30,10 @@ router.get('/me', auth, async (req, res) => {
 // @route   POST api/profile/
 // @desc    Create or update a user profile
 // @access  Private
+// tested
 router.post(
   '/',
-  [auth, [check('location', 'status is required').not().isEmpty()]],
+  [auth, [check('location', 'location is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -90,7 +92,7 @@ router.post(
 // @route   GET api/profile/
 // @desc    Get all profiles
 // @access  Public
-
+// tested
 router.get('/', async (req, res) => {
   try {
     const profiles = await Profile.find().populate('user', [
@@ -109,6 +111,7 @@ router.get('/', async (req, res) => {
 // @route   GET api/profile/user/:user_id
 // @desc    Get profile by user ID
 // @access  Public
+// tested
 router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
@@ -150,6 +153,7 @@ router.delete('/', auth, async (req, res) => {
 // @route   Put api/profile/review
 // @desc    Add profile review
 // @access  Private
+// tested
 router.put(
   '/:profileid/review',
   [

@@ -26,6 +26,11 @@ const Ticket = ({
 
   const [jobType, setJobType] = useState(initialJobType());
 
+  const [traderTickets, setTraderTickets] = useState({
+    displayText: 'Uncomplete tickets',
+    toggle: false,
+  });
+
   const onChange = (e) => {
     setFilter(e.target.value);
   };
@@ -35,7 +40,19 @@ const Ticket = ({
     setJobType(e.target.value);
   };
 
-  let filteredJobType = [];
+  const onClick = () => {
+    console.log(traderTickets);
+    if (traderTickets.toggle === false) {
+      setTraderTickets({
+        displayText: 'Completed tickets',
+        toggle: true,
+      });
+    } else
+      setTraderTickets({
+        displayText: 'Uncomplete tickets',
+        toggle: false,
+      });
+  };
 
   if (!auth.loading) {
     if (auth.user) {
@@ -46,10 +63,6 @@ const Ticket = ({
     }
   }
 
-  const pushtoArray = (ticket) => {
-    filteredJobType.push(ticket);
-  };
-
   return loading ? (
     <Spinner />
   ) : (
@@ -57,9 +70,14 @@ const Ticket = ({
       <h1 className='large text-primary'>Tickets</h1>
       <p className='lead'></p>
       {!auth.loading && !auth.user.isTrader && (
-        <Link to='/ticket/create' className='btn btn-primary'>
-          Create a Ticket
-        </Link>
+        <div>
+          <Link to='/ticket/create' className='btn btn-primary'>
+            Create a Ticket
+          </Link>
+          <button onClick={onClick} className='btn btn-primary'>
+            {traderTickets.displayText}
+          </button>
+        </div>
       )}
 
       {!auth.loading && auth.user.isTrader && (
@@ -99,22 +117,34 @@ const Ticket = ({
         </div>
       )}
 
+      {/* auth.loading and loading are there to prevent rendering happens before mapStateToProps. */}
+      {/* all tickets.map() function used below code are refering to the tickets being hold in the state. */}
       {!auth.loading && auth.user.isTrader && !loading ? (
+        //  jobType and filtertedTicket are state variables from react.useState().
+        //  jobType holds the value which the user select from the dropdown menu.
+        //  filteredTicket holds the value which the user enters in the searchBar.
         !jobType && !filteredTicket && tickets ? (
           <div className='tickets'>
+            {/* display all tickets if logged in user is a trader. */}
             {tickets.map((ticketi) => (
               <div className='ticketitem-container'>
+                {/* display only uncomplete tickets. */}
                 {ticketi.isCompleteUser == false && (
                   <TicketItem ticket={ticketi} />
                 )}
               </div>
             ))}
           </div>
-        ) : jobType ? (
+        ) : // If jobType is not null, perform below actions.
+        jobType ? (
           <div>
+            {/* Map through all the tickets stored in state. */}
             {tickets.map((ticket) => {
+              // If the ticket's jobType matches the user's input.
               if (ticket.jobType.includes(jobType)) {
+                // If user types anything on the search bar.
                 if (filteredTicket) {
+                  // If the user input from the search bar match the ticket's title and is not completed.
                   if (
                     ticket.title
                       .toLowerCase()
@@ -127,10 +157,11 @@ const Ticket = ({
                       </div>
                     );
                   }
+                  // If no input is given on the search bar, display uncompleted ticket that includes
+                  // user defined jobType
                 } else if (ticket.isCompleteUser === false) {
                   return (
                     <div className='ticketitem-container'>
-                      {pushtoArray(ticket)}
                       <TicketItem key={ticket._id} ticket={ticket} />
                     </div>
                   );
@@ -139,8 +170,10 @@ const Ticket = ({
             })}
           </div>
         ) : (
+          //  If jobType is null, perform below actions
           <div>
             {tickets.map((ticket) => {
+              // If ticket is uncomplete and matches the user input on search bar, perform below actions
               if (
                 ticket.title
                   .toLowerCase()
@@ -156,26 +189,29 @@ const Ticket = ({
             })}
           </div>
         )
-      ) : !auth.loading && !filteredTicket ? (
+      ) : (
+        // If logged in user is not a trader, perform below actions
+        !auth.loading &&
         tickets.map((ticket) => {
           if (ticket.user === auth.user._id)
-            return <TicketItem key={ticket._id} ticket={ticket} />;
+            if (
+              ticket.isCompleteUser === false &&
+              traderTickets.toggle === false
+            ) {
+              // default view is uncomplete ticket
+              return <TicketItem key={ticket._id} ticket={ticket} />;
+              // homeowenr can toggle traderTicket.toggle to view completed ticket
+            } else if (
+              ticket.isCompleteUser === true &&
+              traderTickets.toggle === true
+            ) {
+              return (
+                <div>
+                  <TicketItem key={ticket._id} ticket={ticket} />
+                </div>
+              );
+            }
         })
-      ) : !auth.loading ? (
-        tickets.map((ticket) => {
-          if (
-            ticket.user === auth.user._id &&
-            ticket.title.toLowerCase().includes(filteredTicket)
-          ) {
-            return (
-              <div className='ticketitem-container'>
-                <TicketItem key={ticket._id} ticket={ticket} />
-              </div>
-            );
-          }
-        })
-      ) : (
-        <Spinner></Spinner>
       )}
     </Fragment>
   );

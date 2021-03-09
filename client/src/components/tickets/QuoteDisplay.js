@@ -35,6 +35,7 @@ const QuoteDisplay = ({
     window.location.reload();
   };
 
+  // function to retrieve unique trader from quotes
   function getUnique(arr, comp) {
     const unique = arr
       .map((e) => e[comp])
@@ -44,23 +45,32 @@ const QuoteDisplay = ({
     return unique;
   }
 
+  // averageQuote holds the average quote given by all trader
   let averageQuote = 0;
+  // uniqueTrader holds the name and email of unique trader quoted
   let uniqueTrader = [];
+  // map through all the quote of a ticket and add up all quote into averageQuote
+  // which will later be divide by the quote.length
+  // map through all quote and store the trader name and email into uniqueTrader
   ticket.quotes.map((quote) => {
     averageQuote += parseInt(quote.quote);
     uniqueTrader.push({ name: quote.name, email: quote.email });
   });
 
+  // find the average quote price
   averageQuote = parseFloat(averageQuote / ticket.quotes.length);
 
+  // execute the function to filter out duplicate trader in the array
   if (uniqueTrader) {
     uniqueTrader = getUnique(uniqueTrader, 'email');
   }
 
+  // onClick action, send out the email when homeowner marks ticket as completed
   const onComplete = (e) => {
     e.preventDefault();
     setAccept(() => !accept);
     CompleteTicketUser(ticket._id);
+    // map through the uniqueTrader array and send an email to each trader
     uniqueTrader.map((trader) => {
       emailjs.send(
         'service_er09efl',
@@ -69,9 +79,7 @@ const QuoteDisplay = ({
           from_name: 'Hireland',
           to_name: trader.name,
           message: averageQuote,
-          //traders' emial
           to_email: trader.email,
-          //to_email: 'jialianglee98@gmail.com',
           reply_to: quote,
           quote_count: ticket.quotes.length,
           trader_count: uniqueTrader.length,
