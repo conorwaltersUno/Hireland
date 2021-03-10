@@ -58,6 +58,7 @@ router.post(
         },
       };
 
+      //create a jwt token that will be used to authenticate calls to backend API routes
       jwt.sign(
         payload,
         config.get('jwtToken'),

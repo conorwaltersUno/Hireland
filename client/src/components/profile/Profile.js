@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
-import { getCurrentProfile, clearProfile } from '../../actions/profile';
+import { getCurrentProfile } from '../../actions/profile';
 
 import { Link } from 'react-router-dom';
 
 const Profile = ({
   getCurrentProfile,
-  clearProfile,
   profile: { profile, loading },
   auth,
 }) => {
@@ -57,7 +56,6 @@ Profile.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  clearProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -67,5 +65,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getCurrentProfile,
-  clearProfile,
 })(Profile);

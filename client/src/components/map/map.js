@@ -1,14 +1,6 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import '../map/map.css';
-import { Icon } from '@iconify/react';
-import locationIcon from '@iconify/icons-mdi/map-marker';
-
-const LocationPin = () => (
-  <div className='pin'>
-    <Icon icon={locationIcon} className='pin-icon' />
-  </div>
-);
 
 const apiIsLoaded = (map, maps, center) => {
   const circle = new maps.Circle({
@@ -23,8 +15,10 @@ const apiIsLoaded = (map, maps, center) => {
   });
 };
 
+//params: location - contains longitude, latitude and center
+//        zoomLevel - The zoom level of the map
 const Map = ({ location, zoomLevel }) => {
-  let temp = { lat: location.center[0], lng: location.center[1] };
+  let tempObj = { lat: location.center[0], lng: location.center[1] };
   return (
     <div className='map'>
       <div className='google-map'>
@@ -32,7 +26,7 @@ const Map = ({ location, zoomLevel }) => {
           bootstrapURLKeys={{ key: 'AIzaSyCCVzzW0uVIFLXaen-0RaHEgwWzUPG-6vA' }}
           defaultCenter={location.center}
           defaultZoom={zoomLevel}
-          onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, temp)}
+          onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, tempObj)}
         ></GoogleMapReact>
       </div>
     </div>

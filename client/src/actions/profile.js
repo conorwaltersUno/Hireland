@@ -27,6 +27,7 @@ export const getCurrentProfile = () => async (dispatch) => {
   }
 };
 
+//Places longitude and latitude for a profile returned from get request into state using dispatch method
 export const getProfileMapLocation = (location) => async (dispatch) => {
   try {
     const res = await axiosConfig.get(
@@ -44,6 +45,7 @@ export const getProfileMapLocation = (location) => async (dispatch) => {
   }
 };
 
+//Places longitude and latitude for a ticket returned from get request into state using dispatch method
 export const getTicketMapLocation = (location) => async (dispatch) => {
   try {
     const res = await axiosConfig.get(
