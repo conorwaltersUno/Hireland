@@ -64,7 +64,7 @@ const TicketDisplay = ({
             <Link to={`/profile/${user}`} onClick={clearProfile}>
               {avatar ? (
                 <Fragment>
-                  <img className='round-img-left' src={avatar} />
+                  <img className='round-img-left' src={avatar} alt={''} />
                 </Fragment>
               ) : (
                 <div>There is no avatar</div>

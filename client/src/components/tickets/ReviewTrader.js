@@ -24,7 +24,7 @@ const reviewStars = {
 const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id, auth }) => {
   const [formData, setFormData] = useState(initialState);
 
-  const { description, score, tid, username } = formData;
+  const { description } = formData;
   formData.tid = id;
 
   const onChange = (e) => {

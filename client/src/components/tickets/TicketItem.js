@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
@@ -31,7 +31,11 @@ const TicketItem = ({
             <Link to={`/profile/${user}`} onClick={clearProfile}>
               {avatar ? (
                 <Fragment>
-                  <img className='round-img' src={avatar} />
+                  <img
+                    className='round-img'
+                    src={avatar}
+                    alt={'No link found'}
+                  />
                 </Fragment>
               ) : (
                 <div>There is no avatar</div>

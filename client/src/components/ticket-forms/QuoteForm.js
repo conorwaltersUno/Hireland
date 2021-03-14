@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { quoteTicket } from '../../actions/ticket';
@@ -9,7 +9,6 @@ const QuoteForm = ({
   quoteTicket,
   ticketId,
   userId,
-  // getTicketCreatorInfo,
   ticket: { ticket },
   auth,
 }) => {
@@ -25,7 +24,6 @@ const QuoteForm = ({
         to_name: ticket.ticketOwner.name,
         message: quote,
         to_email: ticket.ticketOwner.email,
-        //to_email: 'jialianglee98@gmail.com',
         reply_to: ticket.title,
       },
       'user_0BKx8SUrYQ0Ldp57gHVyV'

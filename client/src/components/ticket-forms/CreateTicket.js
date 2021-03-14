@@ -14,14 +14,7 @@ const CreateTicket = ({ createTicket, history, auth }) => {
     avatar: '',
   });
 
-  const {
-    jobType,
-    title,
-    location,
-    description,
-    completionDate,
-    avatar,
-  } = formData;
+  const { jobType, title, location, description, completionDate } = formData;
 
   const { jt } = useParams();
   const { l } = useParams();
@@ -38,7 +31,7 @@ const CreateTicket = ({ createTicket, history, auth }) => {
     if (jt && l) {
       setFormData({ ...formData, jobType: jt, location: l });
     }
-  }, []);
+  }, [jt, l, formData]);
 
   return (
     <Fragment>

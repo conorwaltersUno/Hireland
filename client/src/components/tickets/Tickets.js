@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -129,7 +131,7 @@ const Ticket = ({
             {tickets.map((ticketi) => (
               <div className='ticketitem-container'>
                 {/* display only uncomplete tickets. */}
-                {ticketi.isCompleteUser == false && (
+                {ticketi.isCompleteUser === false && (
                   <TicketItem ticket={ticketi} />
                 )}
               </div>
@@ -167,6 +169,7 @@ const Ticket = ({
                   );
                 } else return <div> </div>;
               }
+              return <div></div>;
             })}
           </div>
         ) : (
@@ -186,6 +189,7 @@ const Ticket = ({
                   </div>
                 );
               }
+              return <div></div>;
             })}
           </div>
         )
@@ -211,6 +215,7 @@ const Ticket = ({
                 </div>
               );
             }
+          return <div></div>;
         })
       )}
     </Fragment>

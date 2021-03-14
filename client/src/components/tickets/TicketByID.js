@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getTicketById, getTicketCreatorInfo } from '../../actions/ticket';
 import Spinner from '../layout/Spinner';
 import { clearTicket } from '../../actions/ticket';
 import TicketDisplay from './TicketDisplay';
 import QuoteForm from '../ticket-forms/QuoteForm';
-import { Link } from 'react-router-dom';
 import QuoteDisplay from './QuoteDisplay';
 
 /* This class is used when a user clicks on a ticket from the main ticket page*/
@@ -102,6 +102,7 @@ const TicketByID = ({
                     </div>
                   );
                 }
+                return null;
               })}
               {ticket.quotes.map((quotes) => {
                 sortByQuote.push(quotes);
@@ -135,6 +136,7 @@ const TicketByID = ({
                     });
                   }
                 }
+                return null;
               })}
             </div>
           ) : (

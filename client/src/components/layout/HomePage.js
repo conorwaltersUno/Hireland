@@ -21,7 +21,7 @@ const HomePage = ({
     getMyTickets();
     getallProfiles();
     getCurrentProfile();
-  }, [getMyTickets]);
+  }, [getMyTickets, getallProfiles, getCurrentProfile]);
 
   const [formData, setFormData] = useState({
     jobType: 'Please select your job type',
