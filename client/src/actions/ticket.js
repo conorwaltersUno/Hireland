@@ -398,7 +398,8 @@ export const quoteTicket = (ticketId, formData, userId) => async (dispatch) => {
       quotes.data.quotes.map((quote) => {
         if (quote.user === userId) {
           count++;
-        }
+        } else return false;
+        return false;
       });
     }
 

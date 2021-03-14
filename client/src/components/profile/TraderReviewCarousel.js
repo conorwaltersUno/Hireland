@@ -70,7 +70,7 @@ export const TraderReviewCarousel = ({ profiles, loading }) => {
         // Only extract rating from trader account with one or more review
         if (profile.user.isTrader && profile.review.length > 0) {
           profile.review.map((reviewi) => {
-            traderTotalReview += parseInt(reviewi.score);
+            return (traderTotalReview += parseInt(reviewi.score));
           });
           traderObj = {
             name: profile.user.name,
@@ -82,7 +82,9 @@ export const TraderReviewCarousel = ({ profiles, loading }) => {
           traderArr.push(traderObj);
         }
       } else {
+        return <div></div>;
       }
+      return <div></div>;
     });
     // Select traders that have average rating of 3 or more.
     traderArr.map((trader) => {
@@ -92,6 +94,7 @@ export const TraderReviewCarousel = ({ profiles, loading }) => {
           return b.avg - a.avg;
         });
       }
+      return null;
     });
   };
 
@@ -103,6 +106,7 @@ export const TraderReviewCarousel = ({ profiles, loading }) => {
       <ReactCardCarousel style={{ height: '75%' }}>
         {sortedTrader.length > 0 &&
           sortedTrader.map((traderii) => {
+            // eslint-disable-next-line
             return (
               <div style={cardStyle}>
                 <img
@@ -117,7 +121,12 @@ export const TraderReviewCarousel = ({ profiles, loading }) => {
                     onClick={clearProfile}
                     style={nameStyle}
                   >
-                    <a className='trader-carousel-name'>{traderii.name}</a>
+                    <a
+                      href={`/profile/${traderii.id}`}
+                      className='trader-carousel-name'
+                    >
+                      {traderii.name}
+                    </a>
                   </Link>
                 </div>
                 <div style={nameStyle}>

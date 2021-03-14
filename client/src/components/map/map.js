@@ -1,14 +1,6 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import '../map/map.css';
-import { Icon } from '@iconify/react';
-import locationIcon from '@iconify/icons-mdi/map-marker';
-
-const LocationPin = () => (
-  <div className='pin'>
-    <Icon icon={locationIcon} className='pin-icon' />
-  </div>
-);
 
 const apiIsLoaded = (map, maps, center) => {
   const circle = new maps.Circle({

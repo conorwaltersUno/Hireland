@@ -55,6 +55,7 @@ const QuoteDisplay = ({
   ticket.quotes.map((quote) => {
     averageQuote += parseInt(quote.quote);
     uniqueTrader.push({ name: quote.name, email: quote.email });
+    return averageQuote;
   });
 
   // find the average quote price
@@ -68,11 +69,12 @@ const QuoteDisplay = ({
   // onClick action, send out the email when homeowner marks ticket as completed
   const onComplete = (e) => {
     e.preventDefault();
-    setAccept(() => !accept);
+    setAccept(!accept);
+    console.log(accept);
     CompleteTicketUser(ticket._id);
     // map through the uniqueTrader array and send an email to each trader
     uniqueTrader.map((trader) => {
-      emailjs.send(
+      return emailjs.send(
         'service_er09efl',
         'template_rt85qsh',
         {
@@ -93,7 +95,7 @@ const QuoteDisplay = ({
 
   useEffect(() => {
     getQuoteStat(ticket._id);
-  }, [accept]);
+  }, [accept, getQuoteStat, ticket._id]);
 
   return ticket.loading && quote ? (
     <Spinner />
@@ -117,7 +119,7 @@ const QuoteDisplay = ({
                   type='button'
                   className='btn btn-success'
                 >
-                  Accept Quote <a> </a>
+                  Accept Quote
                   <i className='fas fa-check'></i>
                 </button>
               )}
