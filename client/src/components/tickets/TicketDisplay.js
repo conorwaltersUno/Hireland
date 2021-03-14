@@ -46,13 +46,13 @@ const TicketDisplay = ({
     <Spinner></Spinner>
   ) : (
     <Fragment>
-      <div className='bg-primary p-2' style={{ height: '275px' }}>
+      <div className='bg-primary p-2' style={{ height: '350px' }}>
         <div className='text-ticket-page'>
-          <div style={{ width: '100%' }}>
+          <div style={{ maxWidth: '400px' }}>
             <h1>{title}</h1>
             <h2>{jobType}</h2>
             <div className='line'></div>
-            <div>{description}</div>
+            <div style={{ overflow: 'hidden' }}>{description}</div>
             <div className='line'></div>
             <div>
               Complete by <Moment format='DD/MM/YYYY'>{completionDate}</Moment>{' '}

@@ -34,7 +34,7 @@ export const Register = ({ setAlert, register, isAuthenticated }) => {
     }
   };
 
-  //redirect if li=oggedin
+  //redirect if !logged in
   if (isAuthenticated) {
     return <Redirect to='/tickets' />;
   }
