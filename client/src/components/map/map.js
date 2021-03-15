@@ -3,6 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import '../map/map.css';
 
 const apiIsLoaded = (map, maps, center) => {
+  // eslint-disable-next-line
   const circle = new maps.Circle({
     strokeColor: '#3AAFA9',
     strokeOpacity: 0.8,
