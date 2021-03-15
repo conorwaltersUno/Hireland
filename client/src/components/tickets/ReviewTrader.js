@@ -43,7 +43,14 @@ const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id, auth }) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <div>
         <h3>Review Trader</h3>
       </div>
