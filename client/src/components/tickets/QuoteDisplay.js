@@ -89,6 +89,7 @@ const QuoteDisplay = ({
         'user_0BKx8SUrYQ0Ldp57gHVyV'
       );
     });
+    window.location.reload();
   };
 
   const [accept, setAccept] = useState(false);
