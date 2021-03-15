@@ -41,7 +41,7 @@ const Profile = ({
           <div className='profile-grid my-1'>
             <ProfileTop profile={profile}></ProfileTop>
             <ProfileAbout profile={profile} auth={auth}></ProfileAbout>
-            {/* {auth.user.isTrader && (
+            {auth.user.isTrader && (
               <div className='profile-exp bg-white pp-2'>
                 {profile.review.length != 0 && (
                   <Fragment>
@@ -61,7 +61,7 @@ const Profile = ({
                   </Fragment>
                 )}
               </div>
-            )} */}
+            )}
           </div>
         </Fragment>
       )}

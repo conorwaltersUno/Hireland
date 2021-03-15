@@ -40,6 +40,7 @@ const ReviewTrader = ({ user, reviewTrader, setReviewBoolean, id, auth }) => {
     }
     reviewTrader(user, formData);
     setReviewBoolean(formData.tid);
+    window.location.reload();
   };
 
   return (
