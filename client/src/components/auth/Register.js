@@ -36,7 +36,7 @@ export const Register = ({ setAlert, register, isAuthenticated }) => {
 
   //redirect if !logged in
   if (isAuthenticated) {
-    return <Redirect to='/tickets' />;
+    return <Redirect to='/homepage' />;
   }
   return (
     <Fragment>

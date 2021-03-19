@@ -31,7 +31,7 @@ const CreateTicket = ({ createTicket, history, auth }) => {
     if (jt && l) {
       setFormData({ ...formData, jobType: jt, location: l });
     }
-  }, [jt, l, formData]);
+  }, []);
 
   return (
     <Fragment>
